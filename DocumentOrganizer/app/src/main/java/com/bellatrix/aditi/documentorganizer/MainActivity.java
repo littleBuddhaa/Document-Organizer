@@ -1,15 +1,23 @@
 package com.bellatrix.aditi.documentorganizer;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
+
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+
+    FloatingActionsMenu addMenu;
+    FloatingActionButton camera_button, gallery_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +25,26 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        addMenu = (FloatingActionsMenu) findViewById(R.id.add_actions);
+        camera_button = (FloatingActionButton) findViewById(R.id.camera_action);
+        gallery_button = (FloatingActionButton) findViewById(R.id.gallery_action);
+
+        camera_button.setIcon(R.drawable.ic_camera);
+        gallery_button.setIcon(R.drawable.ic_gallery);
+
+        camera_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Camera Action Button", Toast.LENGTH_SHORT).show();
+            }
+        });
+        gallery_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Gallery Action Button", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
