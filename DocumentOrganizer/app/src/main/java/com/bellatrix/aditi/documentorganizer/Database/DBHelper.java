@@ -10,7 +10,7 @@ import com.bellatrix.aditi.documentorganizer.Database.Contract.*;
  */
 
 public class DBHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "Documents.db";
+    private static final String DATABASE_NAME = "DocumentsDatabase.db";
     private static final int DATABASE_VERSION = 1;
 
     public DBHelper(Context c){
@@ -19,11 +19,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        final String SQL_CREATE_USER_TABLE="CREATE TABLE " + Documents.TABLE_NAME + " (" +
+
+        final String SQL_CREATE_DOCUMENT_TABLE="CREATE TABLE " + Documents.TABLE_NAME + " (" +
                 Documents.COLUMN_TITLE + " TEXT NOT NULL," +
-                Documents.COLUMN_DATE + " DATE NOT NULL," +
+                Documents.COLUMN_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP," +
                 Documents.COLUMN_IMAGE + " BLOB NOT NULL," +
                 Documents.COLUMN_CATEGORY + " TEXT" +"); ";
+        db.execSQL(SQL_CREATE_DOCUMENT_TABLE);
     }
 
     @Override

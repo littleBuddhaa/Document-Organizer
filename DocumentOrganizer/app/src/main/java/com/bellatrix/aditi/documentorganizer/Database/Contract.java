@@ -12,7 +12,7 @@ public class Contract {
     public static class Documents implements BaseColumns {
         public static final String TABLE_NAME = "Documents";
         public static final String COLUMN_TITLE = "Title";
-        public static final String COLUMN_DATE = "Date";
+        public static final String COLUMN_DATE = "Time";
         public static final String COLUMN_IMAGE = "Image";
         public static final String COLUMN_CATEGORY = "Category";
     }
