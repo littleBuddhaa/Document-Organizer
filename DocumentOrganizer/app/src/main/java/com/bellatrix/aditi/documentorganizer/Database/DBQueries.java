@@ -16,7 +16,7 @@ public class DBQueries {
 
         ContentValues cv = new ContentValues();
         // TODO: Remove hard coded column values
-        cv.put(Contract.Documents.COLUMN_TITLE, "HEllo");
+//        cv.put(Contract.Documents.COLUMN_TITLE, "HEllo");
         cv.put(Contract.Documents.COLUMN_IMAGE,img);
         cv.put(Contract.Documents.COLUMN_CATEGORY,"Bills");
         long retVal= sdb.insert(Contract.Documents.TABLE_NAME,null,cv);

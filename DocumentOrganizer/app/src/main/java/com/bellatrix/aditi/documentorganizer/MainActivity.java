@@ -13,6 +13,8 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +25,7 @@ import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FolderAdapter.onListItemClickLister{
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int GALLERY_PERMISSIONS_REQUEST = 0;
@@ -31,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
     public static final int CAMERA_PERMISSIONS_REQUEST = 2;
     public static final int CAMERA_IMAGE_REQUEST = 3;
 
+
+    private RecyclerView recyclerView;
+    private FolderAdapter folderAdapter;
     FloatingActionsMenu addMenu;
     FloatingActionButton camera_button, gallery_button;
 
@@ -40,6 +45,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        recyclerView = (RecyclerView) findViewById(R.id.rv_folders);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+        recyclerView.setHasFixedSize(true);
+        folderAdapter = new FolderAdapter(this);
+        recyclerView.setAdapter(folderAdapter);
 
         addMenu = (FloatingActionsMenu) findViewById(R.id.add_actions);
         camera_button = (FloatingActionButton) findViewById(R.id.camera_action);
@@ -156,4 +169,18 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onListItemClick(int index) {
+        Folder folder;
+        if ((folder = Constants.FOLDERS.get(index))==null)
+            return; // bail if returned null*/
+
+        // TODO: Add intent
+        Toast.makeText(this,folder.folderName,Toast.LENGTH_SHORT).show();
+    }
+
+    // TODO: Provision to add a new folder
+
+    // TODO: SwapList if a new folder is added
 }
