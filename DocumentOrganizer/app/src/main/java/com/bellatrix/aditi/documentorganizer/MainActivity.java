@@ -205,10 +205,10 @@ public class MainActivity extends AppCompatActivity implements FolderAdapter.onL
         if (!folderCursor.moveToPosition(index))
             return; // bail if returned null*/
 
-        // TODO: Add intent
-        Toast.makeText(this,
-                folderCursor.getString(folderCursor.getColumnIndex(Contract.Folders.COLUMN_FOLDER_NAME)),
-                Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(MainActivity.this, ViewImageActivity.class);
+        intent.putExtra("folderName",
+                folderCursor.getString(folderCursor.getColumnIndex(Contract.Folders.COLUMN_FOLDER_NAME)));
+        startActivity(intent);
     }
 
     @Override
