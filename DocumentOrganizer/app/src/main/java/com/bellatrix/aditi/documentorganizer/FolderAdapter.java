@@ -1,5 +1,6 @@
 package com.bellatrix.aditi.documentorganizer;
 
+import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bellatrix.aditi.documentorganizer.Database.Contract;
+import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
 
 import java.util.ArrayList;
 
@@ -16,9 +21,7 @@ import java.util.ArrayList;
 
 public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderViewHolder> {
 
-    //    private Cursor mCursorCase;
-//    private int mNumberOfItems;
-    private ArrayList<Folder> folders;
+    private Cursor mCursor;
     private onListItemClickLister clickLister;
 
     public interface onListItemClickLister
@@ -26,11 +29,9 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
         void onListItemClick(int index);
     }
 
-    FolderAdapter(onListItemClickLister listItemClickLister)
+    FolderAdapter(onListItemClickLister listItemClickLister, Cursor cursor)
     {
-//        this.mCursorCase = cursor1;
-//        this.mNumberOfItems = n;
-        this.folders = Constants.FOLDERS;
+        this.mCursor = cursor;
         this.clickLister = listItemClickLister;
     }
 
@@ -51,7 +52,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
 
     @Override
     public int getItemCount() {
-        return folders.size();
+        return mCursor.getCount();
     }
 
     public class FolderViewHolder extends RecyclerView.ViewHolder
@@ -68,12 +69,14 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
         }
         void bind(int position)
         {
-            Folder folder;
-            if ((folder = folders.get(position))==null)
+            if (!mCursor.moveToPosition(position))
                 return; // bail if returned null*/
 
-            this.title.setText(folder.folderName);
-            this.holder.setBackgroundColor(Color.parseColor(folder.color));
+            String folderName = mCursor.getString(mCursor.getColumnIndex(Contract.Folders.COLUMN_FOLDER_NAME));
+            String color = mCursor.getString(mCursor.getColumnIndex(Contract.Folders.COLUMN_FOLDER_COLOR));
+
+            this.holder.setBackgroundColor(Color.parseColor(color));
+            this.title.setText(folderName);
         }
 
         @Override
@@ -82,10 +85,13 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
             clickLister.onListItemClick(position);
         }
     }
-    public void swapList()
+    public void swapCursor(Cursor cursor)
     {
-        folders = Constants.FOLDERS;
-        if(folders!=null)
+        if(mCursor!=null)
+            mCursor.close();
+
+        mCursor = cursor;
+        if(mCursor!=null)
         {
             this.notifyDataSetChanged();
         }

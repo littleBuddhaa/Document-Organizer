@@ -1,11 +1,14 @@
 package com.bellatrix.aditi.documentorganizer;
 
+import com.bellatrix.aditi.documentorganizer.Database.Contract;
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,7 +28,8 @@ import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity implements FolderAdapter.onListItemClickLister{
+public class MainActivity extends AppCompatActivity implements FolderAdapter.onListItemClickLister,
+        DialogInterface.OnDismissListener{
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int GALLERY_PERMISSIONS_REQUEST = 0;
@@ -33,11 +37,12 @@ public class MainActivity extends AppCompatActivity implements FolderAdapter.onL
     public static final int CAMERA_PERMISSIONS_REQUEST = 2;
     public static final int CAMERA_IMAGE_REQUEST = 3;
 
+    private Cursor folderCursor;
 
     private RecyclerView recyclerView;
     private FolderAdapter folderAdapter;
     FloatingActionsMenu addMenu;
-    FloatingActionButton camera_button, gallery_button;
+    FloatingActionButton camera_button, gallery_button, folder_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,20 +51,24 @@ public class MainActivity extends AppCompatActivity implements FolderAdapter.onL
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        folderCursor = DBQueries.getFolders(this);
+
         recyclerView = (RecyclerView) findViewById(R.id.rv_folders);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
         recyclerView.setHasFixedSize(true);
-        folderAdapter = new FolderAdapter(this);
+        folderAdapter = new FolderAdapter(this,folderCursor);
         recyclerView.setAdapter(folderAdapter);
 
         addMenu = (FloatingActionsMenu) findViewById(R.id.add_actions);
         camera_button = (FloatingActionButton) findViewById(R.id.camera_action);
         gallery_button = (FloatingActionButton) findViewById(R.id.gallery_action);
+        folder_button = (FloatingActionButton) findViewById(R.id.add_folder_action);
 
         camera_button.setIcon(R.drawable.ic_camera);
         gallery_button.setIcon(R.drawable.ic_gallery);
+        folder_button.setIcon(R.drawable.ic_folder);
 
         camera_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +80,14 @@ public class MainActivity extends AppCompatActivity implements FolderAdapter.onL
             @Override
             public void onClick(View v) {
                 startGalleryChooser();
+            }
+        });
+        folder_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddFolderDialogFragment addFolderDialogFragment = new AddFolderDialogFragment();
+                addFolderDialogFragment.setCancelable(false);
+                addFolderDialogFragment.show(getFragmentManager(),"addFolder");
             }
         });
     }
@@ -184,15 +201,26 @@ public class MainActivity extends AppCompatActivity implements FolderAdapter.onL
 
     @Override
     public void onListItemClick(int index) {
-        Folder folder;
-        if ((folder = Constants.FOLDERS.get(index))==null)
+
+        if (!folderCursor.moveToPosition(index))
             return; // bail if returned null*/
 
         // TODO: Add intent
-        Toast.makeText(this,folder.folderName,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,
+                folderCursor.getString(folderCursor.getColumnIndex(Contract.Folders.COLUMN_FOLDER_NAME)),
+                Toast.LENGTH_SHORT).show();
     }
 
-    // TODO: Provision to add a new folder
+    @Override
+    protected void onResume() {
+        super.onResume();
+        folderCursor = DBQueries.getFolders(MainActivity.this);
+        folderAdapter.swapCursor(folderCursor);
+    }
 
-    // TODO: SwapList if a new folder is added
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        folderCursor = DBQueries.getFolders(MainActivity.this);
+        folderAdapter.swapCursor(folderCursor);
+    }
 }

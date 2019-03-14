@@ -16,4 +16,10 @@ public class Contract {
         public static final String COLUMN_IMAGE = "Image";
         public static final String COLUMN_CATEGORY = "Category";
     }
+
+    public static class Folders implements BaseColumns {
+        public static final String TABLE_NAME = "Folders";
+        public static final String COLUMN_FOLDER_NAME = "Name";
+        public static final String COLUMN_FOLDER_COLOR = "Color";
+    }
 }
