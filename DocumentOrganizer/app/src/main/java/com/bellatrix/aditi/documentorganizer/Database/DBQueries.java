@@ -10,16 +10,18 @@ import android.database.sqlite.SQLiteDatabase;
  */
 
 public class DBQueries {
-    public static long insertDocument(Context c, byte[] img) {
+    public static long insertDocument(Context c, byte[] img, String title, String folderName) {
 
         DBHelper dbHelper = new DBHelper(c);
         SQLiteDatabase sdb = dbHelper.getWritableDatabase();
 
+        if(title.equals(""))
+            title = folderName+"_"+String.valueOf(getImageByFolder(c, folderName).getCount()+1);
+
         ContentValues cv = new ContentValues();
-        // TODO: Remove hard coded column values
-//        cv.put(Contract.Documents.COLUMN_TITLE, "HEllo");
+        cv.put(Contract.Documents.COLUMN_TITLE, title);
         cv.put(Contract.Documents.COLUMN_IMAGE,img);
-        cv.put(Contract.Documents.COLUMN_CATEGORY,"Bills");
+        cv.put(Contract.Documents.COLUMN_CATEGORY,folderName);
         long retVal= sdb.insert(Contract.Documents.TABLE_NAME,null,cv);
         sdb.close();
         return retVal;

@@ -145,8 +145,9 @@ public class MainActivity extends AppCompatActivity implements FolderAdapter.onL
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
-
-        DBQueries.insertDocument(this,byteArray);
+        Intent intent = new Intent(MainActivity.this, AddImageActivity.class);
+        intent.putExtra("image",byteArray);
+        startActivity(intent);
     }
 
     public void uriToBitmap(Uri uri) {

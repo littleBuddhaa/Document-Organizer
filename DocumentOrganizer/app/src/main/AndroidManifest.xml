@@ -43,7 +43,8 @@
             android:name=".SearchSuggestionProvider"
             android:authorities="com.bellatrix.aditi.SearchSuggestionProvider" />
 
-        <activity android:name=".ViewImageActivity"></activity>
+        <activity android:name=".ViewImageActivity" />
+        <activity android:name=".AddImageActivity"></activity>
     </application>
 
 </manifest>
