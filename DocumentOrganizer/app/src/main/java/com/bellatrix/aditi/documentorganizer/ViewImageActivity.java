@@ -13,8 +13,9 @@ public class ViewImageActivity extends AppCompatActivity implements ImageAdapter
     private String folderName;
     private Cursor mCursor;
 
+    private ImageAdapter imageAdapter;
+
     private RecyclerView recyclerView;
-    ImageAdapter imageAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class ViewImageActivity extends AppCompatActivity implements ImageAdapter
         recyclerView = (RecyclerView)findViewById(R.id.rv_images);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(gridLayoutManager);
-//        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true);
 
         imageAdapter = new ImageAdapter(this, mCursor);
         recyclerView.setAdapter(imageAdapter);

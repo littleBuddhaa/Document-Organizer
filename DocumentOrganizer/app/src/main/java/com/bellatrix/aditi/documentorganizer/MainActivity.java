@@ -6,6 +6,8 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import android.Manifest;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -18,6 +20,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -145,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements FolderAdapter.onL
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
+
         Intent intent = new Intent(MainActivity.this, AddImageActivity.class);
         intent.putExtra("image",byteArray);
         startActivity(intent);
@@ -170,6 +174,20 @@ public class MainActivity extends AppCompatActivity implements FolderAdapter.onL
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+//        searchView.setIconifiedByDefault(false);
+//        searchManager.setOnDismissListener(new SearchManager.OnDismissListener() {
+//            @Override
+//            public void onDismiss() {
+//                Log.e("on", "Dismissed");
+//            }
+//        });
+
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setQueryRefinementEnabled(true);
         return true;
     }
 
@@ -179,9 +197,9 @@ public class MainActivity extends AppCompatActivity implements FolderAdapter.onL
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.action_search:
-                super.onSearchRequested();
-                return true;
+//            case R.id.action_search:
+//                super.onSearchRequested();
+//                return true;
             case R.id.action_settings:
                 return true;
             default:

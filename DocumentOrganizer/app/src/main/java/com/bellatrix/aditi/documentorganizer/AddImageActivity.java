@@ -60,18 +60,20 @@ public class AddImageActivity extends AppCompatActivity{
             }
         });
 
-        folderNames = new ArrayList<>();
+        folderNames = new ArrayList<String>();
         folderCursor = DBQueries.getFolders(this);
         folderNames.add("Select a folder");
+
         while (folderCursor.moveToNext()) {
             folderNames.add(folderCursor.getString(folderCursor.getColumnIndex(Contract.Folders.COLUMN_FOLDER_NAME)));
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item,
                 folderNames);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         folderSpinner.setAdapter(adapter);
+
         folderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -107,6 +109,7 @@ public class AddImageActivity extends AppCompatActivity{
                 }
             }
         });
+
     }
 }
 
