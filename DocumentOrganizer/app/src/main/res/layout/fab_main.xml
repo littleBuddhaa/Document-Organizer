@@ -27,19 +27,11 @@
             android:layout_marginEnd="16dp">
 
             <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/camera_action"
+                android:id="@+id/add_image_action"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 fab:fab_colorNormal="@color/white"
-                fab:fab_title="Camera"
-                fab:fab_colorPressed="@color/white_pressed"/>
-
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/gallery_action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/white"
-                fab:fab_title="Gallery"
+                fab:fab_title="Document"
                 fab:fab_colorPressed="@color/white_pressed"/>
 
             <com.getbase.floatingactionbutton.FloatingActionButton

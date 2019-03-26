@@ -3,7 +3,10 @@ package com.bellatrix.aditi.documentorganizer;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,10 +22,14 @@ import android.widget.Toast;
 import com.bellatrix.aditi.documentorganizer.Database.Contract;
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class AddImageActivity extends AppCompatActivity{
 
+
+    private static final String TAG = AddImageActivity.class.getSimpleName();
     private byte[] img;
     private String imageTitle, folderName;
     private ArrayList<String> folderNames;
@@ -39,9 +46,8 @@ public class AddImageActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_image);
 
-        // TODO: Crop image
-
-        img = getIntent().getByteArrayExtra("image");
+        Uri uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
+        uriToBitmap(uri);
         imageTitle="";
 
         imageView = (ImageView)findViewById(R.id.imagebox);
@@ -110,6 +116,28 @@ public class AddImageActivity extends AppCompatActivity{
             }
         });
 
+    }
+
+    public void uriToBitmap(Uri uri) {
+        if (uri != null) {
+            try {
+                Bitmap photo = (Bitmap) MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                upload(photo);
+
+            } catch (IOException e) {
+                Log.d(TAG, "Image picking failed because " + e.getMessage());
+                Toast.makeText(this, "Image picking failed", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Log.d(TAG, "Image picker gave us a null image.");
+            Toast.makeText(this, "Image picker gave us a null image.", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void upload(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+        img = stream.toByteArray();
     }
 }
 
