@@ -1,4 +1,4 @@
-package com.bellatrix.aditi.documentorganizer;
+package com.bellatrix.aditi.documentorganizer.Utilities;
 
 import android.content.SearchRecentSuggestionsProvider;
 

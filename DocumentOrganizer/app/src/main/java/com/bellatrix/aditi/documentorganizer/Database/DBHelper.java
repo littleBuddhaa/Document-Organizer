@@ -4,9 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.bellatrix.aditi.documentorganizer.Constants;
+import com.bellatrix.aditi.documentorganizer.Utilities.Constants;
 import com.bellatrix.aditi.documentorganizer.Database.Contract.*;
-import com.bellatrix.aditi.documentorganizer.Folder;
+import com.bellatrix.aditi.documentorganizer.Utilities.Folder;
 
 /**
  * Created by Aditi on 16-02-2019.

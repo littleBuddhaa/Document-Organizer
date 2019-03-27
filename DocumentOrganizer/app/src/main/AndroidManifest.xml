@@ -27,9 +27,7 @@
                 android:name="android.app.default_searchable"
                 android:value=".SearchableActivity" />
         </activity>
-
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"/>
-
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
         <activity
             android:name=".SearchableActivity"
             android:launchMode="singleTop">
@@ -43,11 +41,12 @@
         </activity>
 
         <provider
-            android:name=".SearchSuggestionProvider"
+            android:name=".Utilities.SearchSuggestionProvider"
             android:authorities="com.bellatrix.aditi.SearchSuggestionProvider" />
 
         <activity android:name=".ViewImageActivity" />
-        <activity android:name=".AddImageActivity"></activity>
+        <activity android:name=".AddImageActivity" />
+        <activity android:name=".AddImageDetailsActivity"></activity>
     </application>
 
 </manifest>

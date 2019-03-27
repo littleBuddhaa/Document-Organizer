@@ -15,9 +15,6 @@ public class DBQueries {
         DBHelper dbHelper = new DBHelper(c);
         SQLiteDatabase sdb = dbHelper.getWritableDatabase();
 
-        if(title.equals(""))
-            title = folderName+"_"+String.valueOf(getImageByFolder(c, folderName).getCount()+1);
-
         ContentValues cv = new ContentValues();
         cv.put(Contract.Documents.COLUMN_TITLE, title);
         cv.put(Contract.Documents.COLUMN_IMAGE,img);
@@ -66,5 +63,12 @@ public class DBQueries {
                 null,
                 null);
         return cursor;
+    }
+
+    public static int getTotalImageByFolder(Context c, String folderName) {
+        Cursor cursor = getImageByFolder(c, folderName);
+        int total = cursor.getCount();
+        cursor.close();
+        return total;
     }
 }

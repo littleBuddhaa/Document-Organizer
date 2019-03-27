@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.bellatrix.aditi.documentorganizer.Utilities.SearchSuggestionProvider;
+
 
 public class SearchableActivity extends AppCompatActivity {
 

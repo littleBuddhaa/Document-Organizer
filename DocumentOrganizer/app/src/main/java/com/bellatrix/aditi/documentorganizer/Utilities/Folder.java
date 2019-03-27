@@ -1,4 +1,4 @@
-package com.bellatrix.aditi.documentorganizer;
+package com.bellatrix.aditi.documentorganizer.Utilities;
 
 /**
  * Created by Aditi on 13-03-2019.
