@@ -129,11 +129,11 @@ public class AddImageActivity extends AppCompatActivity{
                     Toast.makeText(AddImageActivity.this,"Please select a folder",Toast.LENGTH_SHORT).show();
                 else if(spinnerPosition==(folderNames.size()-1)){
                     String newFolderName = custom_folder_name.getText().toString();
-                    if(newFolderName==null) {
+                    if(newFolderName.equals("")) {
                         Toast.makeText(AddImageActivity.this,"Please enter new folder name",Toast.LENGTH_SHORT).show();
                     } else {
                         DBQueries.insertFolder(AddImageActivity.this,newFolderName,COLORS[colorIndex]);
-                        colorIndex++;
+                        colorIndex=(colorIndex+1)%COLORS.length;
                         folderName = newFolderName;
                         startActivityAccordingToFolderName();
                     }
@@ -146,9 +146,10 @@ public class AddImageActivity extends AppCompatActivity{
 
     private void startActivityAccordingToFolderName() {
 //        DBQueries.insertDocument(AddImageActivity.this,img,imageTitle,folderName);
-        Intent intent = new Intent(AddImageActivity.this, AddImageDetailsActivity.class);
-        intent.putExtra("folderName",folderName);
-        startActivity(intent);
+        if(folderName.equals("Bills & Receipts")) {
+            Intent intent = new Intent(AddImageActivity.this, BillsDetailsActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void uriToBitmap(Uri uri) {

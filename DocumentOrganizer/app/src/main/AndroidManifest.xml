@@ -46,7 +46,7 @@
 
         <activity android:name=".ViewImageActivity" />
         <activity android:name=".AddImageActivity" />
-        <activity android:name=".AddImageDetailsActivity"></activity>
+        <activity android:name=".BillsDetailsActivity"></activity>
     </application>
 
 </manifest>

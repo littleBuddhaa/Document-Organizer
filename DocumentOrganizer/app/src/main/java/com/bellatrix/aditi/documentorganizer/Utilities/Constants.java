@@ -28,4 +28,18 @@ public class Constants {
                     "Electricity Bill",
                     "Gas Bill",
                     "Water Bill"));
+
+    public static ArrayList<String> BNR_SUB_CATEGORIES_2 = new ArrayList<>(
+            Arrays.asList("Television",
+                    "Refrigerator",
+                    "Mobile phone",
+                    "Earphones & Headphones",
+                    "Laptop & Desktop",
+                    "Calculator",
+                    "AC & cooler",
+                    "Geyser",
+                    "Washing Machine",
+                    "Speakers",
+                    "Heater",
+                    "Furniture"));
 }
