@@ -1,5 +1,7 @@
 package com.bellatrix.aditi.documentorganizer;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,8 +13,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
+import com.bellatrix.aditi.documentorganizer.Utilities.CommonFunctions;
 import com.bellatrix.aditi.documentorganizer.Utilities.DateUtil;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.BNR_SUB_CATEGORIES_1;
@@ -20,28 +24,42 @@ import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.BNR_SUB_
 
 public class BillsDetailsActivity extends AppCompatActivity {
 
-    private EditText purchaseDate, imageTitle;
+    private static final String TAG = AddImageActivity.class.getSimpleName();
+    private static final int ADD_DETAILS_RESULT_CODE = 50;
+
+    private byte[] img;
+    private final String folderName = "Bills & Receipts";
+
+    private EditText purchaseDate, imageTitle, total, enterprise;
     private ImageButton datePicker;
     private LinearLayout productType, productName;
     private Button backButton, finishButton;
+    private ArrayList<CheckBox> checkBox1, checkBox2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bills_details);
 
+        Uri uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
+        img = CommonFunctions.uriToBitmap(this,uri,TAG);
+
         purchaseDate = (EditText)findViewById(R.id.et_purchase_date);
+        imageTitle = (EditText)findViewById(R.id.et_image_title);
+        total = (EditText)findViewById(R.id.et_total);
+        enterprise = (EditText)findViewById(R.id.et_enterprise);
         datePicker = (ImageButton)findViewById(R.id.date_picker_button);
         productName = (LinearLayout) findViewById(R.id.ll_product_name);
         productType = (LinearLayout) findViewById(R.id.ll_product_type);
-        imageTitle = (EditText)findViewById(R.id.et_image_title);
         backButton = (Button)findViewById(R.id.back_button);
         finishButton = (Button)findViewById(R.id.finish_button);
 
+        checkBox1 = new ArrayList<>();
+        checkBox2 = new ArrayList<>();
         setCheckBoxes();
 
-        String title = "Bill & Receipts_"
-                +String.valueOf(DBQueries.getTotalImageByFolder(this, "Bill & Receipts")+1);
+        String title = folderName+"_"
+                +String.valueOf(DBQueries.getTotalImageByFolder(this, folderName)+1);
         imageTitle.setText(title);
 
         datePicker.setOnClickListener(new View.OnClickListener() {
@@ -72,9 +90,44 @@ public class BillsDetailsActivity extends AppCompatActivity {
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Implement the functionality
+                handleData();
+                setResult(ADD_DETAILS_RESULT_CODE);
+                finish();
             }
         });
+    }
+
+    private void handleData() {
+
+        // insertion in global table
+        long id = DBQueries.insertDocument(this,img,
+                imageTitle.getText().toString(),folderName);
+
+        // insertion in the table for the folder
+        String val1="", val2="";
+        for(CheckBox checkBox: checkBox1) {
+            if(checkBox.isChecked()) {
+                val1=val1+BNR_SUB_CATEGORIES_1.get(checkBox1.indexOf(checkBox))+",";
+            }
+        }
+        for(CheckBox checkBox: checkBox2) {
+            if(checkBox.isChecked()) {
+                val2=val2+BNR_SUB_CATEGORIES_2.get(checkBox2.indexOf(checkBox))+",";
+            }
+        }
+        if(val1.length()>1)
+            val1 = val1.substring(0,val1.length()-1);
+        if(val2.length()>1)
+            val2 = val2.substring(0,val2.length()-1);
+
+        DBQueries.insertBNR(this,
+                id,purchaseDate.getText().toString(),
+                val1,val2,
+                total.getText().toString(),enterprise.getText().toString());
+
+        Intent intent = new Intent(this, ViewImageActivity.class);
+        intent.putExtra("folderName", folderName);
+        startActivity(intent);
     }
 
     private void setCheckBoxes() {
@@ -84,11 +137,13 @@ public class BillsDetailsActivity extends AppCompatActivity {
             CheckBox checkBox = new CheckBox(this);
             checkBox.setText(type);
             productType.addView(checkBox);
+            checkBox1.add(checkBox);
         }
         for(String name: BNR_SUB_CATEGORIES_2) {
             CheckBox checkBox = new CheckBox(this);
             checkBox.setText(name);
             productName.addView(checkBox);
+            checkBox2.add(checkBox);
         }
     }
 
@@ -98,7 +153,6 @@ public class BillsDetailsActivity extends AppCompatActivity {
         String year = String.valueOf(date.getYear());
         if(day.length()==1) day="0"+day;
         if(month.length()==1) month="0"+month;
-        purchaseDate.setText(day+"-"+month+"-"+year);
+        purchaseDate.setText(year+"-"+month+"-"+date);
     }
-
 }

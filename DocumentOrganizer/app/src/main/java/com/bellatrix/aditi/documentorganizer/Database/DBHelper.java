@@ -14,7 +14,7 @@ import com.bellatrix.aditi.documentorganizer.Utilities.Folder;
 
 public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "DocumentsDatabase.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public DBHelper(Context c){
         super(c, DATABASE_NAME, null, DATABASE_VERSION);
@@ -33,8 +33,17 @@ public class DBHelper extends SQLiteOpenHelper {
                 Folders.COLUMN_FOLDER_NAME + " TEXT NOT NULL," +
                 Folders.COLUMN_FOLDER_COLOR + " TEXT NOT NULL" +"); ";
 
+        final String SQL_CREATE_BNR_TABLE="CREATE TABLE " + BNR.TABLE_NAME + " (" +
+                BNR.COLUMN_ID + " INTEGER PRIMARY KEY," +
+                BNR.COLUMN_PURCHASE_DATE + " DATE," +
+                BNR.COLUMN_RECEIPT_TYPE + " TEXT," +
+                BNR.COLUMN_PRODUCT_NAME + " TEXT," +
+                BNR.COLUMN_TOTAL + " TEXT," +
+                BNR.COLUMN_ENTERPRISE + " TEXT" +"); ";
+
         db.execSQL(SQL_CREATE_DOCUMENT_TABLE);
         db.execSQL(SQL_CREATE_FOLDER_TABLE);
+        db.execSQL(SQL_CREATE_BNR_TABLE);
 
         // Insert values for predefined database
         for(Folder folder: Constants.FOLDERS) {
@@ -49,6 +58,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS "+ Contract.Documents.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS "+ Contract.Folders.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+ Contract.BNR.TABLE_NAME);
         onCreate(db);
     }
 }

@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.bellatrix.aditi.documentorganizer.Database.Contract;
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
+import com.bellatrix.aditi.documentorganizer.Utilities.CommonFunctions;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -34,6 +35,10 @@ import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.colorInd
 public class AddImageActivity extends AppCompatActivity{
 
     private static final String TAG = AddImageActivity.class.getSimpleName();
+    private static final int ADD_DETAILS_REQUEST = 1;
+    private static final int ADD_DETAILS_RESULT_CODE = 50;
+
+    private Uri imageUri;
     private byte[] img;
     private String folderName;
     private ArrayList<String> folderNames;
@@ -50,8 +55,10 @@ public class AddImageActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_image);
 
-        Uri uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
-        uriToBitmap(uri);
+        // todo: add image compression options
+
+        imageUri = Uri.parse(getIntent().getExtras().getString("imageUri"));
+        img = CommonFunctions.uriToBitmap(this,imageUri,TAG);
 
         imageView = (ImageView)findViewById(R.id.imagebox);
         custom_folder_name = (EditText)findViewById(R.id.et_folder_name);
@@ -144,34 +151,21 @@ public class AddImageActivity extends AppCompatActivity{
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ADD_DETAILS_REQUEST) {
+            if (resultCode == ADD_DETAILS_RESULT_CODE) {
+                this.finish();
+            }
+        }
+    }
+
     private void startActivityAccordingToFolderName() {
-//        DBQueries.insertDocument(AddImageActivity.this,img,imageTitle,folderName);
         if(folderName.equals("Bills & Receipts")) {
             Intent intent = new Intent(AddImageActivity.this, BillsDetailsActivity.class);
-            startActivity(intent);
+            intent.putExtra("imageUri", imageUri.toString());
+            startActivityForResult(intent, ADD_DETAILS_REQUEST);
         }
-    }
-
-    private void uriToBitmap(Uri uri) {
-        if (uri != null) {
-            try {
-                Bitmap photo = (Bitmap) MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                upload(photo);
-
-            } catch (IOException e) {
-                Log.d(TAG, "Image picking failed because " + e.getMessage());
-                Toast.makeText(this, "Image picking failed", Toast.LENGTH_LONG).show();
-            }
-        } else {
-            Log.d(TAG, "Image picker gave us a null image.");
-            Toast.makeText(this, "Image picker gave us a null image.", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void upload(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
-        img = stream.toByteArray();
     }
 }
 

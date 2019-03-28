@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.text.SimpleDateFormat;
+
 /**
  * Created by Aditi on 19-02-2019.
  */
@@ -20,6 +22,32 @@ public class DBQueries {
         cv.put(Contract.Documents.COLUMN_IMAGE,img);
         cv.put(Contract.Documents.COLUMN_CATEGORY,folderName);
         long retVal= sdb.insert(Contract.Documents.TABLE_NAME,null,cv);
+        sdb.close();
+        return retVal;
+    }
+
+    public static long insertBNR(Context c, long id, String date, String receiptType,
+                                 String productName, String total, String enterprise) {
+        DBHelper dbHelper = new DBHelper(c);
+        SQLiteDatabase sdb = dbHelper.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(Contract.BNR.COLUMN_ID, id);
+
+        if(!date.equals("")) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            cv.put(Contract.BNR.COLUMN_PURCHASE_DATE, date);
+        }
+
+        if(!receiptType.equals(""))
+            cv.put(Contract.BNR.COLUMN_RECEIPT_TYPE, receiptType);
+        if(!productName.equals(""))
+            cv.put(Contract.BNR.COLUMN_PRODUCT_NAME, productName);
+        if(!total.equals(""))
+            cv.put(Contract.BNR.COLUMN_TOTAL, total);
+        if(!enterprise.equals(""))
+            cv.put(Contract.BNR.COLUMN_ENTERPRISE, enterprise);
+        long retVal= sdb.insert(Contract.BNR.TABLE_NAME,null,cv);
         sdb.close();
         return retVal;
     }
