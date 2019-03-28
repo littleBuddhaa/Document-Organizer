@@ -90,7 +90,7 @@ public class BillsDetailsActivity extends AppCompatActivity {
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
                 handleData();
 
                 setResult(ADD_DETAILS_RESULT_CODE);
@@ -154,6 +154,6 @@ public class BillsDetailsActivity extends AppCompatActivity {
         String year = String.valueOf(date.getYear());
         if(day.length()==1) day="0"+day;
         if(month.length()==1) month="0"+month;
-        purchaseDate.setText(year+"-"+month+"-"+date);
+        purchaseDate.setText(year+"-"+month+"-"+day);
     }
 }
