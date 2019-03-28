@@ -90,8 +90,13 @@ public class BillsDetailsActivity extends AppCompatActivity {
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                
                 handleData();
+
                 setResult(ADD_DETAILS_RESULT_CODE);
+                Intent intent = new Intent(BillsDetailsActivity.this, ViewImageActivity.class);
+                intent.putExtra("folderName", folderName);
+                startActivity(intent);
                 finish();
             }
         });
@@ -124,10 +129,6 @@ public class BillsDetailsActivity extends AppCompatActivity {
                 id,purchaseDate.getText().toString(),
                 val1,val2,
                 total.getText().toString(),enterprise.getText().toString());
-
-        Intent intent = new Intent(this, ViewImageActivity.class);
-        intent.putExtra("folderName", folderName);
-        startActivity(intent);
     }
 
     private void setCheckBoxes() {
