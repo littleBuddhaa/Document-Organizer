@@ -75,6 +75,22 @@ public class DBQueries {
         return retVal;
     }
 
+    public static long insertGID(Context c, long id, String type, String holderName) {
+        DBHelper dbHelper = new DBHelper(c);
+        SQLiteDatabase sdb = dbHelper.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(Contract.GID.COLUMN_ID, id);
+
+        if(!type.equals(""))
+            cv.put(Contract.GID.COLUMN_TYPE, type);
+        if(!holderName.equals(""))
+            cv.put(Contract.GID.COLUMN_HOLDER_NAME, holderName);
+        long retVal= sdb.insert(Contract.GID.TABLE_NAME,null,cv);
+        sdb.close();
+        return retVal;
+    }
+
     public static long insertFolder(Context c, String name, String color) {
         DBHelper dbHelper = new DBHelper(c);
         SQLiteDatabase sdb = dbHelper.getWritableDatabase();

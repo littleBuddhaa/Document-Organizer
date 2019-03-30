@@ -43,6 +43,13 @@ public class ViewImageActivity extends AppCompatActivity implements ImageAdapter
         // TODO: view details of image
     }
 
+    // TODO: Check if memory leak for database is stopped
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mCursor.close();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -50,9 +57,5 @@ public class ViewImageActivity extends AppCompatActivity implements ImageAdapter
         imageAdapter.swapCursor(mCursor);
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        mCursor.close();
-    }
+
 }

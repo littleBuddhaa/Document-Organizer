@@ -52,4 +52,14 @@ public class Constants {
                     "CT-scan",
                     "MRI",
                     "Diabetes Test"));
+
+    public static ArrayList<String> GID_SUB_CATEGORIES_1 = new ArrayList<>(
+            Arrays.asList("Aadhar Card",
+                    "PAN Card",
+                    "Passport",
+                    "Driving Licence",
+                    "Birth Certificate",
+                    "SC/ST/OBC Certificate",
+                    "Medical Certificate",
+                    "Other"));
 }

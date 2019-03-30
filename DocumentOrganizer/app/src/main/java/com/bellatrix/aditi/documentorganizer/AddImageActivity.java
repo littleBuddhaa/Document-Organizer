@@ -2,14 +2,11 @@ package com.bellatrix.aditi.documentorganizer;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -25,8 +22,6 @@ import com.bellatrix.aditi.documentorganizer.Database.Contract;
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
 import com.bellatrix.aditi.documentorganizer.Utilities.CommonFunctions;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.COLORS;
@@ -167,6 +162,10 @@ public class AddImageActivity extends AppCompatActivity{
             startActivityForResult(intent, ADD_DETAILS_REQUEST);
         } else if(folderName.equals("Medical records")) {
             Intent intent = new Intent(AddImageActivity.this, MedicalDetailsActivity.class);
+            intent.putExtra("imageUri", imageUri.toString());
+            startActivityForResult(intent, ADD_DETAILS_REQUEST);
+        } else if(folderName.equals("Government issued documents")) {
+            Intent intent = new Intent(AddImageActivity.this, GIDDetailsActivity.class);
             intent.putExtra("imageUri", imageUri.toString());
             startActivityForResult(intent, ADD_DETAILS_REQUEST);
         }
