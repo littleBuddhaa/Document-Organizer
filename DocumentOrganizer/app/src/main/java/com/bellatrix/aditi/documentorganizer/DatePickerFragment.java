@@ -19,6 +19,7 @@ public class DatePickerFragment extends DialogFragment
 
     private DateUtil date;
     private BillsDetailsActivity aClass;
+    private MedicalDetailsActivity bClass;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -36,10 +37,17 @@ public class DatePickerFragment extends DialogFragment
     {
         this.aClass = aClass;
     }
+    public void setClass(MedicalDetailsActivity bClass)
+    {
+        this.bClass = bClass;
+    }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
         date = new DateUtil(year, month+1, day);
-        aClass.setDate(date);
+        if(aClass!=null)
+            aClass.setDate(date);
+        else
+            bClass.setDate(date);
     }
 }

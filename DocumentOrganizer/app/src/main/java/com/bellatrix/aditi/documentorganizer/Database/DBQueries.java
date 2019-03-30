@@ -52,6 +52,29 @@ public class DBQueries {
         return retVal;
     }
 
+    public static long insertMedical(Context c, long id, String date, String type, String patientName, String institution) {
+        DBHelper dbHelper = new DBHelper(c);
+        SQLiteDatabase sdb = dbHelper.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(Contract.Medical.COLUMN_ID, id);
+
+        if(!date.equals("")) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            cv.put(Contract.Medical.COLUMN_ISSUED_DATE, date);
+        }
+
+        if(!type.equals(""))
+            cv.put(Contract.Medical.COLUMN_TYPE, type);
+        if(!patientName.equals(""))
+            cv.put(Contract.Medical.COLUMN_PATIENT, patientName);
+        if(!institution.equals(""))
+            cv.put(Contract.Medical.COLUMN_INSTITUTION, institution);
+        long retVal= sdb.insert(Contract.Medical.TABLE_NAME,null,cv);
+        sdb.close();
+        return retVal;
+    }
+
     public static long insertFolder(Context c, String name, String color) {
         DBHelper dbHelper = new DBHelper(c);
         SQLiteDatabase sdb = dbHelper.getWritableDatabase();

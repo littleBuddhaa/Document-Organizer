@@ -42,4 +42,14 @@ public class Constants {
                     "Speakers",
                     "Heater",
                     "Furniture"));
+
+    public static ArrayList<String> MEDICAL_SUB_CATEGORIES_1 = new ArrayList<>(
+            Arrays.asList("Prescription",
+                    "Blood Test",
+                    "Ultrasound",
+                    "X-ray",
+                    "Thyroid Test",
+                    "CT-scan",
+                    "MRI",
+                    "Diabetes Test"));
 }
