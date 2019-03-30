@@ -1,5 +1,6 @@
 package com.bellatrix.aditi.documentorganizer;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bellatrix.aditi.documentorganizer.Database.Contract;
+import com.bumptech.glide.Glide;
 
 /**
  * Created by Aditi on 14-03-2019.
@@ -67,8 +69,9 @@ public class ImageAdapter  extends RecyclerView.Adapter<ImageAdapter.ImageViewHo
                 return; // bail if returned null*/
 
             byte[] image = mCursor.getBlob(mCursor.getColumnIndex(Contract.Documents.COLUMN_IMAGE));
-            Bitmap bmp= BitmapFactory.decodeByteArray(image, 0 , image.length);
-            imageView.setImageBitmap(bmp);
+            Glide.with((Context)clickLister)
+                    .load(image)
+                    .into(imageView);
         }
 
         @Override

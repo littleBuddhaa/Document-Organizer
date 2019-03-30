@@ -49,4 +49,10 @@ public class ViewImageActivity extends AppCompatActivity implements ImageAdapter
         mCursor = DBQueries.getImageByFolder(ViewImageActivity.this,folderName);
         imageAdapter.swapCursor(mCursor);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        mCursor.close();
+    }
 }
