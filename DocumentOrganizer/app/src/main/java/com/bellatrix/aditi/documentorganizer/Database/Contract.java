@@ -31,5 +31,40 @@ public class Contract {
         public static final String COLUMN_PRODUCT_NAME = "ProductName";
         public static final String COLUMN_TOTAL = "Total";
         public static final String COLUMN_ENTERPRISE = "Enterprise";
+        public static final String COLUMN_CUSTOM_TAGS = "CustomTags";
+    }
+
+    public static class Medical implements BaseColumns {
+        public static final String TABLE_NAME = "MedicalRecords";
+        public static final String COLUMN_ID = "ID";
+        public static final String COLUMN_ISSUED_DATE = "IssuedDate";
+        public static final String COLUMN_TYPE = "Type";
+        public static final String COLUMN_PATIENT = "PatientName";
+        public static final String COLUMN_INSTITUTION = "Institution";
+        public static final String COLUMN_CUSTOM_TAGS = "CustomTags";
+    }
+
+    public static class GID implements BaseColumns {
+        public static final String TABLE_NAME = "GovernmentIssued";
+        public static final String COLUMN_ID = "ID";
+        public static final String COLUMN_TYPE = "Type";
+        public static final String COLUMN_HOLDER_NAME = "HolderName";
+        public static final String COLUMN_CUSTOM_TAGS = "CustomTags";
+    }
+
+    public static class Handwritten implements BaseColumns {
+        public static final String TABLE_NAME = "Handwritten";
+        public static final String COLUMN_ID = "ID";
+        public static final String COLUMN_CUSTOM_TAGS = "CustomTags";
+    }
+
+    public static class Certificates implements BaseColumns {
+        public static final String TABLE_NAME = "Certificates";
+        public static final String COLUMN_ID = "ID";
+        public static final String COLUMN_TYPE = "Type";
+        public static final String COLUMN_HOLDER_NAME = "HolderName";
+        public static final String COLUMN_INSTITUTION = "Institution";
+        public static final String COLUMN_ACHIEVEMENT = "Achievement";
+        public static final String COLUMN_CUSTOM_TAGS = "CustomTags";
     }
 }

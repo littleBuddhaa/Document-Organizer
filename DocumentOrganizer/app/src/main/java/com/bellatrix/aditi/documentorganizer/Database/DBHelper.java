@@ -39,11 +39,42 @@ public class DBHelper extends SQLiteOpenHelper {
                 BNR.COLUMN_RECEIPT_TYPE + " TEXT," +
                 BNR.COLUMN_PRODUCT_NAME + " TEXT," +
                 BNR.COLUMN_TOTAL + " TEXT," +
-                BNR.COLUMN_ENTERPRISE + " TEXT" +"); ";
+                BNR.COLUMN_ENTERPRISE + " TEXT," +
+                BNR.COLUMN_CUSTOM_TAGS + " TEXT" +"); ";
+
+        final String SQL_CREATE_MEDICAL_TABLE="CREATE TABLE " + Medical.TABLE_NAME + " (" +
+                Medical.COLUMN_ID + " INTEGER PRIMARY KEY," +
+                Medical.COLUMN_ISSUED_DATE + " DATE," +
+                Medical.COLUMN_TYPE + " TEXT," +
+                Medical.COLUMN_PATIENT + " TEXT," +
+                Medical.COLUMN_INSTITUTION + " TEXT," +
+                Medical.COLUMN_CUSTOM_TAGS + " TEXT" +"); ";
+
+        final String SQL_CREATE_GID_TABLE="CREATE TABLE " + GID.TABLE_NAME + " (" +
+                GID.COLUMN_ID + " INTEGER PRIMARY KEY," +
+                GID.COLUMN_TYPE + " TEXT," +
+                GID.COLUMN_HOLDER_NAME + " TEXT," +
+                GID.COLUMN_CUSTOM_TAGS + " TEXT" +"); ";
+
+        final String SQL_CREATE_HANDWRITTEN_TABLE="CREATE TABLE " + Handwritten.TABLE_NAME + " (" +
+                Handwritten.COLUMN_ID + " INTEGER PRIMARY KEY," +
+                Handwritten.COLUMN_CUSTOM_TAGS + " TEXT" +"); ";
+
+        final String SQL_CREATE_CERTIFICATES_TABLE="CREATE TABLE " + Certificates.TABLE_NAME + " (" +
+                Certificates.COLUMN_ID + " INTEGER PRIMARY KEY," +
+                Certificates.COLUMN_TYPE + " TEXT," +
+                Certificates.COLUMN_HOLDER_NAME + " TEXT," +
+                Certificates.COLUMN_INSTITUTION + " TEXT," +
+                Certificates.COLUMN_ACHIEVEMENT + " TEXT," +
+                Certificates.COLUMN_CUSTOM_TAGS + " TEXT" +"); ";
 
         db.execSQL(SQL_CREATE_DOCUMENT_TABLE);
         db.execSQL(SQL_CREATE_FOLDER_TABLE);
         db.execSQL(SQL_CREATE_BNR_TABLE);
+        db.execSQL(SQL_CREATE_MEDICAL_TABLE);
+        db.execSQL(SQL_CREATE_GID_TABLE);
+        db.execSQL(SQL_CREATE_HANDWRITTEN_TABLE);
+        db.execSQL(SQL_CREATE_CERTIFICATES_TABLE);
 
         // Insert values for predefined database
         for(Folder folder: Constants.FOLDERS) {
@@ -59,6 +90,10 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+ Contract.Documents.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS "+ Contract.Folders.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS "+ Contract.BNR.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+ Contract.Medical.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+ Contract.GID.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+ Contract.Handwritten.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+ Contract.Certificates.TABLE_NAME);
         onCreate(db);
     }
 }
