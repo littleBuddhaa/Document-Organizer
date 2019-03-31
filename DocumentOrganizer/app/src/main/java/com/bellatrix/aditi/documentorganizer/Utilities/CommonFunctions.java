@@ -15,11 +15,11 @@ import java.io.IOException;
  */
 
 public class CommonFunctions {
-    public static byte[] uriToBitmap(Context c, Uri uri, String TAG) {
+    public static byte[] uriToBitmap(Context c, Uri uri, String TAG, int quality) {
         if (uri != null) {
             try {
                 Bitmap photo = (Bitmap) MediaStore.Images.Media.getBitmap(c.getContentResolver(), uri);
-                return upload(photo);
+                return upload(photo, quality);
 
             } catch (IOException e) {
                 Log.d(TAG, "Image picking failed because " + e.getMessage());
@@ -32,9 +32,9 @@ public class CommonFunctions {
         return null;
     }
 
-    private static byte[] upload(Bitmap bitmap) {
+    private static byte[] upload(Bitmap bitmap, int quality) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, stream);
         return stream.toByteArray();
     }
 }

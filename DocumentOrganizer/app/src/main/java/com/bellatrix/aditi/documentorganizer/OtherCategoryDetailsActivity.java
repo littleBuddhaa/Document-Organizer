@@ -28,7 +28,8 @@ public class OtherCategoryDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_other_category_details);
 
         Uri uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
-        img = CommonFunctions.uriToBitmap(this,uri,TAG);
+        int quality = getIntent().getExtras().getInt("imageQuality");
+        img = CommonFunctions.uriToBitmap(this,uri,TAG,quality);
         folderName = getIntent().getExtras().getString("folderName");
 
         imageTitle = (EditText)findViewById(R.id.et_image_title);

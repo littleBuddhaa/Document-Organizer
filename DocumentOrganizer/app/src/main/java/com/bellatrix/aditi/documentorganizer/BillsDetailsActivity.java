@@ -42,7 +42,8 @@ public class BillsDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bills_details);
 
         Uri uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
-        img = CommonFunctions.uriToBitmap(this,uri,TAG);
+        int quality = getIntent().getExtras().getInt("imageQuality");
+        img = CommonFunctions.uriToBitmap(this,uri,TAG,quality);
 
         purchaseDate = (EditText)findViewById(R.id.et_purchase_date);
         imageTitle = (EditText)findViewById(R.id.et_image_title);

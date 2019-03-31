@@ -38,7 +38,8 @@ public class MedicalDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_medical_details);
 
         Uri uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
-        img = CommonFunctions.uriToBitmap(this,uri,TAG);
+        int quality = getIntent().getExtras().getInt("imageQuality");
+        img = CommonFunctions.uriToBitmap(this,uri,TAG,quality);
 
         issuedDate = (EditText)findViewById(R.id.et_issued_date);
         imageTitle = (EditText)findViewById(R.id.et_image_title);

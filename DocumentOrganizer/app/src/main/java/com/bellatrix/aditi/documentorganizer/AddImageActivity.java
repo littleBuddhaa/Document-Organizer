@@ -12,8 +12,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +44,9 @@ public class AddImageActivity extends AppCompatActivity{
     private Cursor folderCursor;
 
     private ImageView imageView;
-    private EditText custom_folder_name;
+    private EditText custom_folder_name, customQuality;
+    private RadioGroup radioGroup;
+    private RadioButton radioCustom;
     private Spinner folderSpinner;
     private Button cancelButton, nextButton;
 
@@ -50,22 +55,33 @@ public class AddImageActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_image);
 
-        // todo: add image compression options
-
         imageUri = Uri.parse(getIntent().getExtras().getString("imageUri"));
-        img = CommonFunctions.uriToBitmap(this,imageUri,TAG);
+        img = CommonFunctions.uriToBitmap(this,imageUri,TAG,30);
 
         imageView = (ImageView)findViewById(R.id.imagebox);
+        customQuality = (EditText)findViewById(R.id.et_custom_quality);
         custom_folder_name = (EditText)findViewById(R.id.et_folder_name);
+        radioGroup = (RadioGroup)findViewById(R.id.radio_grp);
+        radioCustom = (RadioButton) findViewById(R.id.radio_custom);
         folderSpinner = (Spinner)findViewById(R.id.spinner_folder);
         cancelButton = (Button)findViewById(R.id.cancel_button);
         nextButton = (Button)findViewById(R.id.next_button);
 
         imageView.setImageBitmap(BitmapFactory.decodeByteArray(img, 0 , img.length));
 
+        radioCustom.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    customQuality.setVisibility(View.VISIBLE);
+                } else {
+                    customQuality.setVisibility(View.GONE);
+                }
+            }
+        });
+
         folderNames = new ArrayList<String>();
         folderCursor = DBQueries.getFolders(this);
-        folderNames.add("Select a folder");
 
         while (folderCursor.moveToNext()) {
             folderNames.add(folderCursor.getString(folderCursor.getColumnIndex(Contract.Folders.COLUMN_FOLDER_NAME)));
@@ -74,27 +90,7 @@ public class AddImageActivity extends AppCompatActivity{
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line,
-                folderNames){
-            @Override
-            public boolean isEnabled(int position){
-                if(position == 0)
-                    return false;
-                else
-                    return true;
-            }
-            @Override
-            public View getDropDownView(int position, View convertView,
-                                        ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-                TextView tv = (TextView) view;
-                if (position == 0) {
-                    tv.setTextColor(Color.GRAY);
-                } else {
-                    tv.setTextColor(Color.BLACK);
-                }
-                return view;
-            }
-        };
+                folderNames);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         folderSpinner.setAdapter(adapter);
 
@@ -127,9 +123,7 @@ public class AddImageActivity extends AppCompatActivity{
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(spinnerPosition==0)
-                    Toast.makeText(AddImageActivity.this,"Please select a folder",Toast.LENGTH_SHORT).show();
-                else if(spinnerPosition==(folderNames.size()-1)){
+                if(spinnerPosition==(folderNames.size()-1)){
                     String newFolderName = custom_folder_name.getText().toString();
                     if(newFolderName.equals("")) {
                         Toast.makeText(AddImageActivity.this,"Please enter new folder name",Toast.LENGTH_SHORT).show();
@@ -137,10 +131,10 @@ public class AddImageActivity extends AppCompatActivity{
                         DBQueries.insertFolder(AddImageActivity.this,newFolderName,COLORS[colorIndex]);
                         colorIndex=(colorIndex+1)%COLORS.length;
                         folderName = newFolderName;
-                        startActivityAccordingToFolderName();
+                        goToNextActivity();
                     }
                 }else {
-                    startActivityAccordingToFolderName();
+                    goToNextActivity();
                 }
             }
         });
@@ -155,27 +149,52 @@ public class AddImageActivity extends AppCompatActivity{
         }
     }
 
-    private void startActivityAccordingToFolderName() {
+    private void goToNextActivity() {
+        try {
+            String qualityText = ((RadioButton) findViewById(radioGroup.getCheckedRadioButtonId())).getText().toString();
+            int quality = 30;
+            if (qualityText.equals("Medium"))
+                quality = 60;
+            else if (qualityText.equals("High"))
+                quality = 80;
+            else if (qualityText.equals("Custom")) {
+                quality = Integer.parseInt(customQuality.getText().toString());
+                if (quality < 15)
+                    throw new NumberFormatException();
+            }
+
+            startActivityAccordingToFolderName(quality);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Valid integer from 15 to 100",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void startActivityAccordingToFolderName(int quality) {
         if(folderName.equals("Bills & Receipts")) {
             Intent intent = new Intent(AddImageActivity.this, BillsDetailsActivity.class);
             intent.putExtra("imageUri", imageUri.toString());
+            intent.putExtra("imageQuality", quality);
             startActivityForResult(intent, ADD_DETAILS_REQUEST);
         } else if(folderName.equals("Medical records")) {
             Intent intent = new Intent(AddImageActivity.this, MedicalDetailsActivity.class);
             intent.putExtra("imageUri", imageUri.toString());
+            intent.putExtra("imageQuality", quality);
             startActivityForResult(intent, ADD_DETAILS_REQUEST);
         } else if(folderName.equals("Government issued documents")) {
             Intent intent = new Intent(AddImageActivity.this, GIDDetailsActivity.class);
             intent.putExtra("imageUri", imageUri.toString());
+            intent.putExtra("imageQuality", quality);
             startActivityForResult(intent, ADD_DETAILS_REQUEST);
         } else if(folderName.equals("Certificates & Marksheets")) {
             Intent intent = new Intent(AddImageActivity.this, CertificateDetailsActivity.class);
             intent.putExtra("imageUri", imageUri.toString());
+            intent.putExtra("imageQuality", quality);
             startActivityForResult(intent, ADD_DETAILS_REQUEST);
         } else {
             Intent intent = new Intent(AddImageActivity.this, OtherCategoryDetailsActivity.class);
             intent.putExtra("imageUri", imageUri.toString());
             intent.putExtra("folderName",folderName);
+            intent.putExtra("imageQuality", quality);
             startActivityForResult(intent, ADD_DETAILS_REQUEST);
         }
     }
