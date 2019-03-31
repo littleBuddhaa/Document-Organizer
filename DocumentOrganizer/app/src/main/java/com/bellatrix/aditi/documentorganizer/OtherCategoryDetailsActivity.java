@@ -29,7 +29,7 @@ public class OtherCategoryDetailsActivity extends AppCompatActivity {
 
         Uri uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
         int quality = getIntent().getExtras().getInt("imageQuality");
-        img = CommonFunctions.uriToBitmap(this,uri,TAG,quality);
+        img = CommonFunctions.uriToBytes(this,uri,TAG,quality);
         folderName = getIntent().getExtras().getString("folderName");
 
         imageTitle = (EditText)findViewById(R.id.et_image_title);

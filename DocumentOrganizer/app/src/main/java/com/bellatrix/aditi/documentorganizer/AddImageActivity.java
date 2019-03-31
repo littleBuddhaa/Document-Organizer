@@ -56,7 +56,7 @@ public class AddImageActivity extends AppCompatActivity{
         setContentView(R.layout.activity_add_image);
 
         imageUri = Uri.parse(getIntent().getExtras().getString("imageUri"));
-        img = CommonFunctions.uriToBitmap(this,imageUri,TAG,30);
+        img = CommonFunctions.uriToBytes(this,imageUri,TAG,30);
 
         imageView = (ImageView)findViewById(R.id.imagebox);
         customQuality = (EditText)findViewById(R.id.et_custom_quality);

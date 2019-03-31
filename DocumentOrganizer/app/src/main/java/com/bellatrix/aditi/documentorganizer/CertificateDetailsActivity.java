@@ -40,7 +40,7 @@ public class CertificateDetailsActivity extends AppCompatActivity {
 
         Uri uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
         int quality = getIntent().getExtras().getInt("imageQuality");
-        img = CommonFunctions.uriToBitmap(this,uri,TAG,quality);
+        img = CommonFunctions.uriToBytes(this,uri,TAG,quality);
 
         imageTitle = (EditText)findViewById(R.id.et_image_title);
         holderName = (EditText)findViewById(R.id.et_holder_name);
