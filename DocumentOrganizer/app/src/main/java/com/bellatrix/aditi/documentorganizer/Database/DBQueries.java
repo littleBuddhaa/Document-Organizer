@@ -114,6 +114,21 @@ public class DBQueries {
         return retVal;
     }
 
+    public static long insertIntoFolder(Context c, String folderName, long id, String tags) {
+        DBHelper dbHelper = new DBHelper(c);
+        SQLiteDatabase sdb = dbHelper.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put("ID", id);
+
+        if(!tags.equals(""))
+            cv.put("CustomTags", tags);
+
+        long retVal= sdb.insert(folderName,null,cv);
+        sdb.close();
+        return retVal;
+    }
+
     public static long insertFolder(Context c, String name, String color) {
         DBHelper dbHelper = new DBHelper(c);
         SQLiteDatabase sdb = dbHelper.getWritableDatabase();

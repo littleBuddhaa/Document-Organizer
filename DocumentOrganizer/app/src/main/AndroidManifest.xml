@@ -49,7 +49,8 @@
         <activity android:name=".BillsDetailsActivity" />
         <activity android:name=".MedicalDetailsActivity" />
         <activity android:name=".GIDDetailsActivity" />
-        <activity android:name=".CertificateDetailsActivity"></activity>
+        <activity android:name=".CertificateDetailsActivity" />
+        <activity android:name=".OtherCategoryDetailsActivity"></activity>
     </application>
 
 </manifest>

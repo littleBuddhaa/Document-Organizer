@@ -172,6 +172,11 @@ public class AddImageActivity extends AppCompatActivity{
             Intent intent = new Intent(AddImageActivity.this, CertificateDetailsActivity.class);
             intent.putExtra("imageUri", imageUri.toString());
             startActivityForResult(intent, ADD_DETAILS_REQUEST);
+        } else {
+            Intent intent = new Intent(AddImageActivity.this, OtherCategoryDetailsActivity.class);
+            intent.putExtra("imageUri", imageUri.toString());
+            intent.putExtra("folderName",folderName);
+            startActivityForResult(intent, ADD_DETAILS_REQUEST);
         }
     }
 }
