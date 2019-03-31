@@ -7,16 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
 import com.bellatrix.aditi.documentorganizer.Utilities.CommonFunctions;
 import com.bellatrix.aditi.documentorganizer.Utilities.DateUtil;
 
-import java.util.ArrayList;
 import java.util.Collections;
 
 import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.MEDICAL_SUB_CATEGORIES_1;
@@ -30,9 +29,8 @@ public class MedicalDetailsActivity extends AppCompatActivity {
 
     private EditText issuedDate, imageTitle, patientName, institution;
     private ImageButton datePicker;
-    private LinearLayout type1;
+    private RadioGroup radioGroup;
     private Button backButton, finishButton;
-    private ArrayList<CheckBox> checkBox1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +45,11 @@ public class MedicalDetailsActivity extends AppCompatActivity {
         patientName = (EditText)findViewById(R.id.et_patient_name);
         institution = (EditText)findViewById(R.id.et_institution);
         datePicker = (ImageButton)findViewById(R.id.date_picker_button);
-        type1 = (LinearLayout) findViewById(R.id.ll_type);
+        radioGroup = (RadioGroup)findViewById(R.id.radio_grp);
         backButton = (Button)findViewById(R.id.back_button);
         finishButton = (Button)findViewById(R.id.finish_button);
 
-        checkBox1 = new ArrayList<>();
-        setCheckBoxes();
+        setRadioGroup();
 
         String title = folderName+"_"
                 +String.valueOf(DBQueries.getTotalImageByFolder(this, folderName)+1);
@@ -100,14 +97,7 @@ public class MedicalDetailsActivity extends AppCompatActivity {
                 imageTitle.getText().toString(),folderName);
 
         // insertion in the table for the folder
-        String val="";
-        for(CheckBox checkBox: checkBox1) {
-            if(checkBox.isChecked()) {
-                val=val+MEDICAL_SUB_CATEGORIES_1.get(checkBox1.indexOf(checkBox))+",";
-            }
-        }
-        if(val.length()>1)
-            val = val.substring(0,val.length()-1);
+        String val=((RadioButton)findViewById(radioGroup.getCheckedRadioButtonId())).getText().toString();
 
         DBQueries.insertMedical(MedicalDetailsActivity.this,
                 id,issuedDate.getText().toString(),val,
@@ -118,13 +108,12 @@ public class MedicalDetailsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void setCheckBoxes() {
+    private void setRadioGroup() {
         Collections.sort(MEDICAL_SUB_CATEGORIES_1);
         for(String type: MEDICAL_SUB_CATEGORIES_1) {
-            CheckBox checkBox = new CheckBox(this);
-            checkBox.setText(type);
-            type1.addView(checkBox);
-            checkBox1.add(checkBox);
+            RadioButton radioButton = new RadioButton(this);
+            radioButton.setText(type);
+            radioGroup.addView(radioButton);
         }
     }
 
