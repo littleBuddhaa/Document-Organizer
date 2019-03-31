@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -30,7 +31,7 @@ public class CertificateDetailsActivity extends AppCompatActivity {
     private LinearLayout type2;
     private Button backButton, finishButton;
     private RadioGroup radioGroup1, radioGroup2;
-    private RadioButton radioButton1, radioButton2;
+    private RadioButton radioButton2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,26 +47,22 @@ public class CertificateDetailsActivity extends AppCompatActivity {
         achievement = (EditText)findViewById(R.id.et_achievement);
 
         radioGroup1 = (RadioGroup)findViewById(R.id.radio_grp1);
-        radioButton1 = (RadioButton)findViewById(R.id.radio_certificate);
         radioButton2 = (RadioButton)findViewById(R.id.radio_marksheet);
         type2 = (LinearLayout) findViewById(R.id.ll_type2);
         radioGroup2 = (RadioGroup)findViewById(R.id.radio_grp2);
         backButton = (Button)findViewById(R.id.back_button);
         finishButton = (Button)findViewById(R.id.finish_button);
 
-        radioButton1.setOnClickListener(new View.OnClickListener() {
+        radioButton2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                ((TextView)findViewById(R.id.tv_type2)).setVisibility(View.GONE);
-                type2.setVisibility(View.GONE);
-            }
-        });
-
-        radioButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((TextView)findViewById(R.id.tv_type2)).setVisibility(View.VISIBLE);
-                type2.setVisibility(View.VISIBLE);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    ((TextView)findViewById(R.id.tv_type2)).setVisibility(View.VISIBLE);
+                    type2.setVisibility(View.VISIBLE);
+                } else {
+                    ((TextView)findViewById(R.id.tv_type2)).setVisibility(View.GONE);
+                    type2.setVisibility(View.GONE);
+                }
             }
         });
 
