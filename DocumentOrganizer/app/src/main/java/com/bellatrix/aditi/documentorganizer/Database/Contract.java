@@ -61,7 +61,8 @@ public class Contract {
     public static class Certificates implements BaseColumns {
         public static final String TABLE_NAME = "Certificates";
         public static final String COLUMN_ID = "ID";
-        public static final String COLUMN_TYPE = "Type";
+        public static final String COLUMN_TYPE1 = "Type1";
+        public static final String COLUMN_TYPE2 = "Type2";
         public static final String COLUMN_HOLDER_NAME = "HolderName";
         public static final String COLUMN_INSTITUTION = "Institution";
         public static final String COLUMN_ACHIEVEMENT = "Achievement";

@@ -18,11 +18,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.GID_SUB_CATEGORIES_1;
-import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.MEDICAL_SUB_CATEGORIES_1;
 
 public class GIDDetailsActivity extends AppCompatActivity {
 
-    private static final String TAG = AddImageActivity.class.getSimpleName();
+    private static final String TAG = GIDDetailsActivity.class.getSimpleName();
     private static final int ADD_DETAILS_RESULT_CODE = 50;
     private byte[] img;
     private final String folderName = "Government issued documents";
@@ -80,7 +79,7 @@ public class GIDDetailsActivity extends AppCompatActivity {
         String val="";
         for(CheckBox checkBox: checkBox1) {
             if(checkBox.isChecked()) {
-                val=val+MEDICAL_SUB_CATEGORIES_1.get(checkBox1.indexOf(checkBox))+",";
+                val=val+GID_SUB_CATEGORIES_1.get(checkBox1.indexOf(checkBox))+",";
             }
         }
         if(val.length()>1)

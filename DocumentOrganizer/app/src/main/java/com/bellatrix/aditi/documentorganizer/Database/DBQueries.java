@@ -91,6 +91,29 @@ public class DBQueries {
         return retVal;
     }
 
+    public static long insertCertificate(Context c, long id, String type1, String type2,
+                                         String holderName, String institution, String achievement) {
+        DBHelper dbHelper = new DBHelper(c);
+        SQLiteDatabase sdb = dbHelper.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(Contract.Certificates.COLUMN_ID, id);
+
+        if(!type1.equals(""))
+            cv.put(Contract.Certificates.COLUMN_TYPE1, type1);
+        if(!type2.equals(""))
+            cv.put(Contract.Certificates.COLUMN_TYPE2, type2);
+        if(!holderName.equals(""))
+            cv.put(Contract.Certificates.COLUMN_HOLDER_NAME, holderName);
+        if(!institution.equals(""))
+            cv.put(Contract.Certificates.COLUMN_INSTITUTION, institution);
+        if(!achievement.equals(""))
+            cv.put(Contract.Certificates.COLUMN_ACHIEVEMENT, achievement);
+        long retVal= sdb.insert(Contract.Certificates.TABLE_NAME,null,cv);
+        sdb.close();
+        return retVal;
+    }
+
     public static long insertFolder(Context c, String name, String color) {
         DBHelper dbHelper = new DBHelper(c);
         SQLiteDatabase sdb = dbHelper.getWritableDatabase();

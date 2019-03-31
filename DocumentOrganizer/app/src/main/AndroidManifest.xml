@@ -48,7 +48,8 @@
         <activity android:name=".AddImageActivity" />
         <activity android:name=".BillsDetailsActivity" />
         <activity android:name=".MedicalDetailsActivity" />
-        <activity android:name=".GIDDetailsActivity"></activity>
+        <activity android:name=".GIDDetailsActivity" />
+        <activity android:name=".CertificateDetailsActivity"></activity>
     </application>
 
 </manifest>

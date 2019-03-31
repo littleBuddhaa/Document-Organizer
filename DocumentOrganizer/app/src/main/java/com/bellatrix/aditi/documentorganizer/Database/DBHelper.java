@@ -62,7 +62,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         final String SQL_CREATE_CERTIFICATES_TABLE="CREATE TABLE " + Certificates.TABLE_NAME + " (" +
                 Certificates.COLUMN_ID + " INTEGER PRIMARY KEY," +
-                Certificates.COLUMN_TYPE + " TEXT," +
+                Certificates.COLUMN_TYPE1 + " TEXT," +
+                Certificates.COLUMN_TYPE2 + " TEXT," +
                 Certificates.COLUMN_HOLDER_NAME + " TEXT," +
                 Certificates.COLUMN_INSTITUTION + " TEXT," +
                 Certificates.COLUMN_ACHIEVEMENT + " TEXT," +

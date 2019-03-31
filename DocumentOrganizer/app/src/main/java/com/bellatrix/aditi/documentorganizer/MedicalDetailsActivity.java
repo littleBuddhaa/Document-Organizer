@@ -23,7 +23,7 @@ import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.MEDICAL_
 
 public class MedicalDetailsActivity extends AppCompatActivity {
 
-    private static final String TAG = AddImageActivity.class.getSimpleName();
+    private static final String TAG = MedicalDetailsActivity.class.getSimpleName();
     private static final int ADD_DETAILS_RESULT_CODE = 50;
     private byte[] img;
     private final String folderName = "Medical records";

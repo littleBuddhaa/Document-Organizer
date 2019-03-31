@@ -168,6 +168,10 @@ public class AddImageActivity extends AppCompatActivity{
             Intent intent = new Intent(AddImageActivity.this, GIDDetailsActivity.class);
             intent.putExtra("imageUri", imageUri.toString());
             startActivityForResult(intent, ADD_DETAILS_REQUEST);
+        } else if(folderName.equals("Certificates & Marksheets")) {
+            Intent intent = new Intent(AddImageActivity.this, CertificateDetailsActivity.class);
+            intent.putExtra("imageUri", imageUri.toString());
+            startActivityForResult(intent, ADD_DETAILS_REQUEST);
         }
     }
 }

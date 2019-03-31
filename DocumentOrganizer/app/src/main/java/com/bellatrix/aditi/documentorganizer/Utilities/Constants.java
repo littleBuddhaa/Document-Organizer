@@ -14,7 +14,7 @@ public class Constants {
                     new Folder("Medical records","#EF971C"),
                     new Folder("Government issued documents","#A5E6BA"),
                     new Folder("Handwritten","#9AC6C5"),
-                    new Folder("Certificates", "#A38DBA")));
+                    new Folder("Certificates & Marksheets", "#A38DBA")));
 
     // TODO: Add colors for folder
     public static int colorIndex=0;
@@ -62,4 +62,13 @@ public class Constants {
                     "SC/ST/OBC Certificate",
                     "Medical Certificate",
                     "Other"));
+
+    public static ArrayList<String> CERTIFICATE_SUB_CATEGORIES_2 = new ArrayList<>(
+            Arrays.asList("High School Marksheet",
+                    "Intermediate School Marksheet",
+                    "Other School Marksheet",
+                    "Diploma Marksheet",
+                    "Graduation Marksheet",
+                    "Post-graduation Marksheet",
+                    "Other Marksheet"));
 }
