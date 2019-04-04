@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
  */
 
 public class DBQueries {
-    public static long insertDocument(Context c, byte[] img, String title, String folderName) {
+    public static long insertDocument(Context c, byte[] img, String title, String folderName, String uri) {
 
         DBHelper dbHelper = new DBHelper(c);
         SQLiteDatabase sdb = dbHelper.getWritableDatabase();
@@ -21,10 +21,12 @@ public class DBQueries {
         cv.put(Contract.Documents.COLUMN_TITLE, title);
         cv.put(Contract.Documents.COLUMN_IMAGE,img);
         cv.put(Contract.Documents.COLUMN_CATEGORY,folderName);
+        cv.put(Contract.Documents.COLUMN_URI, uri);
         long retVal= sdb.insert(Contract.Documents.TABLE_NAME,null,cv);
         sdb.close();
         return retVal;
     }
+
 
     public static long insertBNR(Context c, long id, String date, String receiptType,
                                  String productName, String total, String enterprise) {

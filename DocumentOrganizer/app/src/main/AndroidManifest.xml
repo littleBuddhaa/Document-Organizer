@@ -5,7 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-
+    <uses-permission android:name="com.example.android.shareactionprovider.ASSET_ACCESS"
+        android:protectionLevel="signature" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,6 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ImageDetailsActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -43,6 +45,12 @@
         <provider
             android:name=".Utilities.SearchSuggestionProvider"
             android:authorities="com.bellatrix.aditi.SearchSuggestionProvider" />
+        <provider
+            android:name=".content.AssetProvider"
+            android:authorities="com.example.android.shareactionprovider"
+            android:grantUriPermissions="true"
+            android:exported="true"
+            android:permission="com.example.android.shareactionprovider.ASSET_ACCESS" />
 
         <activity android:name=".ViewImageActivity" />
         <activity android:name=".AddImageActivity" />
@@ -50,7 +58,7 @@
         <activity android:name=".MedicalDetailsActivity" />
         <activity android:name=".GIDDetailsActivity" />
         <activity android:name=".CertificateDetailsActivity" />
-        <activity android:name=".OtherCategoryDetailsActivity"></activity>
+        <activity android:name=".OtherCategoryDetailsActivity" />
     </application>
 
 </manifest>
