@@ -50,7 +50,7 @@ public class ViewImageActivity extends AppCompatActivity implements ImageAdapter
         Intent intent = new Intent(ViewImageActivity.this, ImageDetailsActivity.class);
 //        intent.putExtra("imageUri",uri );
         intent.putExtra("folderName",folderName);
-        intent.putExtra("cIndex", index);
+        intent.putExtra("cIndex",index);
         startActivity(intent);
     }
 

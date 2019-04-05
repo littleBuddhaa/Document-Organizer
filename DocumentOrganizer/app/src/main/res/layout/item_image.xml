@@ -14,7 +14,14 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scaleType="fitCenter" />
+    android:scaleType="fitCenter"
+    android:id="@+id/imageView"/>
+</LinearLayout>
