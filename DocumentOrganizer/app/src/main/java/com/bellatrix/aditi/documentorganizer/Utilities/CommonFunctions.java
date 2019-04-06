@@ -64,12 +64,15 @@ public class CommonFunctions {
         StringBuilder imageText = new StringBuilder();
         SparseArray<TextBlock> textBlocks = textRecognizer.detect(imageFrame);
         TextBlock[] myTextBlocks = new TextBlock[textBlocks.size()];
-        for (int i = 0; i < textBlocks.size(); i++) {
+        for (int i = 0; i < textBlocks.size(); i++)
+        {
             myTextBlocks[i] = textBlocks.get(textBlocks.keyAt(i));
         }
         Arrays.sort(myTextBlocks, TextBlockComparator);
-        for (TextBlock textBlock : myTextBlocks) {
-            if (imageText.toString().equals("")) {
+        for (TextBlock textBlock : myTextBlocks)
+        {
+            if (imageText.toString().equals(""))
+            {
                 imageText.append(textBlock.getValue());
             } else {
                 imageText.append("\n");
