@@ -12,12 +12,14 @@ import java.text.SimpleDateFormat;
  */
 
 public class DBQueries {
-    public static long insertDocument(Context c, byte[] img, String title, String folderName, String uri) {
+    public static long insertDocument(Context c,byte[] img, String title, String folderName, String uri) {
 
         DBHelper dbHelper = new DBHelper(c);
         SQLiteDatabase sdb = dbHelper.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
+
+
         cv.put(Contract.Documents.COLUMN_TITLE, title);
         cv.put(Contract.Documents.COLUMN_IMAGE,img);
         cv.put(Contract.Documents.COLUMN_CATEGORY,folderName);
@@ -177,5 +179,13 @@ public class DBQueries {
         int total = cursor.getCount();
         cursor.close();
         return total;
+    }
+
+    public static Cursor getImageById(Context c, String tableName,long id ) {
+        DBHelper dbHelper = new DBHelper(c);
+        SQLiteDatabase sdb = dbHelper.getReadableDatabase();
+
+        Cursor resultSet = sdb.rawQuery("Select * from "+tableName+" where ID = "+id+";",null);
+        return resultSet;
     }
 }

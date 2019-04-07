@@ -47,12 +47,7 @@
         <provider
             android:name=".Utilities.SearchSuggestionProvider"
             android:authorities="com.bellatrix.aditi.SearchSuggestionProvider" />
-        <provider
-            android:name=".content.AssetProvider"
-            android:authorities="com.example.android.shareactionprovider"
-            android:grantUriPermissions="true"
-            android:exported="true"
-            android:permission="com.example.android.shareactionprovider.ASSET_ACCESS" />
+
 
         <activity android:name=".ViewImageActivity" />
         <activity android:name=".AddImageActivity" />

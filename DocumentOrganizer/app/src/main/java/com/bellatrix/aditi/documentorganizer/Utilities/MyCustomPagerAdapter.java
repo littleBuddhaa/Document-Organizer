@@ -2,8 +2,8 @@ package com.bellatrix.aditi.documentorganizer.Utilities;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import com.bellatrix.aditi.documentorganizer.Database.Contract;
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
 import com.bellatrix.aditi.documentorganizer.R;
+
+import java.io.File;
 //*****
 
 public class MyCustomPagerAdapter extends PagerAdapter {
@@ -52,9 +54,13 @@ public class MyCustomPagerAdapter extends PagerAdapter {
         ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
         //ImageView imageView = new ImageView(context);
         r.moveToPosition(position);
-        imageView.setImageURI(Uri.parse(r.getString(r.getColumnIndex(Contract.Documents.COLUMN_URI))));
+        try {
+            imageView.setImageURI(FileProvider.getUriForFile(this.context, "com.bellatrix.aditi.documentorganizer", new File((r.getString(r.getColumnIndex(Contract.Documents.COLUMN_IMAGE))))));
+        }
+        catch (Exception e)
+        {
 
-
+        }
 
         container.addView(itemView);
 

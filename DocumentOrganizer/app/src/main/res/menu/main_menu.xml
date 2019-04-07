@@ -1,15 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:support="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.bellatrix.aditi.documentorganizer.MainActivity">
 
-
-    <!--
-      To use ShareActionProvider, we reference the class by set the
-      support:actionProviderClass attribute with the full class name of ShareActionProvider.
-    -->
     <item
-        android:id="@+id/menu_share"
-        android:title="@string/menu_share"
-        support:actionProviderClass="android.support.v7.widget.ShareActionProvider"
-        support:showAsAction="always" />
+        android:id="@+id/action_details"
+        android:title="@string/action_details"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_description_black_24dp"
+        app:actionViewClass="android.support.v7.widget.SearchView"/>
+
 </menu>
