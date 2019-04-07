@@ -6,8 +6,8 @@
     <item
         android:id="@+id/action_details"
         android:title="@string/action_details"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         android:icon="@drawable/ic_description_black_24dp"
-        app:actionViewClass="android.support.v7.widget.SearchView"/>
+        />
 
 </menu>

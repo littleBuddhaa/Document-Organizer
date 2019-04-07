@@ -24,7 +24,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
 
-        final String SQL_CREATE_DOCUMENT_TABLE="CREATE TABLE " +""+ Documents.TABLE_NAME +""+ " (" +
+        final String SQL_CREATE_DOCUMENT_TABLE="CREATE TABLE " + Documents.TABLE_NAME + " (" +
                 Documents.COLUMN_TITLE + " TEXT NOT NULL," +
                 Documents.COLUMN_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP," +
                 Documents.COLUMN_IMAGE + " BLOB NOT NULL," +

@@ -19,7 +19,7 @@ import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
 import static android.provider.MediaStore.Audio.Playlists.Members._ID;
 
 public class ImageDetailsActivity extends AppCompatActivity {
-
+    LinearLayout linearLayout;
     private static String folderName;
     private Cursor mCursor,cursor;
     private int index;
@@ -51,10 +51,11 @@ public class ImageDetailsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch(item.getItemId())
         {
             case R.id.action_details:
-                LinearLayout linearLayout = (LinearLayout) findViewById(R.id.mainLayout);
+                 linearLayout = (LinearLayout) findViewById(R.id.mainLayout);
                 linearLayout.setOrientation(LinearLayout.VERTICAL);
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(ImageDetailsActivity.this);
                 long id = mCursor.getLong(mCursor.getColumnIndex(_ID));
