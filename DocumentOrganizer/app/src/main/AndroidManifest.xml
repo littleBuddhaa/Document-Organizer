@@ -50,6 +50,8 @@
 
 
         <activity android:name=".ViewImageActivity" />
+
+
         <activity android:name=".AddImageActivity" />
         <activity android:name=".BillsDetailsActivity" />
         <activity android:name=".MedicalDetailsActivity" />
