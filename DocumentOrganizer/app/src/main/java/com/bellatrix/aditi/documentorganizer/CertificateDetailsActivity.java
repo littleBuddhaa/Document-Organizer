@@ -19,13 +19,15 @@ import com.bellatrix.aditi.documentorganizer.Utilities.CommonFunctions;
 import java.util.Collections;
 
 import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.CERTIFICATE_SUB_CATEGORIES_2;
+import static java.sql.Types.NULL;
 
-public class CertificateDetailsActivity extends AppCompatActivity {
+public class
+CertificateDetailsActivity extends AppCompatActivity {
 
     private static final String TAG = CertificateDetailsActivity.class.getSimpleName();
     private static final int ADD_DETAILS_RESULT_CODE = 50;
     private byte[] img;
-    private final String folderName = "Certificates & Marksheets";
+    private final String folderName = "Certificates";
 
     private EditText imageTitle, holderName, institution, achievement;
     private LinearLayout type2;
@@ -93,9 +95,9 @@ public class CertificateDetailsActivity extends AppCompatActivity {
     private void handleData() {
 
         // insertion in global table
-        long id = DBQueries.insertDocument(CertificateDetailsActivity.this,img,
+        DBQueries.insertDocument(CertificateDetailsActivity.this,NULL,img,
                 imageTitle.getText().toString(),folderName,uri.toString());
-
+        long id = DBQueries.getLastId(this);
         // insertion in the table for the folder
         String val1=((RadioButton)findViewById(radioGroup1.getCheckedRadioButtonId())).getText().toString();
         String val2="";

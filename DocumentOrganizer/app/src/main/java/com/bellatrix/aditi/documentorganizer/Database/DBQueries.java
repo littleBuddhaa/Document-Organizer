@@ -12,13 +12,13 @@ import java.text.SimpleDateFormat;
  */
 
 public class DBQueries {
-    public static long insertDocument(Context c,byte[] img, String title, String folderName, String uri) {
+    public static long insertDocument(Context c,long id,byte[] img, String title, String folderName, String uri) {
 
         DBHelper dbHelper = new DBHelper(c);
         SQLiteDatabase sdb = dbHelper.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
-
+        cv.put(Contract.Documents.COLUMN_ID, id);
 
         cv.put(Contract.Documents.COLUMN_TITLE, title);
         cv.put(Contract.Documents.COLUMN_IMAGE,img);
@@ -186,6 +186,16 @@ public class DBQueries {
         SQLiteDatabase sdb = dbHelper.getReadableDatabase();
 
         Cursor resultSet = sdb.rawQuery("Select * from "+tableName+" where ID = "+id+";",null);
+        resultSet.moveToFirst();
         return resultSet;
+    }
+    public static long getLastId(Context c) {
+        DBHelper dbHelper = new DBHelper(c);
+        SQLiteDatabase sdb = dbHelper.getReadableDatabase();
+        Cursor cursor = sdb.rawQuery("select * from Documents;",null);
+        cursor.moveToLast();
+        long id = cursor.getLong(cursor.getColumnIndex("ID"));
+        cursor.close();
+        return id;
     }
 }

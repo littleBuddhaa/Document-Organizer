@@ -15,6 +15,7 @@ public class Contract {
         public static final String COLUMN_IMAGE = "Image";
         public static final String COLUMN_CATEGORY = "Category";
         public static final String COLUMN_URI = "Uri";
+        public static final String COLUMN_ID = "ID";
     }
 
     public static class Folders implements BaseColumns {

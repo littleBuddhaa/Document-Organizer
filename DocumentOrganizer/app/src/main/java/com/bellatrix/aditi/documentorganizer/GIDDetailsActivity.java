@@ -16,13 +16,14 @@ import com.bellatrix.aditi.documentorganizer.Utilities.CommonFunctions;
 import java.util.Collections;
 
 import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.GID_SUB_CATEGORIES_1;
+import static java.sql.Types.NULL;
 
 public class GIDDetailsActivity extends AppCompatActivity {
 
     private static final String TAG = GIDDetailsActivity.class.getSimpleName();
     private static final int ADD_DETAILS_RESULT_CODE = 50;
     private byte[] img;
-    private final String folderName = "Government issued documents";
+    private final String folderName = "GovernmentIssued";
 
     private EditText imageTitle, holderName;
     private RadioGroup radioGroup;
@@ -69,9 +70,9 @@ public class GIDDetailsActivity extends AppCompatActivity {
     private void handleData() {
 
         // insertion in global table
-        long id = DBQueries.insertDocument(GIDDetailsActivity.this,img,
+         DBQueries.insertDocument(GIDDetailsActivity.this,NULL,img,
                 imageTitle.getText().toString(),folderName,uri.toString());
-
+        long id = DBQueries.getLastId(this);
         // insertion in the table for the folder
         String val=((RadioButton)findViewById(radioGroup.getCheckedRadioButtonId())).getText().toString();;
 

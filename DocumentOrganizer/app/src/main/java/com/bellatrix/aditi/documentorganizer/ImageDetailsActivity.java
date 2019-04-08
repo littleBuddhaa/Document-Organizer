@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,7 +36,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
         //ImageView ImageView = (ImageView) findViewById(R.id.imageView);
      //   Uri uri =  Uri.parse(getIntent().getExtras().getString("imageUri"));
        // ImageView.setImageURI(uri);
-        folderName = getIntent().getStringExtra("folderName");
+        folderName = getIntent().getExtras().getString("folderName");
 
          index = getIntent().getIntExtra("cIndex",0);
         mCursor = DBQueries.getImageByFolder(ImageDetailsActivity.this, folderName);
@@ -55,46 +56,49 @@ public class ImageDetailsActivity extends AppCompatActivity {
         switch(item.getItemId())
         {
             case R.id.action_details:
-                 linearLayout = (LinearLayout) findViewById(R.id.mainLayout);
-                linearLayout.setOrientation(LinearLayout.VERTICAL);
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(ImageDetailsActivity.this);
-                long id = mCursor.getLong(mCursor.getColumnIndex(_ID));
-                cursor =  DBQueries.getImageById(ImageDetailsActivity.this, folderName,id);
 
+             //   linearLayout.setOrientation(LinearLayout.VERTICAL);
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(ImageDetailsActivity.this);
+                long id = mCursor.getLong(mCursor.getColumnIndex("ID"));
+                cursor =  DBQueries.getImageById(ImageDetailsActivity.this, folderName,id);
+                Log.d("myTag","hello "+cursor.getString(cursor.getColumnIndex("PurchaseDate")));
                 View mview = getLayoutInflater().inflate(R.layout.image_details_dialog,null);
+
+                linearLayout = (LinearLayout) mview.findViewById(R.id.mainLayout);
                 switch (folderName)
                 {
-                    case "Bills & Receipts":
+                    case "BNR":
 
                         for( int i = 1; i < 7; i++ )
                         {
                             TextView textView = new TextView(this);
                             String str1 = cursor.getString(i);
-                            if(!str1.equals("")) {
+
+                            if(str1!=null) {
                                 textView.setText(cursor.getColumnName(i) + "  :  " + str1);
                                 linearLayout.addView(textView);
                             }
 
                         }
                         break;
-                    case "Medical records":
+                    case "MedicalRecords":
                         for( int i = 1; i < 6; i++ )
                         {
                             TextView textView = new TextView(this);
                             String str1 = cursor.getString(i);
-                            if(!str1.equals("")) {
+                            if(str1!=null) {
                                 textView.setText(cursor.getColumnName(i) + "  :  " + str1);
                                 linearLayout.addView(textView);
                             }
 
                         }
                         break;
-                    case "Government issued documents":
+                    case "GovernmentIssued":
                         for( int i = 1; i < 4; i++ )
                         {
                             TextView textView = new TextView(this);
                             String str1 = cursor.getString(i);
-                            if(!str1.equals("")) {
+                            if(str1!=null) {
                                 textView.setText(cursor.getColumnName(i) + "  :  " + str1);
                                 linearLayout.addView(textView);
                             }
@@ -106,19 +110,19 @@ public class ImageDetailsActivity extends AppCompatActivity {
                         {
                             TextView textView = new TextView(this);
                             String str1 = cursor.getString(i);
-                            if(!str1.equals("")) {
+                            if(str1!=null) {
                                 textView.setText(cursor.getColumnName(i) + "  :  " + str1);
                                 linearLayout.addView(textView);
                             }
 
                         }
                         break;
-                    case "Certificates & Marksheets":
+                    case "Certificates":
                         for( int i = 3; i < 7; i++ )
                         {
                             TextView textView = new TextView(this);
                             String str1 = cursor.getString(i);
-                            if(!str1.equals("")) {
+                            if(str1!=null) {
                                 textView.setText(cursor.getColumnName(i) + "  :  " + str1);
                                 linearLayout.addView(textView);
                             }
@@ -128,7 +132,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
                     default:
                         TextView textView = new TextView(this);
                         String str1 = cursor.getString(cursor.getColumnIndex("CustomTags"));
-                        if(!str1.equals("")) {
+                        if(str1!=null) {
                             textView.setText(cursor.getColumnName(cursor.getColumnIndex("CustomTags")) + "  :  " + str1);
                             linearLayout.addView(textView);
                         }
