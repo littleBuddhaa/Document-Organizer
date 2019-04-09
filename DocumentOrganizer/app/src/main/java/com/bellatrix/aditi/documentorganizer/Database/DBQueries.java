@@ -18,7 +18,7 @@ public class DBQueries {
         SQLiteDatabase sdb = dbHelper.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
-        cv.put(Contract.Documents.COLUMN_ID, id);
+
 
         cv.put(Contract.Documents.COLUMN_TITLE, title);
         cv.put(Contract.Documents.COLUMN_IMAGE,img);

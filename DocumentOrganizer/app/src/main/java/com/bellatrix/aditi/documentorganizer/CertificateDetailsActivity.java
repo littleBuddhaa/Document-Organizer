@@ -95,9 +95,9 @@ CertificateDetailsActivity extends AppCompatActivity {
     private void handleData() {
 
         // insertion in global table
-        DBQueries.insertDocument(CertificateDetailsActivity.this,NULL,img,
+        long id =DBQueries.insertDocument(CertificateDetailsActivity.this,NULL,img,
                 imageTitle.getText().toString(),folderName,uri.toString());
-        long id = DBQueries.getLastId(this);
+       // long id = DBQueries.getLastId(this);
         // insertion in the table for the folder
         String val1=((RadioButton)findViewById(radioGroup1.getCheckedRadioButtonId())).getText().toString();
         String val2="";
