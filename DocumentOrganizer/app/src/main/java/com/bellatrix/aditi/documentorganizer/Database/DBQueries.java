@@ -51,7 +51,7 @@ public class DBQueries {
             cv.put(Contract.BNR.COLUMN_TOTAL, total);
         if(!enterprise.equals(""))
             cv.put(Contract.BNR.COLUMN_ENTERPRISE, enterprise);
-        long retVal= sdb.insert(Contract.BNR.TABLE_NAME,null,cv);
+        long retVal= sdb.insert("\'"+Contract.BNR.TABLE_NAME+"\'",null,cv);
         sdb.close();
         return retVal;
     }
@@ -74,7 +74,7 @@ public class DBQueries {
             cv.put(Contract.Medical.COLUMN_PATIENT, patientName);
         if(!institution.equals(""))
             cv.put(Contract.Medical.COLUMN_INSTITUTION, institution);
-        long retVal= sdb.insert(Contract.Medical.TABLE_NAME,null,cv);
+        long retVal= sdb.insert("\'"+Contract.Medical.TABLE_NAME+"\'",null,cv);
         sdb.close();
         return retVal;
     }
@@ -90,7 +90,7 @@ public class DBQueries {
             cv.put(Contract.GID.COLUMN_TYPE, type);
         if(!holderName.equals(""))
             cv.put(Contract.GID.COLUMN_HOLDER_NAME, holderName);
-        long retVal= sdb.insert(Contract.GID.TABLE_NAME,null,cv);
+        long retVal= sdb.insert("\'"+Contract.GID.TABLE_NAME+"\'",null,cv);
         sdb.close();
         return retVal;
     }
@@ -113,7 +113,7 @@ public class DBQueries {
             cv.put(Contract.Certificates.COLUMN_INSTITUTION, institution);
         if(!achievement.equals(""))
             cv.put(Contract.Certificates.COLUMN_ACHIEVEMENT, achievement);
-        long retVal= sdb.insert(Contract.Certificates.TABLE_NAME,null,cv);
+        long retVal= sdb.insert("\'"+Contract.Certificates.TABLE_NAME+"\'",null,cv);
         sdb.close();
         return retVal;
     }
@@ -128,7 +128,7 @@ public class DBQueries {
         if(!tags.equals(""))
             cv.put("CustomTags", tags);
 
-        long retVal= sdb.insert(folderName,null,cv);
+        long retVal= sdb.insert("\'"+folderName+"\'",null,cv);
         sdb.close();
         return retVal;
     }
@@ -185,7 +185,7 @@ public class DBQueries {
         DBHelper dbHelper = new DBHelper(c);
         SQLiteDatabase sdb = dbHelper.getReadableDatabase();
 
-        Cursor resultSet = sdb.rawQuery("Select * from "+tableName+" where ID = "+id+";",null);
+        Cursor resultSet = sdb.rawQuery("Select * from "+"\'"+tableName+"\'"+" where ID = "+id+";",null);
         resultSet.moveToFirst();
         return resultSet;
     }

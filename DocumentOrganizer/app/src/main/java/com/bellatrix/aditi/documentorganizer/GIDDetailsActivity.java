@@ -23,7 +23,7 @@ public class GIDDetailsActivity extends AppCompatActivity {
     private static final String TAG = GIDDetailsActivity.class.getSimpleName();
     private static final int ADD_DETAILS_RESULT_CODE = 50;
     private byte[] img;
-    private final String folderName = "GovernmentIssued";
+    private final String folderName = "Government issued documents";
 
     private EditText imageTitle, holderName;
     private RadioGroup radioGroup;

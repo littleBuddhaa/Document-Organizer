@@ -26,7 +26,7 @@ public class MedicalDetailsActivity extends AppCompatActivity {
     private static final String TAG = MedicalDetailsActivity.class.getSimpleName();
     private static final int ADD_DETAILS_RESULT_CODE = 50;
     private byte[] img;
-    private final String folderName = "MedicalRecords";
+    private final String folderName = "Medical records";
 
     private EditText issuedDate, imageTitle, patientName, institution;
     private ImageButton datePicker;

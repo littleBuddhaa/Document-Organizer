@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,8 +15,6 @@ import android.widget.TextView;
 
 import com.bellatrix.aditi.documentorganizer.Database.Contract;
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
-
-import static android.provider.MediaStore.Audio.Playlists.Members._ID;
 
 public class ImageDetailsActivity extends AppCompatActivity {
     LinearLayout linearLayout;
@@ -61,13 +58,13 @@ public class ImageDetailsActivity extends AppCompatActivity {
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(ImageDetailsActivity.this);
                 long id = mCursor.getLong(mCursor.getColumnIndex("ID"));
                 cursor =  DBQueries.getImageById(ImageDetailsActivity.this, folderName,id);
-                Log.d("myTag","hello "+cursor.getString(cursor.getColumnIndex("PurchaseDate")));
+
                 View mview = getLayoutInflater().inflate(R.layout.image_details_dialog,null);
 
                 linearLayout = (LinearLayout) mview.findViewById(R.id.mainLayout);
                 switch (folderName)
                 {
-                    case "BNR":
+                    case "Bills & Receipts":
 
                         for( int i = 1; i < 7; i++ )
                         {
@@ -81,7 +78,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
 
                         }
                         break;
-                    case "MedicalRecords":
+                    case "Medical records":
                         for( int i = 1; i < 6; i++ )
                         {
                             TextView textView = new TextView(this);
@@ -93,7 +90,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
 
                         }
                         break;
-                    case "GovernmentIssued":
+                    case "Government issued documents":
                         for( int i = 1; i < 4; i++ )
                         {
                             TextView textView = new TextView(this);

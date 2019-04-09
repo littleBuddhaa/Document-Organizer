@@ -10,9 +10,9 @@ import java.util.Arrays;
 public class Constants {
 
     public static ArrayList<Folder> FOLDERS = new ArrayList<Folder>(
-            Arrays.asList(new Folder("BNR", "#4B236E"),
-                    new Folder("MedicalRecords","#EF971C"),
-                    new Folder("GovernmentIssued","#A5E6BA"),
+            Arrays.asList(new Folder("Bills & Receipts", "#4B236E"),
+                    new Folder("Medical records","#EF971C"),
+                    new Folder("Government issued documents","#A5E6BA"),
                     new Folder("Handwritten","#9AC6C5"),
                     new Folder("Certificates", "#A38DBA")));
 
