@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
 import com.bellatrix.aditi.documentorganizer.Utilities.CommonFunctions;
@@ -33,10 +34,10 @@ public class BillsDetailsActivity extends AppCompatActivity implements DialogPro
     private byte[] img;
     private final String folderName = "Bills & Receipts";
 
-    private EditText purchaseDate, imageTitle, total, enterprise;
+    private EditText purchaseDate, imageTitle, total, enterprise, customTags; //newly added
     private ImageButton datePicker;
     private LinearLayout productType, productName;
-    private Button backButton, finishButton, addMoreProductType, addMoreProductName;
+    private Button backButton, finishButton, addMoreProductType, addMoreProductName; //newly added
     private ArrayList<CheckBox> checkBox1, checkBox2;
     String pName, pType;
     String textRecognized;
@@ -55,12 +56,13 @@ public class BillsDetailsActivity extends AppCompatActivity implements DialogPro
         purchaseDate = (EditText)findViewById(R.id.et_purchase_date);
         imageTitle = (EditText)findViewById(R.id.et_image_title);
         total = (EditText)findViewById(R.id.et_total);
+        customTags = (EditText)findViewById(R.id.et_custom_tags); //newly added
         enterprise = (EditText)findViewById(R.id.et_enterprise);
         datePicker = (ImageButton)findViewById(R.id.date_picker_button);
         productName = (LinearLayout) findViewById(R.id.ll_product_name);
         productType = (LinearLayout) findViewById(R.id.ll_product_type);
-        addMoreProductType = (Button)findViewById(R.id.btn_product_type);
-        addMoreProductName = (Button)findViewById(R.id.btn_product_name);
+        addMoreProductType = (Button)findViewById(R.id.btn_product_type); //newly
+        addMoreProductName = (Button)findViewById(R.id.btn_product_name); //mewly
         backButton = (Button)findViewById(R.id.back_button);
 
         finishButton = (Button)findViewById(R.id.finish_button);
@@ -164,7 +166,10 @@ public class BillsDetailsActivity extends AppCompatActivity implements DialogPro
             val1 = val1.substring(0,val1.length()-1);
         if(val2.length()>1)
             val2 = val2.substring(0,val2.length()-1);
-
+        //Toast.makeText(getApplicationContext(),val1, Toast.LENGTH_LONG).show();
+       // Toast.makeText(getApplicationContext(),val2, Toast.LENGTH_LONG).show();
+        //System.out.println(val1);
+        //System.out.println(val2);
         DBQueries.insertBNR(this,
                 id,purchaseDate.getText().toString(),
                 val1,val2,
@@ -223,6 +228,6 @@ public class BillsDetailsActivity extends AppCompatActivity implements DialogPro
        // addMoreProductName.setText(pname); //only for see if correct value is being received
         pName = pname;
         BNR_SUB_CATEGORIES_2.add(pName);
-        newSetCheckBoxes2(pName);
+        newSetCheckBoxes2(pname);
     }
 }

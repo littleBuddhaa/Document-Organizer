@@ -51,6 +51,9 @@
         <activity android:name=".GIDDetailsActivity" />
         <activity android:name=".CertificateDetailsActivity" />
         <activity android:name=".OtherCategoryDetailsActivity"></activity>
+
+
+        
     </application>
 
 </manifest>
