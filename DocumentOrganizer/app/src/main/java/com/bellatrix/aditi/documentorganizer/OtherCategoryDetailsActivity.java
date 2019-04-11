@@ -51,7 +51,11 @@ public class OtherCategoryDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 handleData();
+
                 setResult(ADD_DETAILS_RESULT_CODE);
+                Intent intent = new Intent(OtherCategoryDetailsActivity.this, ViewImageActivity.class);
+                intent.putExtra("folderName", folderName);
+                startActivity(intent);
                 finish();
             }
         });
@@ -65,9 +69,5 @@ public class OtherCategoryDetailsActivity extends AppCompatActivity {
 
         DBQueries.insertIntoFolder(OtherCategoryDetailsActivity.this,
                 folderName,id,"");
-
-        Intent intent = new Intent(OtherCategoryDetailsActivity.this, ViewImageActivity.class);
-        intent.putExtra("folderName", folderName);
-        startActivity(intent);
     }
 }

@@ -84,7 +84,11 @@ public class CertificateDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 handleData();
+
                 setResult(ADD_DETAILS_RESULT_CODE);
+                Intent intent = new Intent(CertificateDetailsActivity.this, ViewImageActivity.class);
+                intent.putExtra("folderName", folderName);
+                startActivity(intent);
                 finish();
             }
         });
@@ -97,21 +101,20 @@ public class CertificateDetailsActivity extends AppCompatActivity {
                 imageTitle.getText().toString(),folderName);
 
         // insertion in the table for the folder
-        String val1=((RadioButton)findViewById(radioGroup1.getCheckedRadioButtonId())).getText().toString();
-        String val2="";
+        String val1="", val2="";
+        RadioButton button1, button2;
+        if((button1=(RadioButton)findViewById(radioGroup1.getCheckedRadioButtonId()))!=null)
+            val1 = button1.getText().toString();
 
         if(val1.equals("Marksheet")) {
-            val2=((RadioButton)findViewById(radioGroup2.getCheckedRadioButtonId())).getText().toString();
+            if((button2=(RadioButton)findViewById(radioGroup2.getCheckedRadioButtonId()))!=null)
+                val2 = button2.getText().toString();
         }
 
         DBQueries.insertCertificate(CertificateDetailsActivity.this,
                 id,val1,val2,
                 holderName.getText().toString(),institution.getText().toString(),
                 achievement.getText().toString());
-
-        Intent intent = new Intent(CertificateDetailsActivity.this, ViewImageActivity.class);
-        intent.putExtra("folderName", folderName);
-        startActivity(intent);
     }
 
     private void setRadioGroup() {
