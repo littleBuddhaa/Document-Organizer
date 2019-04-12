@@ -1,11 +1,13 @@
 package com.bellatrix.aditi.documentorganizer;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.bellatrix.aditi.documentorganizer.Database.Contract;
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
 
 public class ViewImageActivity extends AppCompatActivity implements ImageAdapter.onListItemClickLister{
@@ -41,6 +43,15 @@ public class ViewImageActivity extends AppCompatActivity implements ImageAdapter
     @Override
     public void onListItemClick(int index) {
         // TODO: view details of image
+        if (!mCursor.moveToPosition(index))
+            return; // bail if returned null*/
+
+        String uri = mCursor.getString(mCursor.getColumnIndex(Contract.Documents.COLUMN_URI));
+        Intent intent = new Intent(ViewImageActivity.this, ImageDetailsActivity.class);
+//        intent.putExtra("imageUri",uri );
+        intent.putExtra("folderName",folderName);
+        intent.putExtra("cIndex",index);
+        startActivity(intent);
     }
 
     // TODO: Check if memory leak for database is stopped

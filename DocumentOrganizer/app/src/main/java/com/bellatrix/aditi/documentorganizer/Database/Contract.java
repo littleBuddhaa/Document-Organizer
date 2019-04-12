@@ -5,7 +5,6 @@ import android.provider.BaseColumns;
 /**
  * Created by Aditi on 16-02-2019.
  */
-
 public class Contract {
     private Contract(){}
 
@@ -15,6 +14,7 @@ public class Contract {
         public static final String COLUMN_DATE = "Time";
         public static final String COLUMN_IMAGE = "Image";
         public static final String COLUMN_CATEGORY = "Category";
+        public static final String COLUMN_URI = "Uri";
     }
 
     public static class Folders implements BaseColumns {

@@ -31,13 +31,13 @@ public class MedicalDetailsActivity extends AppCompatActivity {
     private ImageButton datePicker;
     private RadioGroup radioGroup;
     private Button backButton, finishButton;
-
+    private Uri uri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medical_details);
 
-        Uri uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
+        uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
         int quality = getIntent().getExtras().getInt("imageQuality");
         img = CommonFunctions.uriToBytes(this,uri,TAG,quality);
 
@@ -100,7 +100,7 @@ public class MedicalDetailsActivity extends AppCompatActivity {
 
         // insertion in global table
         long id = DBQueries.insertDocument(MedicalDetailsActivity.this,img,
-                imageTitle.getText().toString(),folderName);
+                imageTitle.getText().toString(),folderName,uri.toString());
 
         // insertion in the table for the folder
         String val="";

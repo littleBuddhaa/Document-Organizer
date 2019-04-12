@@ -2,12 +2,11 @@ package com.bellatrix.aditi.documentorganizer;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
 import com.bellatrix.aditi.documentorganizer.Utilities.CommonFunctions;
@@ -21,13 +20,13 @@ public class OtherCategoryDetailsActivity extends AppCompatActivity {
 
     private EditText imageTitle;
     private Button backButton, finishButton;
-
+    private  Uri uri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other_category_details);
 
-        Uri uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
+        uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
         int quality = getIntent().getExtras().getInt("imageQuality");
         img = CommonFunctions.uriToBytes(this,uri,TAG,quality);
         folderName = getIntent().getExtras().getString("folderName");
@@ -65,7 +64,7 @@ public class OtherCategoryDetailsActivity extends AppCompatActivity {
 
         // insertion in global table
         long id = DBQueries.insertDocument(OtherCategoryDetailsActivity.this,img,
-                imageTitle.getText().toString(),folderName);
+                imageTitle.getText().toString(),folderName,uri.toString());
 
         DBQueries.insertIntoFolder(OtherCategoryDetailsActivity.this,
                 folderName,id,"");

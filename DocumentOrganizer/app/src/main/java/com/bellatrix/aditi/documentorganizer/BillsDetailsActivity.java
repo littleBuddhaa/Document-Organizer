@@ -35,13 +35,14 @@ public class BillsDetailsActivity extends AppCompatActivity {
     private LinearLayout productType, productName;
     private Button backButton, finishButton;
     private ArrayList<CheckBox> checkBox1, checkBox2;
+    private Uri uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bills_details);
 
-        Uri uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
+        uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
         int quality = getIntent().getExtras().getInt("imageQuality");
         img = CommonFunctions.uriToBytes(this,uri,TAG,quality);
 
@@ -107,7 +108,7 @@ public class BillsDetailsActivity extends AppCompatActivity {
 
         // insertion in global table
         long id = DBQueries.insertDocument(this,img,
-                imageTitle.getText().toString(),folderName);
+                imageTitle.getText().toString(),folderName,uri.toString());
 
         // insertion in the table for the folder
         String val1="", val2="";
