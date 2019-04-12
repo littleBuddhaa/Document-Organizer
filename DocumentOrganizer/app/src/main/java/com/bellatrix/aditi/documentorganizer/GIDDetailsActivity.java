@@ -16,6 +16,7 @@ import com.bellatrix.aditi.documentorganizer.Utilities.CommonFunctions;
 import java.util.Collections;
 
 import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.GID_SUB_CATEGORIES_1;
+import static java.sql.Types.NULL;
 
 public class GIDDetailsActivity extends AppCompatActivity {
 
@@ -73,9 +74,9 @@ public class GIDDetailsActivity extends AppCompatActivity {
     private void handleData() {
 
         // insertion in global table
-        long id = DBQueries.insertDocument(GIDDetailsActivity.this,img,
+        long id =  DBQueries.insertDocument(GIDDetailsActivity.this,NULL,img,
                 imageTitle.getText().toString(),folderName,uri.toString());
-
+        //long id = DBQueries.getLastId(this);
         // insertion in the table for the folder
         String val="";
         RadioButton button;

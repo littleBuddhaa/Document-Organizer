@@ -19,6 +19,7 @@ import com.bellatrix.aditi.documentorganizer.Utilities.DateUtil;
 import java.util.Collections;
 
 import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.MEDICAL_SUB_CATEGORIES_1;
+import static java.sql.Types.NULL;
 
 public class MedicalDetailsActivity extends AppCompatActivity {
 
@@ -99,9 +100,9 @@ public class MedicalDetailsActivity extends AppCompatActivity {
     private void handleData() {
 
         // insertion in global table
-        long id = DBQueries.insertDocument(MedicalDetailsActivity.this,img,
+        long id = DBQueries.insertDocument(MedicalDetailsActivity.this,NULL,img,
                 imageTitle.getText().toString(),folderName,uri.toString());
-
+        //long id = DBQueries.getLastId(this);
         // insertion in the table for the folder
         String val="";
         RadioButton button;

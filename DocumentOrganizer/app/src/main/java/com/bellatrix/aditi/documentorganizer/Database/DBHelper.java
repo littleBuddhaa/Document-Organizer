@@ -14,7 +14,7 @@ import com.bellatrix.aditi.documentorganizer.Utilities.Folder;
 
 public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "DocumentsDatabase.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 8;
 
     public DBHelper(Context c){
         super(c, DATABASE_NAME, null, DATABASE_VERSION);
@@ -29,13 +29,14 @@ public class DBHelper extends SQLiteOpenHelper {
                 Documents.COLUMN_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP," +
                 Documents.COLUMN_IMAGE + " BLOB NOT NULL," +
                 Documents.COLUMN_CATEGORY + " TEXT," +
+                Documents.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"+
                 Documents.COLUMN_URI + " TEXT NOT NULL" + "); ";
 
         final String SQL_CREATE_FOLDER_TABLE="CREATE TABLE " + Folders.TABLE_NAME + " (" +
                 Folders.COLUMN_FOLDER_NAME + " TEXT NOT NULL," +
                 Folders.COLUMN_FOLDER_COLOR + " TEXT NOT NULL" +"); ";
 
-        final String SQL_CREATE_BNR_TABLE="CREATE TABLE " + BNR.TABLE_NAME + " (" +
+        final String SQL_CREATE_BNR_TABLE="CREATE TABLE " + "\'"+BNR.TABLE_NAME+"\'" + " (" +
                 BNR.COLUMN_ID + " INTEGER PRIMARY KEY," +
                 BNR.COLUMN_PURCHASE_DATE + " DATE," +
                 BNR.COLUMN_RECEIPT_TYPE + " TEXT," +
@@ -44,7 +45,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 BNR.COLUMN_ENTERPRISE + " TEXT," +
                 BNR.COLUMN_CUSTOM_TAGS + " TEXT" +"); ";
 
-        final String SQL_CREATE_MEDICAL_TABLE="CREATE TABLE " + Medical.TABLE_NAME + " (" +
+        final String SQL_CREATE_MEDICAL_TABLE="CREATE TABLE " +"\'"+ Medical.TABLE_NAME + "\'"+" (" +
                 Medical.COLUMN_ID + " INTEGER PRIMARY KEY," +
                 Medical.COLUMN_ISSUED_DATE + " DATE," +
                 Medical.COLUMN_TYPE + " TEXT," +
@@ -52,17 +53,17 @@ public class DBHelper extends SQLiteOpenHelper {
                 Medical.COLUMN_INSTITUTION + " TEXT," +
                 Medical.COLUMN_CUSTOM_TAGS + " TEXT" +"); ";
 
-        final String SQL_CREATE_GID_TABLE="CREATE TABLE " + GID.TABLE_NAME + " (" +
+        final String SQL_CREATE_GID_TABLE="CREATE TABLE " +"\'"+ GID.TABLE_NAME +"\'"+ " (" +
                 GID.COLUMN_ID + " INTEGER PRIMARY KEY," +
                 GID.COLUMN_TYPE + " TEXT," +
                 GID.COLUMN_HOLDER_NAME + " TEXT," +
                 GID.COLUMN_CUSTOM_TAGS + " TEXT" +"); ";
 
-        final String SQL_CREATE_HANDWRITTEN_TABLE="CREATE TABLE " + Handwritten.TABLE_NAME + " (" +
+        final String SQL_CREATE_HANDWRITTEN_TABLE="CREATE TABLE " + "\'"+Handwritten.TABLE_NAME +"\'"+ " (" +
                 Handwritten.COLUMN_ID + " INTEGER PRIMARY KEY," +
                 Handwritten.COLUMN_CUSTOM_TAGS + " TEXT" +"); ";
 
-        final String SQL_CREATE_CERTIFICATES_TABLE="CREATE TABLE " + Certificates.TABLE_NAME + " (" +
+        final String SQL_CREATE_CERTIFICATES_TABLE="CREATE TABLE " +"\'"+ Certificates.TABLE_NAME +"\'"+ " (" +
                 Certificates.COLUMN_ID + " INTEGER PRIMARY KEY," +
                 Certificates.COLUMN_TYPE1 + " TEXT," +
                 Certificates.COLUMN_TYPE2 + " TEXT," +
@@ -81,7 +82,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         // Insert values for predefined database
         for(Folder folder: Constants.FOLDERS) {
-            final String SQL_INSERT_FOLDER_TABLE = "INSERT INTO " + Folders.TABLE_NAME + " VALUES ("+
+            final String SQL_INSERT_FOLDER_TABLE = "INSERT INTO " + "\'"+Folders.TABLE_NAME +"\'"+ " VALUES ("+
                     "\"" + folder.folderName + "\"," +
                     "\"" + folder.color + "\")";
             db.execSQL(SQL_INSERT_FOLDER_TABLE);

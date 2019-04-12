@@ -11,6 +11,8 @@ import android.widget.EditText;
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
 import com.bellatrix.aditi.documentorganizer.Utilities.CommonFunctions;
 
+import static java.sql.Types.NULL;
+
 public class OtherCategoryDetailsActivity extends AppCompatActivity {
 
     private static final String TAG = OtherCategoryDetailsActivity.class.getSimpleName();
@@ -63,9 +65,9 @@ public class OtherCategoryDetailsActivity extends AppCompatActivity {
     private void handleData() {
 
         // insertion in global table
-        long id = DBQueries.insertDocument(OtherCategoryDetailsActivity.this,img,
+        long id = DBQueries.insertDocument(OtherCategoryDetailsActivity.this,NULL,img,
                 imageTitle.getText().toString(),folderName,uri.toString());
-
+        // DBQueries.getLastId(this);
         DBQueries.insertIntoFolder(OtherCategoryDetailsActivity.this,
                 folderName,id,"");
     }

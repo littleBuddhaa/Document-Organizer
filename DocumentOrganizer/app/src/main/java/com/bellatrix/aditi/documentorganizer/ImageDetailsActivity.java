@@ -21,9 +21,11 @@ import android.widget.TextView;
 import com.bellatrix.aditi.documentorganizer.Database.Contract;
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
 
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
 
 public class ImageDetailsActivity extends AppCompatActivity {
     LinearLayout linearLayout;
@@ -45,7 +47,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
         //ImageView ImageView = (ImageView) findViewById(R.id.imageView);
      //   Uri uri =  Uri.parse(getIntent().getExtras().getString("imageUri"));
        // ImageView.setImageURI(uri);
-        folderName = getIntent().getStringExtra("folderName");
+        folderName = getIntent().getExtras().getString("folderName");
 
          index = getIntent().getIntExtra("cIndex",0);
         mCursor = DBQueries.getImageByFolder(ImageDetailsActivity.this, folderName);
@@ -58,6 +60,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
 
         //sharingg
        // MenuItem item = findViewById(R.id.menu_share);
+
 
 
 
@@ -102,6 +105,45 @@ public class ImageDetailsActivity extends AppCompatActivity {
 
 
     }
+    private void shareMyImage(){
+
+        byte[] byteArray = mCursor.getBlob(mCursor.getColumnIndex(Contract.Documents.COLUMN_IMAGE));
+
+        Bitmap bm = BitmapFactory.decodeByteArray(byteArray, 0 ,byteArray.length);
+
+        String name = mCursor.getString(mCursor.getColumnIndex(Contract.Documents.COLUMN_TITLE));
+
+
+        try {
+
+            File cachePath = new File(getCacheDir(), "images");
+            cachePath.mkdirs(); // don't forget to make the directory
+            //FileOutputStream stream = new FileOutputStream(cachePath + "/" + name  + ".png"); // overwrites this image every time
+            FileOutputStream stream = new FileOutputStream(cachePath + "/image.png");
+            bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            stream.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        File imagePath = new File(getCacheDir(), "images");
+        File newFile = new File(imagePath, "image.png");
+        Uri contentUri = FileProvider.getUriForFile(ImageDetailsActivity.this, "com.bellatrix.aditi.fileprovider", newFile);
+
+        if (contentUri != null) {
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
+            shareIntent.setDataAndType(contentUri, getContentResolver().getType(contentUri));
+            shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+            startActivity(Intent.createChooser(shareIntent, "Choose an app"));
+        }
+
+
+
+    }
+
 
 
 
@@ -124,13 +166,17 @@ public class ImageDetailsActivity extends AppCompatActivity {
         switch(item.getItemId())
         {
             case R.id.action_details:
-                 linearLayout = (LinearLayout) findViewById(R.id.mainLayout);
-               // linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+
+             //   linearLayout.setOrientation(LinearLayout.VERTICAL);
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(ImageDetailsActivity.this);
-                long id = mCursor.getLong(mCursor.getColumnIndex("_ID"));
+                long id = mCursor.getLong(mCursor.getColumnIndex("ID"));
+
                 cursor =  DBQueries.getImageById(ImageDetailsActivity.this, folderName,id);
 
                 View mview = getLayoutInflater().inflate(R.layout.image_details_dialog,null);
+
+                linearLayout = (LinearLayout) mview.findViewById(R.id.mainLayout);
                 switch (folderName)
                 {
                     case "Bills & Receipts":
@@ -139,7 +185,8 @@ public class ImageDetailsActivity extends AppCompatActivity {
                         {
                             TextView textView = new TextView(this);
                             String str1 = cursor.getString(i);
-                            if(!str1.equals("")) {
+
+                            if(str1!=null) {
                                 textView.setText(cursor.getColumnName(i) + "  :  " + str1);
                                 linearLayout.addView(textView);
                             }
@@ -151,7 +198,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
                         {
                             TextView textView = new TextView(this);
                             String str1 = cursor.getString(i);
-                            if(!str1.equals("")) {
+                            if(str1!=null) {
                                 textView.setText(cursor.getColumnName(i) + "  :  " + str1);
                                 linearLayout.addView(textView);
                             }
@@ -163,7 +210,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
                         {
                             TextView textView = new TextView(this);
                             String str1 = cursor.getString(i);
-                            if(!str1.equals("")) {
+                            if(str1!=null) {
                                 textView.setText(cursor.getColumnName(i) + "  :  " + str1);
                                 linearLayout.addView(textView);
                             }
@@ -175,19 +222,19 @@ public class ImageDetailsActivity extends AppCompatActivity {
                         {
                             TextView textView = new TextView(this);
                             String str1 = cursor.getString(i);
-                            if(!str1.equals("")) {
+                            if(str1!=null) {
                                 textView.setText(cursor.getColumnName(i) + "  :  " + str1);
                                 linearLayout.addView(textView);
                             }
 
                         }
                         break;
-                    case "Certificates & Marksheets":
+                    case "Certificates":
                         for( int i = 3; i < 7; i++ )
                         {
                             TextView textView = new TextView(this);
                             String str1 = cursor.getString(i);
-                            if(!str1.equals("")) {
+                            if(str1!=null) {
                                 textView.setText(cursor.getColumnName(i) + "  :  " + str1);
                                 linearLayout.addView(textView);
                             }
@@ -197,7 +244,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
                     default:
                         TextView textView = new TextView(this);
                         String str1 = cursor.getString(cursor.getColumnIndex("CustomTags"));
-                        if(!str1.equals("")) {
+                        if(str1!=null) {
                             textView.setText(cursor.getColumnName(cursor.getColumnIndex("CustomTags")) + "  :  " + str1);
                             linearLayout.addView(textView);
                         }

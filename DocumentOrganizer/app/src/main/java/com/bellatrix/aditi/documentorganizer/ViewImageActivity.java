@@ -12,7 +12,7 @@ import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
 
 public class ViewImageActivity extends AppCompatActivity implements ImageAdapter.onListItemClickLister{
 
-    private String folderName;
+    private static String folderName;
     private Cursor mCursor;
 
     private ImageAdapter imageAdapter;
@@ -24,10 +24,10 @@ public class ViewImageActivity extends AppCompatActivity implements ImageAdapter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_image);
 
-        folderName = getIntent().getStringExtra("folderName");
+        folderName = getIntent().getExtras().getString("folderName");
 
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+  //      getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         mCursor = DBQueries.getImageByFolder(this, folderName);
 
