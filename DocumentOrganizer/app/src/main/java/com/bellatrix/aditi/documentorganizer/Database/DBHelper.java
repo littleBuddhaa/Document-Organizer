@@ -14,7 +14,7 @@ import com.bellatrix.aditi.documentorganizer.Utilities.Folder;
 
 public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "DocumentsDatabase.db";
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 8;
 
     public DBHelper(Context c){
         super(c, DATABASE_NAME, null, DATABASE_VERSION);

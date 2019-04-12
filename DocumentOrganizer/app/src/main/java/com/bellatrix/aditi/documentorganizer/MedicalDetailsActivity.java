@@ -85,8 +85,13 @@ public class MedicalDetailsActivity extends AppCompatActivity {
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 handleData();
+
                 setResult(ADD_DETAILS_RESULT_CODE);
+                Intent intent = new Intent(MedicalDetailsActivity.this, ViewImageActivity.class);
+                intent.putExtra("folderName", folderName);
+                startActivity(intent);
                 finish();
             }
         });
@@ -99,15 +104,14 @@ public class MedicalDetailsActivity extends AppCompatActivity {
                 imageTitle.getText().toString(),folderName,uri.toString());
         //long id = DBQueries.getLastId(this);
         // insertion in the table for the folder
-        String val=((RadioButton)findViewById(radioGroup.getCheckedRadioButtonId())).getText().toString();
+        String val="";
+        RadioButton button;
+        if((button=(RadioButton)findViewById(radioGroup.getCheckedRadioButtonId()))!=null)
+                val = button.getText().toString();
 
         DBQueries.insertMedical(MedicalDetailsActivity.this,
                 id,issuedDate.getText().toString(),val,
                 patientName.getText().toString(),institution.getText().toString());
-
-        Intent intent = new Intent(MedicalDetailsActivity.this, ViewImageActivity.class);
-        intent.putExtra("folderName", folderName);
-        startActivity(intent);
     }
 
     private void setRadioGroup() {

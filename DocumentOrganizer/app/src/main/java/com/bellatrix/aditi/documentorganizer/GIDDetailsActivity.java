@@ -61,7 +61,11 @@ public class GIDDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 handleData();
+
                 setResult(ADD_DETAILS_RESULT_CODE);
+                Intent intent = new Intent(GIDDetailsActivity.this, ViewImageActivity.class);
+                intent.putExtra("folderName", folderName);
+                startActivity(intent);
                 finish();
             }
         });
@@ -74,14 +78,13 @@ public class GIDDetailsActivity extends AppCompatActivity {
                 imageTitle.getText().toString(),folderName,uri.toString());
         //long id = DBQueries.getLastId(this);
         // insertion in the table for the folder
-        String val=((RadioButton)findViewById(radioGroup.getCheckedRadioButtonId())).getText().toString();;
+        String val="";
+        RadioButton button;
+        if((button=(RadioButton)findViewById(radioGroup.getCheckedRadioButtonId()))!=null)
+            val = button.getText().toString();
 
         DBQueries.insertGID(GIDDetailsActivity.this,
                 id,val,holderName.getText().toString());
-
-        Intent intent = new Intent(GIDDetailsActivity.this, ViewImageActivity.class);
-        intent.putExtra("folderName", folderName);
-        startActivity(intent);
     }
 
     private void setRadioGroup() {
