@@ -108,9 +108,8 @@ public class BillsDetailsActivity extends AppCompatActivity {
     private void handleData() {
 
         // insertion in global table
-        long id=DBQueries.insertDocument(this,NULL,img,
-                imageTitle.getText().toString(),folderName,uri.toString());
-        //long id = DBQueries.getLastId(this);
+        long id=DBQueries.insertDocument(this,NULL,img,imageTitle.getText().toString(),folderName);
+
         // insertion in the table for the folder
         String val1="", val2="";
         for(CheckBox checkBox: checkBox1) {

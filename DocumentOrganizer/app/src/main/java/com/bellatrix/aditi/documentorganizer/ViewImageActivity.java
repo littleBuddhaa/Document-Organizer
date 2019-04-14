@@ -46,9 +46,7 @@ public class ViewImageActivity extends AppCompatActivity implements ImageAdapter
         if (!mCursor.moveToPosition(index))
             return; // bail if returned null*/
 
-        String uri = mCursor.getString(mCursor.getColumnIndex(Contract.Documents.COLUMN_URI));
         Intent intent = new Intent(ViewImageActivity.this, ImageDetailsActivity.class);
-//        intent.putExtra("imageUri",uri );
         intent.putExtra("folderName",folderName);
         intent.putExtra("cIndex",index);
         startActivity(intent);

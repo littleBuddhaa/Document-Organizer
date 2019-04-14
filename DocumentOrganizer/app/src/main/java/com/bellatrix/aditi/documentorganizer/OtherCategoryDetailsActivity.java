@@ -66,8 +66,8 @@ public class OtherCategoryDetailsActivity extends AppCompatActivity {
 
         // insertion in global table
         long id = DBQueries.insertDocument(OtherCategoryDetailsActivity.this,NULL,img,
-                imageTitle.getText().toString(),folderName,uri.toString());
-        // DBQueries.getLastId(this);
+                imageTitle.getText().toString(),folderName);
+
         DBQueries.insertIntoFolder(OtherCategoryDetailsActivity.this,
                 folderName,id,"");
     }

@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -28,10 +29,15 @@ import java.io.IOException;
 
 
 public class ImageDetailsActivity extends AppCompatActivity {
-    LinearLayout linearLayout;
+
+//    private byte[] image;
+    private int index;
+    private Bitmap bmp;
+
+    private LinearLayout linearLayout;
     private static String folderName;
     private Cursor mCursor,cursor;
-    private int index;
+
     // Keep reference to the ShareActionProvider from the menu
     private ShareActionProvider shareActionProvider;
     private ShareActionProvider miShareAction;
@@ -55,7 +61,10 @@ public class ImageDetailsActivity extends AppCompatActivity {
         mCursor.moveToPosition(index);
          ImageView imgView = (ImageView) findViewById(R.id.iv);
 
-        imgView.setImageURI(Uri.parse((mCursor.getString(mCursor.getColumnIndex(Contract.Documents.COLUMN_URI)))));
+        byte[] image = mCursor.getBlob(mCursor.getColumnIndex(Contract.Documents.COLUMN_IMAGE));
+        bmp= BitmapFactory.decodeByteArray(image, 0 , image.length);
+
+        imgView.setImageBitmap(bmp);
         String url = mCursor.getString(mCursor.getColumnIndex(Contract.Documents.COLUMN_TITLE));
 
         //sharingg
@@ -70,11 +79,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
 
     private void shareMyImage(){
 
-        byte[] byteArray = mCursor.getBlob(mCursor.getColumnIndex(Contract.Documents.COLUMN_IMAGE));
-
-        Bitmap bm = BitmapFactory.decodeByteArray(byteArray, 0 ,byteArray.length);
-
-        String name = mCursor.getString(mCursor.getColumnIndex(Contract.Documents.COLUMN_TITLE));
+       String name = mCursor.getString(mCursor.getColumnIndex(Contract.Documents.COLUMN_TITLE));
 
 
         try {
@@ -83,7 +88,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
             cachePath.mkdirs(); // don't forget to make the directory
             //FileOutputStream stream = new FileOutputStream(cachePath + "/" + name  + ".png"); // overwrites this image every time
             FileOutputStream stream = new FileOutputStream(cachePath + "/image.png");
-            bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             stream.close();
 
         } catch (IOException e) {
@@ -110,19 +115,20 @@ public class ImageDetailsActivity extends AppCompatActivity {
 
 
 
-    private void shareImage() {
-        Intent share = new Intent(Intent.ACTION_SEND);
+//    private void shareImage() {
+//        Intent share = new Intent(Intent.ACTION_SEND);
+//
+//        // If you want to share a png image only, you can do:
+//        // setType("image/png"); OR for jpeg: setType("image/jpeg");
+//        share.setType("image/*");
+//        share.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//
+//        Uri uri = Uri.parse((mCursor.getString(mCursor.getColumnIndex(Contract.Documents.COLUMN_URI))));
+//        share.putExtra(Intent.EXTRA_STREAM, uri);
+//
+//        startActivity(Intent.createChooser(share, "Share Image!"));
+//    }
 
-        // If you want to share a png image only, you can do:
-        // setType("image/png"); OR for jpeg: setType("image/jpeg");
-        share.setType("image/*");
-        share.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-        Uri uri = Uri.parse((mCursor.getString(mCursor.getColumnIndex(Contract.Documents.COLUMN_URI))));
-        share.putExtra(Intent.EXTRA_STREAM, uri);
-
-        startActivity(Intent.createChooser(share, "Share Image!"));
-    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 

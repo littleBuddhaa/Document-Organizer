@@ -20,7 +20,7 @@ public class DBQueries {
         return sdb.rawQuery("SELECT * FROM Documents", null);
     }
 
-    public static long insertDocument(Context c,long id,byte[] img, String title, String folderName, String uri) {
+    public static long insertDocument(Context c,long id,byte[] img, String title, String folderName) {
 
         DBHelper dbHelper = new DBHelper(c);
         SQLiteDatabase sdb = dbHelper.getWritableDatabase();
@@ -31,7 +31,6 @@ public class DBQueries {
         cv.put(Contract.Documents.COLUMN_TITLE, title);
         cv.put(Contract.Documents.COLUMN_IMAGE,img);
         cv.put(Contract.Documents.COLUMN_CATEGORY,folderName);
-        cv.put(Contract.Documents.COLUMN_URI, uri);
         long retVal= sdb.insert(Contract.Documents.TABLE_NAME,null,cv);
         sdb.close();
         return retVal;

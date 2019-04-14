@@ -75,8 +75,8 @@ public class GIDDetailsActivity extends AppCompatActivity {
 
         // insertion in global table
         long id =  DBQueries.insertDocument(GIDDetailsActivity.this,NULL,img,
-                imageTitle.getText().toString(),folderName,uri.toString());
-        //long id = DBQueries.getLastId(this);
+                imageTitle.getText().toString(),folderName);
+
         // insertion in the table for the folder
         String val="";
         RadioButton button;
