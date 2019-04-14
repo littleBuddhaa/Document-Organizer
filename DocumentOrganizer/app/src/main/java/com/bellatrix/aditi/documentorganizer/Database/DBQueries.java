@@ -12,6 +12,14 @@ import java.text.SimpleDateFormat;
  */
 
 public class DBQueries {
+
+    public static Cursor searchImage(Context c, String query) {
+
+        DBHelper dbHelper = new DBHelper(c);
+        SQLiteDatabase sdb = dbHelper.getWritableDatabase();
+        return sdb.rawQuery("SELECT * FROM Documents", null);
+    }
+
     public static long insertDocument(Context c,long id,byte[] img, String title, String folderName, String uri) {
 
         DBHelper dbHelper = new DBHelper(c);
