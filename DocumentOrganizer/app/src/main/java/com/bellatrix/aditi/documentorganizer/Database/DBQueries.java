@@ -44,11 +44,11 @@ public class DBQueries {
                 " WHERE " + Contract.Handwritten.COLUMN_CUSTOM_TAGS + " LIKE '%" + key + "%'";
 
         String query = "SELECT * FROM " + Contract.Documents.TABLE_NAME +
-                " WHERE " + Contract.Documents.COLUMN_ID +" IN (" + query1 + ")" +
-                " OR " + Contract.Documents.COLUMN_ID +" IN (" + query2 + ")" +
-                " OR " + Contract.Documents.COLUMN_ID +" IN (" + query3 + ")" +
-                " OR " + Contract.Documents.COLUMN_ID +" IN (" + query4 + ")" +
-                " OR " + Contract.Documents.COLUMN_ID +" IN (" + query5 + ")";
+                " WHERE " + Contract.Documents._ID +" IN (" + query1 + ")" +
+                " OR " + Contract.Documents._ID +" IN (" + query2 + ")" +
+                " OR " + Contract.Documents._ID +" IN (" + query3 + ")" +
+                " OR " + Contract.Documents._ID +" IN (" + query4 + ")" +
+                " OR " + Contract.Documents._ID +" IN (" + query5 + ")";
 
         Cursor folderCursor = getFolders(c);
         int i = 5;
@@ -56,7 +56,7 @@ public class DBQueries {
             String queryi = "SELECT ID FROM " +
                     folderCursor.getString(folderCursor.getColumnIndex(Contract.Folders.COLUMN_FOLDER_NAME)) +
                     " WHERE CustomTags LIKE '%" + key + "%'";
-            query += " OR " + Contract.Documents.COLUMN_ID +" IN (" + queryi + ")";
+            query += " OR " + Contract.Documents._ID +" IN (" + queryi + ")";
             i++;
         }
         folderCursor.close();
@@ -179,7 +179,7 @@ public class DBQueries {
             cv.put("CustomTags", tags);
 
         long retVal= sdb.insert(folderName,null,cv);
-        
+
         sdb.close();
         return retVal;
     }
