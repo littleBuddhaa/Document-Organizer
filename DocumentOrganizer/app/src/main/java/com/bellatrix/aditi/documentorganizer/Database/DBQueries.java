@@ -51,7 +51,7 @@ public class DBQueries {
                 " OR " + Contract.Documents.COLUMN_ID +" IN (" + query5 + ")";
 
         Cursor folderCursor = getFolders(c);
-        int i = 6;
+        int i = 5;
         while(folderCursor.moveToPosition(i)) {
             String queryi = "SELECT ID FROM " +
                     folderCursor.getString(folderCursor.getColumnIndex(Contract.Folders.COLUMN_FOLDER_NAME)) +
