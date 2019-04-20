@@ -25,11 +25,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
         final String SQL_CREATE_DOCUMENT_TABLE="CREATE TABLE " + Documents.TABLE_NAME + " (" +
+//                Documents._ID + " INTEGER AUTO_INCREMENT PRIMARY KEY, " +
                 Documents.COLUMN_TITLE + " TEXT NOT NULL," +
                 Documents.COLUMN_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP," +
                 Documents.COLUMN_IMAGE + " BLOB NOT NULL," +
-                Documents.COLUMN_CATEGORY + " TEXT);";
-//                Documents.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL); ";
+                Documents.COLUMN_CATEGORY + " TEXT," +
+                Documents.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL); ";
 
         final String SQL_CREATE_FOLDER_TABLE="CREATE TABLE " + Folders.TABLE_NAME + " (" +
                 Folders.COLUMN_FOLDER_NAME + " TEXT NOT NULL," +

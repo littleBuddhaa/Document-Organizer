@@ -138,7 +138,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
 
              //   linearLayout.setOrientation(LinearLayout.VERTICAL);
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(ImageDetailsActivity.this);
-                long id = mCursor.getLong(mCursor.getColumnIndex(Contract.Documents._ID));
+                long id = mCursor.getLong(mCursor.getColumnIndex(Contract.Documents.COLUMN_ID));
 
                 cursor =  DBQueries.getImageById(ImageDetailsActivity.this, folderName,id);
 

@@ -44,19 +44,19 @@ public class DBQueries {
                 " WHERE " + Contract.Handwritten.COLUMN_CUSTOM_TAGS + " LIKE '%" + key + "%'";
 
         String query = "SELECT * FROM " + Contract.Documents.TABLE_NAME +
-                " WHERE " + Contract.Documents._ID +" IN (" + query1 + ")" +
-                " OR " + Contract.Documents._ID +" IN (" + query2 + ")" +
-                " OR " + Contract.Documents._ID +" IN (" + query3 + ")" +
-                " OR " + Contract.Documents._ID +" IN (" + query4 + ")" +
-                " OR " + Contract.Documents._ID +" IN (" + query5 + ")";
+                " WHERE " + Contract.Documents.COLUMN_ID +" IN (" + query1 + ")" +
+                " OR " + Contract.Documents.COLUMN_ID +" IN (" + query2 + ")" +
+                " OR " + Contract.Documents.COLUMN_ID +" IN (" + query3 + ")" +
+                " OR " + Contract.Documents.COLUMN_ID +" IN (" + query4 + ")" +
+                " OR " + Contract.Documents.COLUMN_ID +" IN (" + query5 + ")";
 
         Cursor folderCursor = getFolders(c);
-        int i = 5;
+        int i = 6;
         while(folderCursor.moveToPosition(i)) {
             String queryi = "SELECT ID FROM " +
                     folderCursor.getString(folderCursor.getColumnIndex(Contract.Folders.COLUMN_FOLDER_NAME)) +
                     " WHERE CustomTags LIKE '%" + key + "%'";
-            query += " OR " + Contract.Documents._ID +" IN (" + queryi + ")";
+            query += " OR " + Contract.Documents.COLUMN_ID +" IN (" + queryi + ")";
             i++;
         }
         folderCursor.close();
@@ -195,7 +195,7 @@ public class DBQueries {
         long retVal= sdb.insert(Contract.Folders.TABLE_NAME,null,cv);
 
         // creation of a table of the foldername
-        final String SQL_CREATE_CUSTOM_TABLE="CREATE TABLE " + "\'"+ name +"\'"+
+        final String SQL_CREATE_CUSTOM_TABLE = "CREATE TABLE IF NOT EXISTS " + "\'"+ name +"\'"+
                 " (ID INTEGER PRIMARY KEY," +
                 " CustomTags TEXT" +"); ";
         sdb.execSQL(SQL_CREATE_CUSTOM_TABLE);
@@ -227,7 +227,7 @@ public class DBQueries {
                 where,
                 null,
                 null,
-                null,
+                Contract.Documents.COLUMN_ID + " DESC",
                 null);
         return cursor;
     }
