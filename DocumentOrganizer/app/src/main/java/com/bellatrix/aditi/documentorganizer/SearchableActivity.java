@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import com.bellatrix.aditi.documentorganizer.Database.Contract;
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
@@ -17,7 +16,7 @@ import com.bellatrix.aditi.documentorganizer.Utilities.SearchSuggestionProvider;
 
 public class SearchableActivity extends AppCompatActivity implements ImageSearchAdapter.onListItemClickLister{
 
-    private String query1;
+    private String query1, folderName;
     private Cursor mCursor;
 
     private RecyclerView recyclerView;
@@ -32,8 +31,12 @@ public class SearchableActivity extends AppCompatActivity implements ImageSearch
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
+        folderName = "";
         handleSearch();
-        mCursor = DBQueries.searchImage(this,query1);
+        if(folderName.equals(""))
+            mCursor = DBQueries.searchImage(this,query1);
+        else
+            mCursor = DBQueries.searchImageByFolder(this,query1,folderName);
 
         imageSearchAdapter = new ImageSearchAdapter(this, mCursor);
         recyclerView.setAdapter(imageSearchAdapter);
@@ -50,6 +53,12 @@ public class SearchableActivity extends AppCompatActivity implements ImageSearch
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
+
+            Bundle bundle = intent.getBundleExtra(SearchManager.APP_DATA);
+            if(bundle!=null) {
+                folderName = bundle.getString("folderName");
+            }
+
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                     SearchSuggestionProvider.AUTHORITY, SearchSuggestionProvider.MODE);
             suggestions.saveRecentQuery(query, null);
@@ -79,7 +88,10 @@ public class SearchableActivity extends AppCompatActivity implements ImageSearch
     @Override
     protected void onResume() {
         super.onResume();
-        mCursor = DBQueries.searchImage(SearchableActivity.this,query1);
+        if(folderName.equals(""))
+            mCursor = DBQueries.searchImage(this,query1);
+        else
+            mCursor = DBQueries.searchImageByFolder(this,query1,folderName);
         imageSearchAdapter.swapCursor(mCursor);
     }
 }

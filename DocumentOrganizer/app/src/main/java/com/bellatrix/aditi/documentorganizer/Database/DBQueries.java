@@ -16,6 +16,11 @@ public class DBQueries {
         DBHelper dbHelper = new DBHelper(c);
         SQLiteDatabase sdb = dbHelper.getWritableDatabase();
 
+        String query0 = "SELECT "+ Contract.Documents.COLUMN_ID + " FROM " + Contract.Documents.TABLE_NAME +
+                " WHERE " + Contract.Documents.COLUMN_TITLE + " LIKE '%" + key + "%'" +
+                " OR " + Contract.Documents.COLUMN_DATE + " LIKE '%" + key + "%'" +
+                " OR " + Contract.Documents.COLUMN_CATEGORY + " LIKE '%" + key + "%'";
+
         String query1 = "SELECT "+ Contract.BNR.COLUMN_ID + " FROM " + Contract.BNR.TABLE_NAME +
                 " WHERE " + Contract.BNR.COLUMN_PURCHASE_DATE + " LIKE '%" + key + "%'" +
                 " OR " + Contract.BNR.COLUMN_RECEIPT_TYPE + " LIKE '%" + key + "%'" +
@@ -44,7 +49,8 @@ public class DBQueries {
                 " WHERE " + Contract.Handwritten.COLUMN_CUSTOM_TAGS + " LIKE '%" + key + "%'";
 
         String query = "SELECT * FROM " + Contract.Documents.TABLE_NAME +
-                " WHERE " + Contract.Documents.COLUMN_ID +" IN (" + query1 + ")" +
+                " WHERE " + Contract.Documents.COLUMN_ID +" IN (" + query0 + ")" +
+                " OR " + Contract.Documents.COLUMN_ID +" IN (" + query1 + ")" +
                 " OR " + Contract.Documents.COLUMN_ID +" IN (" + query2 + ")" +
                 " OR " + Contract.Documents.COLUMN_ID +" IN (" + query3 + ")" +
                 " OR " + Contract.Documents.COLUMN_ID +" IN (" + query4 + ")" +
@@ -62,6 +68,57 @@ public class DBQueries {
         folderCursor.close();
 
         return sdb.rawQuery(query, null);
+    }
+
+    public static Cursor searchImageByFolder(Context c, String key, String folderName) {
+
+        DBHelper dbHelper = new DBHelper(c);
+        SQLiteDatabase sdb = dbHelper.getWritableDatabase();
+
+        String query0 = "SELECT "+ Contract.Documents.COLUMN_ID + " FROM " + Contract.Documents.TABLE_NAME +
+                " WHERE " + Contract.Documents.COLUMN_TITLE + " LIKE '%" + key + "%'" +
+                " OR " + Contract.Documents.COLUMN_DATE + " LIKE '%" + key + "%'";
+
+        String query="";
+        if(folderName.equals(Contract.BNR.TABLE_NAME))
+            query = "SELECT "+ Contract.BNR.COLUMN_ID + " FROM " + Contract.BNR.TABLE_NAME +
+                    " WHERE " + Contract.BNR.COLUMN_PURCHASE_DATE + " LIKE '%" + key + "%'" +
+                    " OR " + Contract.BNR.COLUMN_RECEIPT_TYPE + " LIKE '%" + key + "%'" +
+                    " OR " + Contract.BNR.COLUMN_PRODUCT_NAME + " LIKE '%" + key + "%'" +
+                    " OR " + Contract.BNR.COLUMN_TOTAL + " LIKE '%" + key + "%'" +
+                    " OR " + Contract.BNR.COLUMN_ENTERPRISE + " LIKE '%" + key + "%'" +
+                    " OR " + Contract.BNR.COLUMN_CUSTOM_TAGS + " LIKE '%" + key + "%'";
+        else if(folderName.equals(Contract.Medical.TABLE_NAME))
+            query = "SELECT "+ Contract.Medical.COLUMN_ID + " FROM " + Contract.Medical.TABLE_NAME +
+                    " WHERE " + Contract.Medical.COLUMN_ISSUED_DATE + " LIKE '%" + key + "%'" +
+                    " OR " + Contract.Medical.COLUMN_TYPE + " LIKE '%" + key + "%'" +
+                    " OR " + Contract.Medical.COLUMN_PATIENT + " LIKE '%" + key + "%'" +
+                    " OR " + Contract.Medical.COLUMN_INSTITUTION + " LIKE '%" + key + "%'" +
+                    " OR " + Contract.Medical.COLUMN_CUSTOM_TAGS + " LIKE '%" + key + "%'";
+        else if(folderName.equals(Contract.GID.TABLE_NAME))
+            query = "SELECT "+ Contract.GID.COLUMN_ID + " FROM " + Contract.GID.TABLE_NAME +
+                    " WHERE " + Contract.GID.COLUMN_TYPE + " LIKE '%" + key + "%'" +
+                    " OR " + Contract.GID.COLUMN_HOLDER_NAME + " LIKE '%" + key + "%'" +
+                    " OR " + Contract.GID.COLUMN_CUSTOM_TAGS + " LIKE '%" + key + "%'";
+        else if(folderName.equals(Contract.Certificates.TABLE_NAME))
+            query = "SELECT "+ Contract.Certificates.COLUMN_ID + " FROM " + Contract.Certificates.TABLE_NAME +
+                    " WHERE " + Contract.Certificates.COLUMN_TYPE1 + " LIKE '%" + key + "%'" +
+                    " OR " + Contract.Certificates.COLUMN_TYPE2 + " LIKE '%" + key + "%'" +
+                    " OR " + Contract.Certificates.COLUMN_HOLDER_NAME + " LIKE '%" + key + "%'" +
+                    " OR " + Contract.Certificates.COLUMN_INSTITUTION + " LIKE '%" + key + "%'" +
+                    " OR " + Contract.Certificates.COLUMN_ACHIEVEMENT + " LIKE '%" + key + "%'" +
+                    " OR " + Contract.Certificates.COLUMN_CUSTOM_TAGS + " LIKE '%" + key + "%'";
+        else
+            query = "SELECT ID FROM " +
+                    folderName +
+                    " WHERE CustomTags LIKE '%" + key + "%'";
+
+        String query1 = "SELECT * FROM " + Contract.Documents.TABLE_NAME +
+                " WHERE " + Contract.Documents.COLUMN_CATEGORY + " = '" + folderName + "'" +
+                " AND (" + Contract.Documents.COLUMN_ID +" IN (" + query0 + ")" +
+                " OR " + Contract.Documents.COLUMN_ID +" IN (" + query + "))";
+
+        return sdb.rawQuery(query1, null);
     }
 
     public static long insertDocument(Context c,long id,byte[] img, String title, String folderName) {

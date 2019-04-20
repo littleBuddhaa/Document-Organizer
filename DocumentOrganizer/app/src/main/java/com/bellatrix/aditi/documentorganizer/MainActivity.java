@@ -133,16 +133,16 @@ public class MainActivity extends AppCompatActivity implements FolderAdapter.onL
         }
     }
 
-    @Override
-    public boolean onSearchRequested() {
+//    @Override
+//    public boolean onSearchRequested() {
 //        pauseSomeStuff();
 //        can insert additional data here
 //        Bundle appData = new Bundle();
 //        appData.putBoolean(SearchableActivity.JARGON, true);
 //        startSearch(null, false, appData, false);
 //        return true;
-        return super.onSearchRequested();
-    }
+//        return super.onSearchRequested();
+//    }
 
     @Override
     public void onListItemClick(int index) {

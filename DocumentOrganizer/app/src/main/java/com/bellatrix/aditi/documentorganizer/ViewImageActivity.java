@@ -1,11 +1,17 @@
 package com.bellatrix.aditi.documentorganizer;
 
+import android.annotation.SuppressLint;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
 
@@ -49,6 +55,43 @@ public class ViewImageActivity extends AppCompatActivity implements ImageAdapter
         intent.putExtra("folderName",folderName);
         intent.putExtra("cIndex",index);
         startActivity(intent);
+    }
+
+
+    @SuppressLint("RestrictedApi")
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_gallery, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search_folder).getActionView();
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        Bundle bundle = new Bundle();
+        bundle.putString("folderName", folderName);
+        searchView.setAppSearchData(bundle);
+
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setQueryRefinementEnabled(true);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        switch (id) {
+//            case R.id.action_search_folder:
+//                super.onSearchRequested();
+//                return true;
+            case R.id.action_sort_by:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     // TODO: Check if memory leak for database is stopped
