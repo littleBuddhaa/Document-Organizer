@@ -175,7 +175,7 @@ public class AddImageActivity extends AppCompatActivity{
             intent.putExtra("imageUri", imageUri.toString());
             intent.putExtra("imageQuality", quality);
             startActivityForResult(intent, ADD_DETAILS_REQUEST);
-        } else if(folderName.equals("Medical _records")) {
+        } else if(folderName.equals("Medical_records")) {
             Intent intent = new Intent(AddImageActivity.this, MedicalDetailsActivity.class);
             intent.putExtra("imageUri", imageUri.toString());
             intent.putExtra("imageQuality", quality);

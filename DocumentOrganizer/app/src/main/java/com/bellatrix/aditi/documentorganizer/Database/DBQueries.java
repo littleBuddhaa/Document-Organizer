@@ -5,8 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.text.SimpleDateFormat;
-
 /**
  * Created by Aditi on 19-02-2019.
  */
@@ -52,6 +50,17 @@ public class DBQueries {
                 " OR " + Contract.Documents.COLUMN_ID +" IN (" + query4 + ")" +
                 " OR " + Contract.Documents.COLUMN_ID +" IN (" + query5 + ")";
 
+        Cursor folderCursor = getFolders(c);
+        int i = 5;
+        while(folderCursor.moveToPosition(i)) {
+            String queryi = "SELECT ID FROM " +
+                    folderCursor.getString(folderCursor.getColumnIndex(Contract.Folders.COLUMN_FOLDER_NAME)) +
+                    " WHERE CustomTags LIKE '%" + key + "%'";
+            query += " OR " + Contract.Documents.COLUMN_ID +" IN (" + queryi + ")";
+            i++;
+        }
+        folderCursor.close();
+
         return sdb.rawQuery(query, null);
     }
 
@@ -61,7 +70,6 @@ public class DBQueries {
         SQLiteDatabase sdb = dbHelper.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
-
 
         cv.put(Contract.Documents.COLUMN_TITLE, title);
         cv.put(Contract.Documents.COLUMN_IMAGE,img);
@@ -93,7 +101,7 @@ public class DBQueries {
             cv.put(Contract.BNR.COLUMN_TOTAL, total);
         if(!enterprise.equals(""))
             cv.put(Contract.BNR.COLUMN_ENTERPRISE, enterprise);
-        long retVal= sdb.insert("\'"+Contract.BNR.TABLE_NAME+"\'",null,cv);
+        long retVal= sdb.insert(Contract.BNR.TABLE_NAME,null,cv);
         sdb.close();
         return retVal;
     }
@@ -116,7 +124,7 @@ public class DBQueries {
             cv.put(Contract.Medical.COLUMN_PATIENT, patientName);
         if(!institution.equals(""))
             cv.put(Contract.Medical.COLUMN_INSTITUTION, institution);
-        long retVal= sdb.insert("\'"+Contract.Medical.TABLE_NAME+"\'",null,cv);
+        long retVal= sdb.insert(Contract.Medical.TABLE_NAME,null,cv);
         sdb.close();
         return retVal;
     }
@@ -132,7 +140,7 @@ public class DBQueries {
             cv.put(Contract.GID.COLUMN_TYPE, type);
         if(!holderName.equals(""))
             cv.put(Contract.GID.COLUMN_HOLDER_NAME, holderName);
-        long retVal= sdb.insert("\'"+Contract.GID.TABLE_NAME+"\'",null,cv);
+        long retVal= sdb.insert(Contract.GID.TABLE_NAME,null,cv);
         sdb.close();
         return retVal;
     }
@@ -155,7 +163,7 @@ public class DBQueries {
             cv.put(Contract.Certificates.COLUMN_INSTITUTION, institution);
         if(!achievement.equals(""))
             cv.put(Contract.Certificates.COLUMN_ACHIEVEMENT, achievement);
-        long retVal= sdb.insert("\'"+Contract.Certificates.TABLE_NAME+"\'",null,cv);
+        long retVal= sdb.insert(Contract.Certificates.TABLE_NAME,null,cv);
         sdb.close();
         return retVal;
     }
@@ -170,7 +178,8 @@ public class DBQueries {
         if(!tags.equals(""))
             cv.put("CustomTags", tags);
 
-        long retVal= sdb.insert("\'"+folderName+"\'",null,cv);
+        long retVal= sdb.insert(folderName,null,cv);
+        
         sdb.close();
         return retVal;
     }
@@ -179,10 +188,17 @@ public class DBQueries {
         DBHelper dbHelper = new DBHelper(c);
         SQLiteDatabase sdb = dbHelper.getWritableDatabase();
 
+        // insertion in the names of folder table
         ContentValues cv = new ContentValues();
         cv.put(Contract.Folders.COLUMN_FOLDER_NAME, name);
         cv.put(Contract.Folders.COLUMN_FOLDER_COLOR,color);
         long retVal= sdb.insert(Contract.Folders.TABLE_NAME,null,cv);
+
+        // creation of a table of the foldername
+        final String SQL_CREATE_CUSTOM_TABLE="CREATE TABLE " + "\'"+ name +"\'"+
+                " (ID INTEGER PRIMARY KEY," +
+                " CustomTags TEXT" +"); ";
+        sdb.execSQL(SQL_CREATE_CUSTOM_TABLE);
 
         sdb.close();
         return retVal;
@@ -231,12 +247,13 @@ public class DBQueries {
         resultSet.moveToFirst();
         return resultSet;
     }
+
     public static long getLastId(Context c) {
         DBHelper dbHelper = new DBHelper(c);
         SQLiteDatabase sdb = dbHelper.getReadableDatabase();
         Cursor cursor = sdb.rawQuery("select * from Documents;",null);
         cursor.moveToLast();
-        long id = cursor.getLong(cursor.getColumnIndex("ID"));
+        long id = cursor.getLong(cursor.getColumnIndex(Contract.Documents._ID));
         cursor.close();
         return id;
     }
