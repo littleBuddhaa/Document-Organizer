@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bellatrix.aditi.documentorganizer.Database.Contract;
 import com.bumptech.glide.Glide;
@@ -56,10 +57,12 @@ public class ImageAdapter  extends RecyclerView.Adapter<ImageAdapter.ImageViewHo
     public class ImageViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener
     {
+//        TextView textView;
         ImageView imageView;
         ImageViewHolder(View view)
         {
             super(view);
+//            textView = (TextView)view.findViewById(R.id.tv_title);
             imageView = (ImageView)view.findViewById(R.id.imagebox);
             view.setOnClickListener(this);
         }
@@ -68,6 +71,8 @@ public class ImageAdapter  extends RecyclerView.Adapter<ImageAdapter.ImageViewHo
             if (!mCursor.moveToPosition(position))
                 return; // bail if returned null*/
 
+//            String title = mCursor.getString(mCursor.getColumnIndex(Contract.Documents.COLUMN_TITLE)).substring(0,14);
+//            textView.setText(title+"..");
             byte[] image = mCursor.getBlob(mCursor.getColumnIndex(Contract.Documents.COLUMN_IMAGE));
             Glide.with((Context)clickLister)
                     .load(image)
