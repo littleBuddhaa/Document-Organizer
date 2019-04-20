@@ -24,7 +24,7 @@ public class Contract {
     }
 
     public static class BNR implements BaseColumns {
-        public static final String TABLE_NAME = "Bills & Receipts";
+        public static final String TABLE_NAME = "Bills_and_Receipts";
         public static final String COLUMN_ID = "ID";
         public static final String COLUMN_PURCHASE_DATE = "PurchaseDate";
         public static final String COLUMN_RECEIPT_TYPE = "ReceiptType";
@@ -35,7 +35,7 @@ public class Contract {
     }
 
     public static class Medical implements BaseColumns {
-        public static final String TABLE_NAME = "Medical records";
+        public static final String TABLE_NAME = "Medical_records";
         public static final String COLUMN_ID = "ID";
         public static final String COLUMN_ISSUED_DATE = "IssuedDate";
         public static final String COLUMN_TYPE = "Type";
@@ -45,7 +45,7 @@ public class Contract {
     }
 
     public static class GID implements BaseColumns {
-        public static final String TABLE_NAME = "Government issued documents";
+        public static final String TABLE_NAME = "Government_issued_documents";
         public static final String COLUMN_ID = "ID";
         public static final String COLUMN_TYPE = "Type";
         public static final String COLUMN_HOLDER_NAME = "HolderName";
@@ -59,7 +59,7 @@ public class Contract {
     }
 
     public static class Certificates implements BaseColumns {
-        public static final String TABLE_NAME = "Certificates";
+        public static final String TABLE_NAME = "Certificates_and_Marksheets";
         public static final String COLUMN_ID = "ID";
         public static final String COLUMN_TYPE1 = "Type1";
         public static final String COLUMN_TYPE2 = "Type2";

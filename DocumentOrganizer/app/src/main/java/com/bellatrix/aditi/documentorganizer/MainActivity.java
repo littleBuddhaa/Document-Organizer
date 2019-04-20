@@ -153,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements FolderAdapter.onL
         Intent intent = new Intent(MainActivity.this, ViewImageActivity.class);
         intent.putExtra("folderName",
                 folderCursor.getString(folderCursor.getColumnIndex(Contract.Folders.COLUMN_FOLDER_NAME)));
+
         startActivity(intent);
     }
 

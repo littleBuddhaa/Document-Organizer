@@ -27,7 +27,7 @@ CertificateDetailsActivity extends AppCompatActivity {
     private static final String TAG = CertificateDetailsActivity.class.getSimpleName();
     private static final int ADD_DETAILS_RESULT_CODE = 50;
     private byte[] img;
-    private final String folderName = "Certificates";
+    private final String folderName = "Certificates_and_Marksheets";
 
     private EditText imageTitle, holderName, institution, achievement;
     private LinearLayout type2;

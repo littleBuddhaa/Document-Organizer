@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.bellatrix.aditi.documentorganizer.Database.Contract;
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
 
 public class ViewImageActivity extends AppCompatActivity implements ImageAdapter.onListItemClickLister{

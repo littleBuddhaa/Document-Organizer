@@ -17,7 +17,7 @@ import com.bellatrix.aditi.documentorganizer.Utilities.SearchSuggestionProvider;
 
 public class SearchableActivity extends AppCompatActivity implements ImageSearchAdapter.onListItemClickLister{
 
-    private String query;
+    private String query1;
     private Cursor mCursor;
 
     private RecyclerView recyclerView;
@@ -33,7 +33,7 @@ public class SearchableActivity extends AppCompatActivity implements ImageSearch
         recyclerView.setHasFixedSize(true);
 
         handleSearch();
-        mCursor = DBQueries.searchImage(this,query);
+        mCursor = DBQueries.searchImage(this,query1);
 
         imageSearchAdapter = new ImageSearchAdapter(this, mCursor);
         recyclerView.setAdapter(imageSearchAdapter);
@@ -53,8 +53,8 @@ public class SearchableActivity extends AppCompatActivity implements ImageSearch
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                     SearchSuggestionProvider.AUTHORITY, SearchSuggestionProvider.MODE);
             suggestions.saveRecentQuery(query, null);
-            Toast.makeText(this,query,Toast.LENGTH_SHORT).show();
-            query = "";
+//            Toast.makeText(this,query,Toast.LENGTH_SHORT).show();
+            query1 = query;
         }
 //        else if(Intent.ACTION_VIEW.equals(intent.getAction())) {
 //            String selectedSuggestionRowId =  intent.getDataString();
@@ -79,7 +79,7 @@ public class SearchableActivity extends AppCompatActivity implements ImageSearch
     @Override
     protected void onResume() {
         super.onResume();
-        mCursor = DBQueries.searchImage(SearchableActivity.this,query);
+        mCursor = DBQueries.searchImage(SearchableActivity.this,query1);
         imageSearchAdapter.swapCursor(mCursor);
     }
 }

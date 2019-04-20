@@ -29,7 +29,7 @@ public class BillsDetailsActivity extends AppCompatActivity {
     private static final int ADD_DETAILS_RESULT_CODE = 50;
 
     private byte[] img;
-    private final String folderName = "Bills & Receipts";
+    private final String folderName = "Bills_and_Receipts";
 
     private EditText purchaseDate, imageTitle, total, enterprise;
     private ImageButton datePicker;

@@ -74,7 +74,6 @@ public class ImageDetailsActivity extends AppCompatActivity {
 
 
 
-
     }
 
     private void shareMyImage(){
