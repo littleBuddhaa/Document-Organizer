@@ -1,5 +1,6 @@
 package com.bellatrix.aditi.documentorganizer;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -11,8 +12,11 @@ import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.ShareActionProvider;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +38,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
 
 //    private byte[] image;
     private int index;
+    private long id;
     private Bitmap bmp;
 
     private LinearLayout linearLayout;
@@ -52,42 +57,30 @@ public class ImageDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_details);
 
-        //ImageView ImageView = (ImageView) findViewById(R.id.imageView);
-     //   Uri uri =  Uri.parse(getIntent().getExtras().getString("imageUri"));
-       // ImageView.setImageURI(uri);
+
         folderName = getIntent().getExtras().getString("folderName");
+        index = getIntent().getIntExtra("cIndex",0);
+        id = getIntent().getLongExtra("id",1);
 
-         index = getIntent().getIntExtra("cIndex",0);
-        mCursor = DBQueries.getImageByFolder(ImageDetailsActivity.this, folderName);
+        mCursor = DBQueries.getImageById(ImageDetailsActivity.this, Contract.Documents.TABLE_NAME,id);
 
-        mCursor.moveToPosition(index);
         String title = "Untitled Document";
         String res = mCursor.getString(mCursor.getColumnIndex(Contract.Documents.COLUMN_TITLE));
         if(res!=null)
             title = res;
         setTitle(CommonFunctions.toReadableString(title));
-         ImageView imgView = (ImageView) findViewById(R.id.iv);
+        ImageView imgView = (ImageView) findViewById(R.id.iv);
 
         byte[] image = mCursor.getBlob(mCursor.getColumnIndex(Contract.Documents.COLUMN_IMAGE));
         bmp= BitmapFactory.decodeByteArray(image, 0 , image.length);
 
         imgView.setImageBitmap(bmp);
         String url = mCursor.getString(mCursor.getColumnIndex(Contract.Documents.COLUMN_TITLE));
-
-        //sharingg
-       // MenuItem item = findViewById(R.id.menu_share);
-
-
-
-
-
     }
 
     private void shareMyImage(){
 
        String name = mCursor.getString(mCursor.getColumnIndex(Contract.Documents.COLUMN_TITLE));
-
-
         try {
 
             File cachePath = new File(getCacheDir(), "images");
@@ -113,27 +106,20 @@ public class ImageDetailsActivity extends AppCompatActivity {
             shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
             startActivity(Intent.createChooser(shareIntent, "Choose an app"));
         }
-
-
-
     }
 
-
-
-
-//    private void shareImage() {
-//        Intent share = new Intent(Intent.ACTION_SEND);
-//
-//        // If you want to share a png image only, you can do:
-//        // setType("image/png"); OR for jpeg: setType("image/jpeg");
-//        share.setType("image/*");
-//        share.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//
-//        Uri uri = Uri.parse((mCursor.getString(mCursor.getColumnIndex(Contract.Documents.COLUMN_URI))));
-//        share.putExtra(Intent.EXTRA_STREAM, uri);
-//
-//        startActivity(Intent.createChooser(share, "Share Image!"));
-//    }
+    public TextView getImageDetailsTextView(String textInTextView) {
+        TextView textView = new TextView(this);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(10,10,10,10);
+        textView.setLayoutParams(params);
+        textView.setTextSize(24);
+        textView.setTextColor(getResources().getColor(R.color.white));
+        textView.setBackgroundColor(getResources().getColor(R.color.bground));
+        textView.setPadding(15, 15, 5, 15);
+        textView.setText(Html.fromHtml(textInTextView) );
+        return textView;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -141,16 +127,11 @@ public class ImageDetailsActivity extends AppCompatActivity {
         switch(item.getItemId())
         {
             case R.id.action_details:
-
-
              //   linearLayout.setOrientation(LinearLayout.VERTICAL);
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(ImageDetailsActivity.this);
                 long id = mCursor.getLong(mCursor.getColumnIndex(Contract.Documents.COLUMN_ID));
-
                 cursor =  DBQueries.getImageById(ImageDetailsActivity.this, folderName,id);
-
                 View mview = getLayoutInflater().inflate(R.layout.image_details_dialog,null);
-
                 linearLayout = (LinearLayout) mview.findViewById(R.id.mainLayout);
                 switch (folderName)
                 {
@@ -158,32 +139,23 @@ public class ImageDetailsActivity extends AppCompatActivity {
 
                         for( int i = 1; i < 7; i++ )
                         {
-                            TextView textView = new TextView(this);
-                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                            params.setMargins(10,10,10,10);
-                            textView.setLayoutParams(params);
-                            textView.setTextSize(24);
-                            textView.setTextColor(getResources().getColor(R.color.white));
-                            textView.setBackgroundColor(getResources().getColor(R.color.bground));
-                            textView.setPadding(15, 15, 5, 15);
                             String str1 = cursor.getString(i);
-
                             if(str1!=null) {
                                 String out = "<font color=#ffffff>"+ CommonFunctions.splitCamelCase(cursor.getColumnName(i)) +": "+"</font> <font color=#ffffff>"+str1+"</font>";
-                                textView.setText(Html.fromHtml(out) );
+                                TextView textView = getImageDetailsTextView(out);
                                 linearLayout.addView(textView);
                             }
 
                         }
                         break;
                     case "Medical_records":
+                        Log.d("myTags","hello");
                         for( int i = 1; i < 6; i++ )
                         {
-                            TextView textView = new TextView(this);
                             String str1 = cursor.getString(i);
                             if(str1!=null) {
                                 String out = "<font color=#ffffff>"+ CommonFunctions.splitCamelCase(cursor.getColumnName(i)) +": "+"</font> <font color=#ffffff>"+str1+"</font>";
-                                textView.setText(Html.fromHtml(out) );
+                                TextView textView = getImageDetailsTextView(out);
                                 linearLayout.addView(textView);
                             }
 
@@ -192,52 +164,44 @@ public class ImageDetailsActivity extends AppCompatActivity {
                     case "Government_issued_documents":
                         for( int i = 1; i < 4; i++ )
                         {
-                            TextView textView = new TextView(this);
                             String str1 = cursor.getString(i);
                             if(str1!=null) {
                                 String out = "<font color=#ffffff>"+ CommonFunctions.splitCamelCase(cursor.getColumnName(i)) +": "+"</font> <font color=#ffffff>"+str1+"</font>";
-                                textView.setText(Html.fromHtml(out) );
+                                TextView textView = getImageDetailsTextView(out);
                                 linearLayout.addView(textView);
                             }
-
                         }
                         break;
                     case "Handwritten":
                         for( int i = 1; i < 2; i++ )
                         {
-                            TextView textView = new TextView(this);
                             String str1 = cursor.getString(i);
                             if(str1!=null) {
                                 String out = "<font color=#ffffff>"+ CommonFunctions.splitCamelCase(cursor.getColumnName(i)) +": "+"</font> <font color=#ffffff>"+str1+"</font>";
-                                textView.setText(Html.fromHtml(out) );
+                                TextView textView = getImageDetailsTextView(out);
                                 linearLayout.addView(textView);
                             }
-
                         }
                         break;
                     case "Certificates_and_Marksheets":
                         for( int i = 3; i < 7; i++ )
                         {
-                            TextView textView = new TextView(this);
                             String str1 = cursor.getString(i);
                             if(str1!=null) {
                                 String out = "<font color=#ffffff>"+ CommonFunctions.splitCamelCase(cursor.getColumnName(i)) +": "+"</font> <font color=#ffffff>"+str1+"</font>";
-                                textView.setText(Html.fromHtml(out) );
+                                TextView textView = getImageDetailsTextView(out);
                                 linearLayout.addView(textView);
                             }
 
                         }
                         break;
                     default:
-                        TextView textView = new TextView(this);
                         String str1 = cursor.getString(cursor.getColumnIndex("CustomTags"));
                         if(str1!=null) {
-                            String out = "<font color=#ffffff>"+ CommonFunctions.splitCamelCase(cursor.getColumnName(cursor.getColumnIndex("CustomTags"))) +": "+"</font> <font color=#ffffff>"+str1+"</font>";
-                            textView.setText(Html.fromHtml(out) );
+                            String out = "<font color=#ffffff>" + CommonFunctions.splitCamelCase(cursor.getColumnName(cursor.getColumnIndex("CustomTags"))) + ": " + "</font> <font color=#ffffff>" + str1 + "</font>";
+                            TextView textView = getImageDetailsTextView(out);
                             linearLayout.addView(textView);
                         }
-
-
                 }
                 mBuilder.setView(mview);
                 AlertDialog dialog = mBuilder.create();
@@ -246,11 +210,9 @@ public class ImageDetailsActivity extends AppCompatActivity {
            case R.id.action_share:
                 StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                 StrictMode.setVmPolicy(builder.build());
-
                 View.OnClickListener handler = new View.OnClickListener() {
                     public void onClick(View v) {
                             //Context context = getContext();
-
                         shareMyImage();
                         }
 
@@ -267,10 +229,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate menu resource file.
         getMenuInflater().inflate(R.menu.main_menu, menu);
-
         return true;
     }
-
-
 }
 
