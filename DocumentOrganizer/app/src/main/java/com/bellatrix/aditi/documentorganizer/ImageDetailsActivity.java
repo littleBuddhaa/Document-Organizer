@@ -12,6 +12,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 
 import com.bellatrix.aditi.documentorganizer.Database.Contract;
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
+import com.bellatrix.aditi.documentorganizer.Utilities.CommonFunctions;
 
 
 import java.io.File;
@@ -152,11 +154,18 @@ public class ImageDetailsActivity extends AppCompatActivity {
                         for( int i = 1; i < 7; i++ )
                         {
                             TextView textView = new TextView(this);
-
+                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                            params.setMargins(10,10,10,10);
+                            textView.setLayoutParams(params);
+                            textView.setTextSize(24);
+                            textView.setTextColor(getResources().getColor(R.color.white));
+                            textView.setBackgroundColor(getResources().getColor(R.color.bground));
+                            textView.setPadding(15, 15, 5, 15);
                             String str1 = cursor.getString(i);
 
                             if(str1!=null) {
-                                textView.setText(cursor.getColumnName(i) + "  :  " + str1);
+                                String out = "<font color=#ffffff>"+ CommonFunctions.splitCamelCase(cursor.getColumnName(i)) +": "+"</font> <font color=#ffffff>"+str1+"</font>";
+                                textView.setText(Html.fromHtml(out) );
                                 linearLayout.addView(textView);
                             }
 
@@ -168,7 +177,8 @@ public class ImageDetailsActivity extends AppCompatActivity {
                             TextView textView = new TextView(this);
                             String str1 = cursor.getString(i);
                             if(str1!=null) {
-                                textView.setText(cursor.getColumnName(i) + "  :  " + str1);
+                                String out = "<font color=#ffffff>"+ CommonFunctions.splitCamelCase(cursor.getColumnName(i)) +": "+"</font> <font color=#ffffff>"+str1+"</font>";
+                                textView.setText(Html.fromHtml(out) );
                                 linearLayout.addView(textView);
                             }
 
@@ -180,7 +190,8 @@ public class ImageDetailsActivity extends AppCompatActivity {
                             TextView textView = new TextView(this);
                             String str1 = cursor.getString(i);
                             if(str1!=null) {
-                                textView.setText(cursor.getColumnName(i) + "  :  " + str1);
+                                String out = "<font color=#ffffff>"+ CommonFunctions.splitCamelCase(cursor.getColumnName(i)) +": "+"</font> <font color=#ffffff>"+str1+"</font>";
+                                textView.setText(Html.fromHtml(out) );
                                 linearLayout.addView(textView);
                             }
 
@@ -192,7 +203,8 @@ public class ImageDetailsActivity extends AppCompatActivity {
                             TextView textView = new TextView(this);
                             String str1 = cursor.getString(i);
                             if(str1!=null) {
-                                textView.setText(cursor.getColumnName(i) + "  :  " + str1);
+                                String out = "<font color=#ffffff>"+ CommonFunctions.splitCamelCase(cursor.getColumnName(i)) +": "+"</font> <font color=#ffffff>"+str1+"</font>";
+                                textView.setText(Html.fromHtml(out) );
                                 linearLayout.addView(textView);
                             }
 
@@ -204,7 +216,8 @@ public class ImageDetailsActivity extends AppCompatActivity {
                             TextView textView = new TextView(this);
                             String str1 = cursor.getString(i);
                             if(str1!=null) {
-                                textView.setText(cursor.getColumnName(i) + "  :  " + str1);
+                                String out = "<font color=#ffffff>"+ CommonFunctions.splitCamelCase(cursor.getColumnName(i)) +": "+"</font> <font color=#ffffff>"+str1+"</font>";
+                                textView.setText(Html.fromHtml(out) );
                                 linearLayout.addView(textView);
                             }
 
@@ -214,9 +227,11 @@ public class ImageDetailsActivity extends AppCompatActivity {
                         TextView textView = new TextView(this);
                         String str1 = cursor.getString(cursor.getColumnIndex("CustomTags"));
                         if(str1!=null) {
-                            textView.setText(cursor.getColumnName(cursor.getColumnIndex("CustomTags")) + "  :  " + str1);
+                            String out = "<font color=#ffffff>"+ CommonFunctions.splitCamelCase(cursor.getColumnName(cursor.getColumnIndex("CustomTags"))) +": "+"</font> <font color=#ffffff>"+str1+"</font>";
+                            textView.setText(Html.fromHtml(out) );
                             linearLayout.addView(textView);
                         }
+
 
                 }
                 mBuilder.setView(mview);
