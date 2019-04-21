@@ -5,16 +5,20 @@ import android.net.Uri;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
 import com.bellatrix.aditi.documentorganizer.Utilities.CommonFunctions;
 import com.bellatrix.aditi.documentorganizer.Utilities.DateUtil;
+import com.bellatrix.aditi.documentorganizer.Utilities.DialogProductName;
+import com.bellatrix.aditi.documentorganizer.Utilities.DialogProductType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,7 +27,7 @@ import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.BNR_SUB_
 import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.BNR_SUB_CATEGORIES_2;
 import static java.sql.Types.NULL;
 
-public class BillsDetailsActivity extends AppCompatActivity {
+public class BillsDetailsActivity extends AppCompatActivity implements DialogProductType.DialogListenerPType , DialogProductName.DialogListenerPName {
 
     private static final String TAG = AddImageActivity.class.getSimpleName();
     private static final int ADD_DETAILS_RESULT_CODE = 50;
@@ -31,11 +35,13 @@ public class BillsDetailsActivity extends AppCompatActivity {
     private byte[] img;
     private final String folderName = "Bills_and_Receipts";
 
-    private EditText purchaseDate, imageTitle, total, enterprise;
+    private EditText purchaseDate, imageTitle, total, enterprise, customTags; //newly added
     private ImageButton datePicker;
     private LinearLayout productType, productName;
-    private Button backButton, finishButton;
+    private Button backButton, finishButton, addMoreProductType, addMoreProductName; //newly added
     private ArrayList<CheckBox> checkBox1, checkBox2;
+    String pName, pType;
+    String textRecognized;
     private Uri uri;
 
     @Override
@@ -46,15 +52,21 @@ public class BillsDetailsActivity extends AppCompatActivity {
         uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
         int quality = getIntent().getExtras().getInt("imageQuality");
         img = CommonFunctions.uriToBytes(this,uri,TAG,quality);
+        textRecognized = CommonFunctions.getTextFromUri(this, uri, TAG);
+        Log.d(TAG, "onCreate : " + textRecognized);
 
         purchaseDate = (EditText)findViewById(R.id.et_purchase_date);
         imageTitle = (EditText)findViewById(R.id.et_image_title);
         total = (EditText)findViewById(R.id.et_total);
+        customTags = (EditText)findViewById(R.id.et_custom_tags); //newly added
         enterprise = (EditText)findViewById(R.id.et_enterprise);
         datePicker = (ImageButton)findViewById(R.id.date_picker_button);
         productName = (LinearLayout) findViewById(R.id.ll_product_name);
         productType = (LinearLayout) findViewById(R.id.ll_product_type);
+        addMoreProductType = (Button)findViewById(R.id.btn_product_type); //newly
+        addMoreProductName = (Button)findViewById(R.id.btn_product_name); //mewly
         backButton = (Button)findViewById(R.id.back_button);
+
         finishButton = (Button)findViewById(R.id.finish_button);
 
         checkBox1 = new ArrayList<>();
@@ -64,6 +76,23 @@ public class BillsDetailsActivity extends AppCompatActivity {
         String title = folderName+"_"
                 +String.valueOf(DBQueries.getTotalImageByFolder(this, folderName)+1);
         imageTitle.setText(title);
+
+        addMoreProductType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialogProductType();
+
+            }
+        });
+
+        addMoreProductName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialogProductName();
+
+            }
+        });
+
 
         datePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +134,18 @@ public class BillsDetailsActivity extends AppCompatActivity {
         });
     }
 
+    public void openDialogProductType()
+    {
+        DialogProductType dpt = new DialogProductType();
+        dpt.show(getSupportFragmentManager(), "Adding Product Type");
+    }
+
+    public void openDialogProductName()
+    {
+        DialogProductName dpn = new DialogProductName();
+        dpn.show(getSupportFragmentManager(), "Adding Product Name");
+    }
+
     private void handleData() {
 
         // insertion in global table
@@ -126,7 +167,10 @@ public class BillsDetailsActivity extends AppCompatActivity {
             val1 = val1.substring(0,val1.length()-1);
         if(val2.length()>1)
             val2 = val2.substring(0,val2.length()-1);
-
+        //Toast.makeText(getApplicationContext(),val1, Toast.LENGTH_LONG).show();
+       // Toast.makeText(getApplicationContext(),val2, Toast.LENGTH_LONG).show();
+        //System.out.println(val1);
+        //System.out.println(val2);
         DBQueries.insertBNR(this,
                 id,purchaseDate.getText().toString(),
                 val1,val2,
@@ -150,6 +194,20 @@ public class BillsDetailsActivity extends AppCompatActivity {
         }
     }
 
+    private void newSetCheckBoxes1(String str) {
+        CheckBox checkBox = new CheckBox(this);
+        checkBox.setText(str);
+        productType.addView(checkBox);
+        checkBox1.add(checkBox);
+    }
+
+    private void newSetCheckBoxes2(String str) {
+        CheckBox checkBox = new CheckBox(this);
+        checkBox.setText(str);
+        productName.addView(checkBox);
+        checkBox2.add(checkBox);
+    }
+
     public void setDate(DateUtil date) {
         String day = String.valueOf(date.getDay());
         String month = String.valueOf(date.getMonth());
@@ -157,5 +215,20 @@ public class BillsDetailsActivity extends AppCompatActivity {
         if(day.length()==1) day="0"+day;
         if(month.length()==1) month="0"+month;
         purchaseDate.setText(year+"-"+month+"-"+day);
+    }
+
+    @Override
+    public void applyTexts1(String ptype) {
+       // addMoreProductType.setText(ptype); //only for see if correct value is being received
+        pType = ptype;
+        BNR_SUB_CATEGORIES_1.add(pType);
+        newSetCheckBoxes1(ptype);
+    }
+
+    public void applyTexts2(String pname) {
+       // addMoreProductName.setText(pname); //only for see if correct value is being received
+        pName = pname;
+        BNR_SUB_CATEGORIES_2.add(pName);
+        newSetCheckBoxes2(pname);
     }
 }

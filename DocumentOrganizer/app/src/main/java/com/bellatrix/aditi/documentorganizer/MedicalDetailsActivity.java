@@ -15,9 +15,11 @@ import android.widget.RadioGroup;
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
 import com.bellatrix.aditi.documentorganizer.Utilities.CommonFunctions;
 import com.bellatrix.aditi.documentorganizer.Utilities.DateUtil;
+import com.bellatrix.aditi.documentorganizer.Utilities.DialogProductType;
 
 import java.util.Collections;
 
+import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.BNR_SUB_CATEGORIES_1;
 import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.MEDICAL_SUB_CATEGORIES_1;
 import static java.sql.Types.NULL;
 
@@ -28,10 +30,10 @@ public class MedicalDetailsActivity extends AppCompatActivity {
     private byte[] img;
     private final String folderName = "Medical_records";
 
-    private EditText issuedDate, imageTitle, patientName, institution;
+    private EditText issuedDate, imageTitle, patientName, institution, customTags;
     private ImageButton datePicker;
     private RadioGroup radioGroup;
-    private Button backButton, finishButton;
+    private Button backButton, finishButton, addRecordType;
     private Uri uri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,8 @@ public class MedicalDetailsActivity extends AppCompatActivity {
         radioGroup = (RadioGroup)findViewById(R.id.radio_grp);
         backButton = (Button)findViewById(R.id.back_button);
         finishButton = (Button)findViewById(R.id.finish_button);
+        customTags = (EditText)findViewById(R.id.et_custom_tags);
+        addRecordType = (Button) findViewById(R.id.btn_record_type);
 
         setRadioGroup();
 
@@ -75,6 +79,14 @@ public class MedicalDetailsActivity extends AppCompatActivity {
             }
         });
 
+        addRecordType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialogReportType();
+
+            }
+        });
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,6 +107,12 @@ public class MedicalDetailsActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public void openDialogReportType()
+    {
+        DialogProductType dpt = new DialogProductType();
+        dpt.show(getSupportFragmentManager(), "Adding Record Type");
     }
 
     private void handleData() {
@@ -121,6 +139,18 @@ public class MedicalDetailsActivity extends AppCompatActivity {
             radioButton.setText(type);
             radioGroup.addView(radioButton);
         }
+    }
+
+    private void setRadioGroup1(String str) {
+        RadioButton radioButton = new RadioButton(this);
+        radioButton.setText(str);
+        radioGroup.addView(radioButton);
+    }
+
+    public void applyTexts1(String ptype) {
+        // addMoreProductType.setText(ptype); //only for see if correct value is being received
+        BNR_SUB_CATEGORIES_1.add(ptype);
+        setRadioGroup1(ptype);
     }
 
     public void setDate(DateUtil date) {
