@@ -1,6 +1,5 @@
 package com.bellatrix.aditi.documentorganizer;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -8,12 +7,9 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.ShareActionProvider;
 import android.text.Html;
 import android.util.Log;
@@ -27,7 +23,6 @@ import android.widget.TextView;
 import com.bellatrix.aditi.documentorganizer.Database.Contract;
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
 import com.bellatrix.aditi.documentorganizer.Utilities.CommonFunctions;
-
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -52,10 +47,16 @@ public class ImageDetailsActivity extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_details);
+        //Toolbar toolbar  = (Toolbar) findViewById(R.id.toolbar2);
+
+        //TextView dtitle = (TextView)findViewById(R.id.dialogtitle);
+        //dtitle.setText("Image Tags");
+        //toolbar.setTitle("Image Tags");
 
 
         folderName = getIntent().getExtras().getString("folderName");
@@ -113,10 +114,10 @@ public class ImageDetailsActivity extends AppCompatActivity {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.setMargins(10,10,10,10);
         textView.setLayoutParams(params);
-        textView.setTextSize(24);
-        textView.setTextColor(getResources().getColor(R.color.white));
-        textView.setBackgroundColor(getResources().getColor(R.color.bground));
-        textView.setPadding(15, 15, 5, 15);
+        textView.setTextSize(16);
+        textView.setTextColor(getResources().getColor(R.color.dark_gray));
+        textView.setBackgroundColor(getResources().getColor(R.color.transparent));
+        textView.setPadding(15, 15, 15, 15);
         textView.setText(Html.fromHtml(textInTextView) );
         return textView;
     }
@@ -132,6 +133,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
                 long id = mCursor.getLong(mCursor.getColumnIndex(Contract.Documents.COLUMN_ID));
                 cursor =  DBQueries.getImageById(ImageDetailsActivity.this, folderName,id);
                 View mview = getLayoutInflater().inflate(R.layout.image_details_dialog,null);
+
                 linearLayout = (LinearLayout) mview.findViewById(R.id.mainLayout);
                 switch (folderName)
                 {
@@ -141,7 +143,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
                         {
                             String str1 = cursor.getString(i);
                             if(str1!=null) {
-                                String out = "<font color=#ffffff>"+ CommonFunctions.splitCamelCase(cursor.getColumnName(i)) +": "+"</font> <font color=#ffffff>"+str1+"</font>";
+                                String out = "<b>" + CommonFunctions.splitCamelCase(cursor.getColumnName(i)) +"  :  "+"</b>"+str1 + "   ";
                                 TextView textView = getImageDetailsTextView(out);
                                 linearLayout.addView(textView);
                             }
