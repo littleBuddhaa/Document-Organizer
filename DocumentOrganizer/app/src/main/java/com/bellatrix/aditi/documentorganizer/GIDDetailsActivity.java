@@ -2,11 +2,10 @@ package com.bellatrix.aditi.documentorganizer;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -17,24 +16,25 @@ import com.bellatrix.aditi.documentorganizer.Utilities.CommonFunctions;
 import java.util.Collections;
 
 import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.GID_SUB_CATEGORIES_1;
+import static java.sql.Types.NULL;
 
 public class GIDDetailsActivity extends AppCompatActivity {
 
     private static final String TAG = GIDDetailsActivity.class.getSimpleName();
     private static final int ADD_DETAILS_RESULT_CODE = 50;
     private byte[] img;
-    private final String folderName = "Government issued documents";
+    private final String folderName = "Government_issued_documents";
 
     private EditText imageTitle, holderName;
     private RadioGroup radioGroup;
     private Button backButton, finishButton;
-
+    private  Uri uri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gid_details);
 
-        Uri uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
+         uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
         int quality = getIntent().getExtras().getInt("imageQuality");
         img = CommonFunctions.uriToBytes(this,uri,TAG,quality);
 
@@ -61,7 +61,11 @@ public class GIDDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 handleData();
+
                 setResult(ADD_DETAILS_RESULT_CODE);
+                Intent intent = new Intent(GIDDetailsActivity.this, ViewImageActivity.class);
+                intent.putExtra("folderName", folderName);
+                startActivity(intent);
                 finish();
             }
         });
@@ -70,18 +74,17 @@ public class GIDDetailsActivity extends AppCompatActivity {
     private void handleData() {
 
         // insertion in global table
-        long id = DBQueries.insertDocument(GIDDetailsActivity.this,img,
+        long id =  DBQueries.insertDocument(GIDDetailsActivity.this,NULL,img,
                 imageTitle.getText().toString(),folderName);
 
         // insertion in the table for the folder
-        String val=((RadioButton)findViewById(radioGroup.getCheckedRadioButtonId())).getText().toString();;
+        String val="";
+        RadioButton button;
+        if((button=(RadioButton)findViewById(radioGroup.getCheckedRadioButtonId()))!=null)
+            val = button.getText().toString();
 
         DBQueries.insertGID(GIDDetailsActivity.this,
                 id,val,holderName.getText().toString());
-
-        Intent intent = new Intent(GIDDetailsActivity.this, ViewImageActivity.class);
-        intent.putExtra("folderName", folderName);
-        startActivity(intent);
     }
 
     private void setRadioGroup() {

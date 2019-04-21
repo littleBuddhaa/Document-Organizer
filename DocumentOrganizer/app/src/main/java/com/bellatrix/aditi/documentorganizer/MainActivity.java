@@ -1,27 +1,28 @@
 package com.bellatrix.aditi.documentorganizer;
 
-import com.bellatrix.aditi.documentorganizer.Database.Contract;
-import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
-import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
-
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
+
+import com.bellatrix.aditi.documentorganizer.Database.Contract;
+import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 public class MainActivity extends AppCompatActivity implements FolderAdapter.onListItemClickLister,
         DialogInterface.OnDismissListener{
@@ -66,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements FolderAdapter.onL
         folder_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                StrictMode.setVmPolicy(builder.build());
                 AddFolderDialogFragment addFolderDialogFragment = new AddFolderDialogFragment();
                 addFolderDialogFragment.setCancelable(false);
                 addFolderDialogFragment.show(getFragmentManager(),"addFolder");
@@ -130,16 +133,16 @@ public class MainActivity extends AppCompatActivity implements FolderAdapter.onL
         }
     }
 
-    @Override
-    public boolean onSearchRequested() {
+//    @Override
+//    public boolean onSearchRequested() {
 //        pauseSomeStuff();
 //        can insert additional data here
 //        Bundle appData = new Bundle();
 //        appData.putBoolean(SearchableActivity.JARGON, true);
 //        startSearch(null, false, appData, false);
 //        return true;
-        return super.onSearchRequested();
-    }
+//        return super.onSearchRequested();
+//    }
 
     @Override
     public void onListItemClick(int index) {
@@ -150,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements FolderAdapter.onL
         Intent intent = new Intent(MainActivity.this, ViewImageActivity.class);
         intent.putExtra("folderName",
                 folderCursor.getString(folderCursor.getColumnIndex(Contract.Folders.COLUMN_FOLDER_NAME)));
+
         startActivity(intent);
     }
 

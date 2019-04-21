@@ -19,26 +19,28 @@ import com.bellatrix.aditi.documentorganizer.Utilities.CommonFunctions;
 import java.util.Collections;
 
 import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.CERTIFICATE_SUB_CATEGORIES_2;
+import static java.sql.Types.NULL;
 
-public class CertificateDetailsActivity extends AppCompatActivity {
+public class
+CertificateDetailsActivity extends AppCompatActivity {
 
     private static final String TAG = CertificateDetailsActivity.class.getSimpleName();
     private static final int ADD_DETAILS_RESULT_CODE = 50;
     private byte[] img;
-    private final String folderName = "Certificates & Marksheets";
+    private final String folderName = "Certificates_and_Marksheets";
 
     private EditText imageTitle, holderName, institution, achievement;
     private LinearLayout type2;
     private Button backButton, finishButton;
     private RadioGroup radioGroup1, radioGroup2;
     private RadioButton radioButton2;
-
+    private  Uri uri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_certificate_details);
 
-        Uri uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
+         uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
         int quality = getIntent().getExtras().getInt("imageQuality");
         img = CommonFunctions.uriToBytes(this,uri,TAG,quality);
 
@@ -84,7 +86,11 @@ public class CertificateDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 handleData();
+
                 setResult(ADD_DETAILS_RESULT_CODE);
+                Intent intent = new Intent(CertificateDetailsActivity.this, ViewImageActivity.class);
+                intent.putExtra("folderName", folderName);
+                startActivity(intent);
                 finish();
             }
         });
@@ -93,25 +99,24 @@ public class CertificateDetailsActivity extends AppCompatActivity {
     private void handleData() {
 
         // insertion in global table
-        long id = DBQueries.insertDocument(CertificateDetailsActivity.this,img,
+        long id =DBQueries.insertDocument(CertificateDetailsActivity.this,NULL,img,
                 imageTitle.getText().toString(),folderName);
 
         // insertion in the table for the folder
-        String val1=((RadioButton)findViewById(radioGroup1.getCheckedRadioButtonId())).getText().toString();
-        String val2="";
+        String val1="", val2="";
+        RadioButton button1, button2;
+        if((button1=(RadioButton)findViewById(radioGroup1.getCheckedRadioButtonId()))!=null)
+            val1 = button1.getText().toString();
 
         if(val1.equals("Marksheet")) {
-            val2=((RadioButton)findViewById(radioGroup2.getCheckedRadioButtonId())).getText().toString();
+            if((button2=(RadioButton)findViewById(radioGroup2.getCheckedRadioButtonId()))!=null)
+                val2 = button2.getText().toString();
         }
 
         DBQueries.insertCertificate(CertificateDetailsActivity.this,
                 id,val1,val2,
                 holderName.getText().toString(),institution.getText().toString(),
                 achievement.getText().toString());
-
-        Intent intent = new Intent(CertificateDetailsActivity.this, ViewImageActivity.class);
-        intent.putExtra("folderName", folderName);
-        startActivity(intent);
     }
 
     private void setRadioGroup() {

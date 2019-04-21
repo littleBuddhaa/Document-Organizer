@@ -57,7 +57,13 @@ public class AddFolderDialogFragment extends DialogFragment{
                         if(!Pattern.compile("#[a-fA-F0-9]{6}").matcher(color).matches()||folderName.equals("")) {
                             Toast.makeText(getActivity(),"Invalid input",Toast.LENGTH_SHORT).show();
                         } else {
-                            DBQueries.insertFolder(getActivity(),folderName,color);
+                            String splitedName[] =  folderName.split(" ");
+                            String folderName1 = "";
+                            for(String s: splitedName) {
+                                folderName1 = folderName1 + s + "_";
+                            }
+                            folderName1 = folderName1.substring(0,folderName1.length()-1);
+                            DBQueries.insertFolder(getActivity(),folderName1,color);
                             AddFolderDialogFragment.this.getDialog().dismiss();
 
                         }

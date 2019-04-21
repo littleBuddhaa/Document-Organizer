@@ -72,7 +72,11 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
             if (!mCursor.moveToPosition(position))
                 return; // bail if returned null*/
 
-            String folderName = mCursor.getString(mCursor.getColumnIndex(Contract.Folders.COLUMN_FOLDER_NAME));
+            String splitedName[] =  mCursor.getString(mCursor.getColumnIndex(Contract.Folders.COLUMN_FOLDER_NAME)).split("_");
+            String folderName = "";
+            for(String s: splitedName) {
+                folderName = folderName + " " + s;
+            }
             String color = mCursor.getString(mCursor.getColumnIndex(Contract.Folders.COLUMN_FOLDER_COLOR));
 
             this.holder.setBackgroundColor(Color.parseColor(color));

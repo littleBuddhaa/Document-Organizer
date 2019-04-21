@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:padding="4dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            tools:src="@drawable/ic_search"
+            android:id="@+id/imagebox"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/image_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            tools:text="Title"
+            android:textStyle="bold"
+            android:padding="4sp"
+            app:layout_constraintLeft_toRightOf="@+id/imagebox"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/image_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/colorAccent"
+            tools:text="Category"
+            android:padding="4sp"
+            app:layout_constraintLeft_toRightOf="@+id/imagebox"
+            app:layout_constraintTop_toBottomOf="@+id/image_title"
+            android:gravity="center"/>
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

@@ -21,25 +21,26 @@ import java.util.Collections;
 
 import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.BNR_SUB_CATEGORIES_1;
 import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.MEDICAL_SUB_CATEGORIES_1;
+import static java.sql.Types.NULL;
 
 public class MedicalDetailsActivity extends AppCompatActivity {
 
     private static final String TAG = MedicalDetailsActivity.class.getSimpleName();
     private static final int ADD_DETAILS_RESULT_CODE = 50;
     private byte[] img;
-    private final String folderName = "Medical records";
+    private final String folderName = "Medical_records";
 
     private EditText issuedDate, imageTitle, patientName, institution, customTags;
     private ImageButton datePicker;
     private RadioGroup radioGroup;
     private Button backButton, finishButton, addRecordType;
-
+    private Uri uri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medical_details);
 
-        Uri uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
+        uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
         int quality = getIntent().getExtras().getInt("imageQuality");
         img = CommonFunctions.uriToBytes(this,uri,TAG,quality);
 
@@ -96,8 +97,13 @@ public class MedicalDetailsActivity extends AppCompatActivity {
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 handleData();
+
                 setResult(ADD_DETAILS_RESULT_CODE);
+                Intent intent = new Intent(MedicalDetailsActivity.this, ViewImageActivity.class);
+                intent.putExtra("folderName", folderName);
+                startActivity(intent);
                 finish();
             }
         });
@@ -112,19 +118,18 @@ public class MedicalDetailsActivity extends AppCompatActivity {
     private void handleData() {
 
         // insertion in global table
-        long id = DBQueries.insertDocument(MedicalDetailsActivity.this,img,
+        long id = DBQueries.insertDocument(MedicalDetailsActivity.this,NULL,img,
                 imageTitle.getText().toString(),folderName);
 
         // insertion in the table for the folder
-        String val=((RadioButton)findViewById(radioGroup.getCheckedRadioButtonId())).getText().toString();
+        String val="";
+        RadioButton button;
+        if((button=(RadioButton)findViewById(radioGroup.getCheckedRadioButtonId()))!=null)
+                val = button.getText().toString();
 
         DBQueries.insertMedical(MedicalDetailsActivity.this,
                 id,issuedDate.getText().toString(),val,
                 patientName.getText().toString(),institution.getText().toString());
-
-        Intent intent = new Intent(MedicalDetailsActivity.this, ViewImageActivity.class);
-        intent.putExtra("folderName", folderName);
-        startActivity(intent);
     }
 
     private void setRadioGroup() {

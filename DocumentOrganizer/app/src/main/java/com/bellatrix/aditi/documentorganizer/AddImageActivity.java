@@ -170,22 +170,22 @@ public class AddImageActivity extends AppCompatActivity{
     }
 
     private void startActivityAccordingToFolderName(int quality) {
-        if(folderName.equals("Bills & Receipts")) {
+        if(folderName.equals("Bills_and_Receipts")) {
             Intent intent = new Intent(AddImageActivity.this, BillsDetailsActivity.class);
             intent.putExtra("imageUri", imageUri.toString());
             intent.putExtra("imageQuality", quality);
             startActivityForResult(intent, ADD_DETAILS_REQUEST);
-        } else if(folderName.equals("Medical records")) {
+        } else if(folderName.equals("Medical_records")) {
             Intent intent = new Intent(AddImageActivity.this, MedicalDetailsActivity.class);
             intent.putExtra("imageUri", imageUri.toString());
             intent.putExtra("imageQuality", quality);
             startActivityForResult(intent, ADD_DETAILS_REQUEST);
-        } else if(folderName.equals("Government issued documents")) {
+        } else if(folderName.equals("Government_issued_documents")) {
             Intent intent = new Intent(AddImageActivity.this, GIDDetailsActivity.class);
             intent.putExtra("imageUri", imageUri.toString());
             intent.putExtra("imageQuality", quality);
             startActivityForResult(intent, ADD_DETAILS_REQUEST);
-        } else if(folderName.equals("Certificates & Marksheets")) {
+        } else if(folderName.equals("Certificates_and_Marksheets")) {
             Intent intent = new Intent(AddImageActivity.this, CertificateDetailsActivity.class);
             intent.putExtra("imageUri", imageUri.toString());
             intent.putExtra("imageQuality", quality);

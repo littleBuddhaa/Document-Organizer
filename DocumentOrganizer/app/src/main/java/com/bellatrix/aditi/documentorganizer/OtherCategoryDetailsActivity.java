@@ -2,15 +2,16 @@ package com.bellatrix.aditi.documentorganizer;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
 import com.bellatrix.aditi.documentorganizer.Utilities.CommonFunctions;
+
+import static java.sql.Types.NULL;
 
 public class OtherCategoryDetailsActivity extends AppCompatActivity {
 
@@ -21,13 +22,13 @@ public class OtherCategoryDetailsActivity extends AppCompatActivity {
 
     private EditText imageTitle;
     private Button backButton, finishButton;
-
+    private  Uri uri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other_category_details);
 
-        Uri uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
+        uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
         int quality = getIntent().getExtras().getInt("imageQuality");
         img = CommonFunctions.uriToBytes(this,uri,TAG,quality);
         folderName = getIntent().getExtras().getString("folderName");
@@ -51,7 +52,11 @@ public class OtherCategoryDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 handleData();
+
                 setResult(ADD_DETAILS_RESULT_CODE);
+                Intent intent = new Intent(OtherCategoryDetailsActivity.this, ViewImageActivity.class);
+                intent.putExtra("folderName", folderName);
+                startActivity(intent);
                 finish();
             }
         });
@@ -60,14 +65,10 @@ public class OtherCategoryDetailsActivity extends AppCompatActivity {
     private void handleData() {
 
         // insertion in global table
-        long id = DBQueries.insertDocument(OtherCategoryDetailsActivity.this,img,
+        long id = DBQueries.insertDocument(OtherCategoryDetailsActivity.this,NULL,img,
                 imageTitle.getText().toString(),folderName);
 
         DBQueries.insertIntoFolder(OtherCategoryDetailsActivity.this,
                 folderName,id,"");
-
-        Intent intent = new Intent(OtherCategoryDetailsActivity.this, ViewImageActivity.class);
-        intent.putExtra("folderName", folderName);
-        startActivity(intent);
     }
 }

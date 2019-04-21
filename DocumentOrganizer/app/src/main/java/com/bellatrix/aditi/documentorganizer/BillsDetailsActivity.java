@@ -25,6 +25,7 @@ import java.util.Collections;
 
 import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.BNR_SUB_CATEGORIES_1;
 import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.BNR_SUB_CATEGORIES_2;
+import static java.sql.Types.NULL;
 
 public class BillsDetailsActivity extends AppCompatActivity implements DialogProductType.DialogListenerPType , DialogProductName.DialogListenerPName {
 
@@ -32,7 +33,7 @@ public class BillsDetailsActivity extends AppCompatActivity implements DialogPro
     private static final int ADD_DETAILS_RESULT_CODE = 50;
 
     private byte[] img;
-    private final String folderName = "Bills & Receipts";
+    private final String folderName = "Bills_and_Receipts";
 
     private EditText purchaseDate, imageTitle, total, enterprise, customTags; //newly added
     private ImageButton datePicker;
@@ -41,13 +42,14 @@ public class BillsDetailsActivity extends AppCompatActivity implements DialogPro
     private ArrayList<CheckBox> checkBox1, checkBox2;
     String pName, pType;
     String textRecognized;
+    private Uri uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bills_details);
 
-        Uri uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
+        uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
         int quality = getIntent().getExtras().getInt("imageQuality");
         img = CommonFunctions.uriToBytes(this,uri,TAG,quality);
         textRecognized = CommonFunctions.getTextFromUri(this, uri, TAG);
@@ -147,8 +149,7 @@ public class BillsDetailsActivity extends AppCompatActivity implements DialogPro
     private void handleData() {
 
         // insertion in global table
-        long id = DBQueries.insertDocument(this,img,
-                imageTitle.getText().toString(),folderName);
+        long id=DBQueries.insertDocument(this,NULL,img,imageTitle.getText().toString(),folderName);
 
         // insertion in the table for the folder
         String val1="", val2="";
