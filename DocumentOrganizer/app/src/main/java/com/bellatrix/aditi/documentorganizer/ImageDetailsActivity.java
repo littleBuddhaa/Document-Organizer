@@ -147,11 +147,12 @@ public class ImageDetailsActivity extends AppCompatActivity {
                 linearLayout = (LinearLayout) mview.findViewById(R.id.mainLayout);
                 switch (folderName)
                 {
-                    case "Bills & Receipts":
+                    case "Bills_and_Receipts":
 
                         for( int i = 1; i < 7; i++ )
                         {
                             TextView textView = new TextView(this);
+
                             String str1 = cursor.getString(i);
 
                             if(str1!=null) {
@@ -161,7 +162,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
 
                         }
                         break;
-                    case "Medical records":
+                    case "Medical_records":
                         for( int i = 1; i < 6; i++ )
                         {
                             TextView textView = new TextView(this);
@@ -173,7 +174,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
 
                         }
                         break;
-                    case "Government issued documents":
+                    case "Government_issued_documents":
                         for( int i = 1; i < 4; i++ )
                         {
                             TextView textView = new TextView(this);
@@ -197,7 +198,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
 
                         }
                         break;
-                    case "Certificates":
+                    case "Certificates_and_Marksheets":
                         for( int i = 3; i < 7; i++ )
                         {
                             TextView textView = new TextView(this);

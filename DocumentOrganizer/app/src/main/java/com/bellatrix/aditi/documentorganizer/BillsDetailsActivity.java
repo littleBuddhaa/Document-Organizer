@@ -174,7 +174,7 @@ public class BillsDetailsActivity extends AppCompatActivity implements DialogPro
         DBQueries.insertBNR(this,
                 id,purchaseDate.getText().toString(),
                 val1,val2,
-                total.getText().toString(),enterprise.getText().toString());
+                total.getText().toString(),enterprise.getText().toString(),customTags.getText().toString());
     }
 
     private void setCheckBoxes() {
