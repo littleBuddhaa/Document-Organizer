@@ -138,7 +138,7 @@ public class DBQueries {
 
 
     public static long insertBNR(Context c, long id, String date, String receiptType,
-                                 String productName, String total, String enterprise) {
+                                 String productName, String total, String enterprise,String cTags) {
         DBHelper dbHelper = new DBHelper(c);
         SQLiteDatabase sdb = dbHelper.getWritableDatabase();
 
@@ -158,12 +158,16 @@ public class DBQueries {
             cv.put(Contract.BNR.COLUMN_TOTAL, total);
         if(!enterprise.equals(""))
             cv.put(Contract.BNR.COLUMN_ENTERPRISE, enterprise);
+
+        if(!cTags.equals(""))
+            cv.put(Contract.BNR.COLUMN_CUSTOM_TAGS, cTags);
+
         long retVal= sdb.insert(Contract.BNR.TABLE_NAME,null,cv);
         sdb.close();
         return retVal;
     }
 
-    public static long insertMedical(Context c, long id, String date, String type, String patientName, String institution) {
+    public static long insertMedical(Context c, long id, String date, String type, String patientName, String institution,String cTags) {
         DBHelper dbHelper = new DBHelper(c);
         SQLiteDatabase sdb = dbHelper.getWritableDatabase();
 
@@ -181,7 +185,11 @@ public class DBQueries {
             cv.put(Contract.Medical.COLUMN_PATIENT, patientName);
         if(!institution.equals(""))
             cv.put(Contract.Medical.COLUMN_INSTITUTION, institution);
+
+        if(!cTags.equals(""))
+            cv.put(Contract.BNR.COLUMN_CUSTOM_TAGS, cTags);
         long retVal= sdb.insert(Contract.Medical.TABLE_NAME,null,cv);
+
         sdb.close();
         return retVal;
     }
@@ -197,6 +205,7 @@ public class DBQueries {
             cv.put(Contract.GID.COLUMN_TYPE, type);
         if(!holderName.equals(""))
             cv.put(Contract.GID.COLUMN_HOLDER_NAME, holderName);
+
         long retVal= sdb.insert(Contract.GID.TABLE_NAME,null,cv);
         sdb.close();
         return retVal;
@@ -220,6 +229,7 @@ public class DBQueries {
             cv.put(Contract.Certificates.COLUMN_INSTITUTION, institution);
         if(!achievement.equals(""))
             cv.put(Contract.Certificates.COLUMN_ACHIEVEMENT, achievement);
+
         long retVal= sdb.insert(Contract.Certificates.TABLE_NAME,null,cv);
         sdb.close();
         return retVal;

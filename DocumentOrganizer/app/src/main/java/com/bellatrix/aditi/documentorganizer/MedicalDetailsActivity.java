@@ -129,7 +129,7 @@ public class MedicalDetailsActivity extends AppCompatActivity {
 
         DBQueries.insertMedical(MedicalDetailsActivity.this,
                 id,issuedDate.getText().toString(),val,
-                patientName.getText().toString(),institution.getText().toString());
+                patientName.getText().toString(),institution.getText().toString(),customTags.getText().toString());
     }
 
     private void setRadioGroup() {

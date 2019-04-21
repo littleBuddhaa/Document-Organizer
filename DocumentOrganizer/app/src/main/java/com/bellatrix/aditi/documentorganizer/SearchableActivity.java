@@ -1,6 +1,7 @@
 package com.bellatrix.aditi.documentorganizer;
 
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.provider.SearchRecentSuggestions;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.bellatrix.aditi.documentorganizer.Database.Contract;
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
@@ -81,8 +83,12 @@ public class SearchableActivity extends AppCompatActivity implements ImageSearch
 
         Intent intent = new Intent(SearchableActivity.this, ImageDetailsActivity.class);
         intent.putExtra("folderName",mCursor.getString(mCursor.getColumnIndex(Contract.Documents.COLUMN_CATEGORY)));
+        long id = mCursor.getLong(mCursor.getColumnIndex(Contract.Documents.COLUMN_ID));
+
+        intent.putExtra("id",id);
+
         intent.putExtra("cIndex",index);
-        startActivity(intent);
+ startActivity(intent);
     }
 
     @Override

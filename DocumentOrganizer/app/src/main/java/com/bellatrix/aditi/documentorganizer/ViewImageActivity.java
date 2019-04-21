@@ -13,7 +13,9 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.bellatrix.aditi.documentorganizer.Database.Contract;
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
+import com.bellatrix.aditi.documentorganizer.Utilities.CommonFunctions;
 
 public class ViewImageActivity extends AppCompatActivity implements ImageAdapter.onListItemClickLister{
 
@@ -30,7 +32,7 @@ public class ViewImageActivity extends AppCompatActivity implements ImageAdapter
         setContentView(R.layout.activity_view_image);
 
         folderName = getIntent().getExtras().getString("folderName");
-
+        setTitle(CommonFunctions.toReadableString(folderName));
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
   //      getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -52,6 +54,10 @@ public class ViewImageActivity extends AppCompatActivity implements ImageAdapter
             return; // bail if returned null*/
 
         Intent intent = new Intent(ViewImageActivity.this, ImageDetailsActivity.class);
+        long id = mCursor.getLong(mCursor.getColumnIndex(Contract.Documents.COLUMN_ID));
+
+        intent.putExtra("id",id);
+
         intent.putExtra("folderName",folderName);
         intent.putExtra("cIndex",index);
         startActivity(intent);

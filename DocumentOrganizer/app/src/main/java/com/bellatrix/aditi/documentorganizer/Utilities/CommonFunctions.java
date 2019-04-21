@@ -23,6 +23,9 @@ import java.util.Comparator;
 
 public class CommonFunctions {
 
+    private static final String UNDERSCORE = "_";
+    private static final String SPACE = " ";
+
     public static byte[] uriToBytes(Context c, Uri uri, String TAG, int quality) {
         Bitmap bitmap = uriToBitmap(c, uri, TAG);
         return bitmapToBytes(bitmap, quality);
@@ -88,4 +91,21 @@ public class CommonFunctions {
             return fruit1.getBoundingBox().bottom - fruit2.getBoundingBox().bottom;
         }
     };
+
+    public static String splitCamelCase(String s) {
+        return s.replaceAll(
+                String.format("%s|%s|%s",
+                        "(?<=[A-Z])(?=[A-Z][a-z])",
+                        "(?<=[^A-Z])(?=[A-Z])",
+                        "(?<=[A-Za-z])(?=[^A-Za-z])"
+                ),
+                " "
+        );
+    }
+
+    public static String toReadableString(String str) {
+        return str.replace(UNDERSCORE, SPACE);
+    }
+
+
 }
