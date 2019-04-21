@@ -17,5 +17,6 @@
     <color name ="dark_gray">#5B5E5E</color>
     <color name="bground">#0092A6</color>
     <color name = "imagebg">#1D343A</color>
+    <color name = "black">#000000</color>
 
 </resources>
