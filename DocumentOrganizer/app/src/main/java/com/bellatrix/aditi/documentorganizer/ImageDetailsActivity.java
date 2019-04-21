@@ -61,6 +61,11 @@ public class ImageDetailsActivity extends AppCompatActivity {
         mCursor = DBQueries.getImageByFolder(ImageDetailsActivity.this, folderName);
 
         mCursor.moveToPosition(index);
+        String title = "Untitled Document";
+        String res = mCursor.getString(mCursor.getColumnIndex(Contract.Documents.COLUMN_TITLE));
+        if(res!=null)
+            title = res;
+        setTitle(title);
          ImageView imgView = (ImageView) findViewById(R.id.iv);
 
         byte[] image = mCursor.getBlob(mCursor.getColumnIndex(Contract.Documents.COLUMN_IMAGE));

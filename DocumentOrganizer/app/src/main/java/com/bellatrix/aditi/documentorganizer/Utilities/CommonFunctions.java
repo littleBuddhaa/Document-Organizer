@@ -23,6 +23,9 @@ import java.util.Comparator;
 
 public class CommonFunctions {
 
+    private static final String UNDERSCORE = "_";
+    private static final String SPACE = " ";
+
     public static byte[] uriToBytes(Context c, Uri uri, String TAG, int quality) {
         Bitmap bitmap = uriToBitmap(c, uri, TAG);
         return bitmapToBytes(bitmap, quality);
@@ -98,5 +101,9 @@ public class CommonFunctions {
                 ),
                 " "
         );
+    }
+
+    public static String toReadableString(String str) {
+        return str.replace(UNDERSCORE, SPACE);
     }
 }

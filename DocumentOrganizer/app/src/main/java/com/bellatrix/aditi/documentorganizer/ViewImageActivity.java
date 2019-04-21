@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
+import com.bellatrix.aditi.documentorganizer.Utilities.CommonFunctions;
 
 public class ViewImageActivity extends AppCompatActivity implements ImageAdapter.onListItemClickLister{
 
@@ -30,7 +31,7 @@ public class ViewImageActivity extends AppCompatActivity implements ImageAdapter
         setContentView(R.layout.activity_view_image);
 
         folderName = getIntent().getExtras().getString("folderName");
-
+        setTitle(CommonFunctions.toReadableString(folderName));
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
   //      getSupportActionBar().setDisplayShowHomeEnabled(true);
 
