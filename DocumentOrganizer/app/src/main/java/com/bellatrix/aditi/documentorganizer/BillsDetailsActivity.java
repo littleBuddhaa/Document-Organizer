@@ -2,9 +2,9 @@ package com.bellatrix.aditi.documentorganizer;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -12,7 +12,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
 import com.bellatrix.aditi.documentorganizer.Utilities.CommonFunctions;
@@ -38,7 +37,7 @@ public class BillsDetailsActivity extends AppCompatActivity implements DialogPro
     private EditText purchaseDate, imageTitle, total, enterprise, customTags; //newly added
     private ImageButton datePicker;
     private LinearLayout productType, productName;
-    private Button backButton, finishButton, addMoreProductType, addMoreProductName; //newly added
+    private Button backButton, finishButton, addMoreProductType, addMoreProductName, addCustomTags; //newly added
     private ArrayList<CheckBox> checkBox1, checkBox2;
     String pName, pType;
     String textRecognized;
@@ -66,6 +65,8 @@ public class BillsDetailsActivity extends AppCompatActivity implements DialogPro
         addMoreProductType = (Button)findViewById(R.id.btn_product_type); //newly
         addMoreProductName = (Button)findViewById(R.id.btn_product_name); //mewly
         backButton = (Button)findViewById(R.id.back_button);
+        addCustomTags = (Button) findViewById(R.id.btn_custom_tags);
+
 
         finishButton = (Button)findViewById(R.id.finish_button);
 
@@ -90,6 +91,16 @@ public class BillsDetailsActivity extends AppCompatActivity implements DialogPro
             public void onClick(View v) {
                 openDialogProductName();
 
+            }
+        });
+
+        addCustomTags.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BillsDetailsActivity.this, SelectCustomTags.class);
+                intent.putExtra("textRecognized", textRecognized);
+                startActivity(intent);
+                finish();
             }
         });
 

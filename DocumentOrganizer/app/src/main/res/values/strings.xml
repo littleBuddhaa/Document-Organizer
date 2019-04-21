@@ -6,5 +6,6 @@
     <string name="action_share">Share</string>
     <string name="action_sort_by">Sort By</string>
     <string name="action_details">Details</string>
+    <string name="Add_to_tag">Add tag</string>
 
 </resources>

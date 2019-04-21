@@ -78,6 +78,18 @@
         <activity android:name=".GIDDetailsActivity" />
         <activity android:name=".CertificateDetailsActivity" />
         <activity android:name=".OtherCategoryDetailsActivity" />
+        <activity android:name=".SelectCustomTags"/>
+
+        <activity
+            android:name=".ProcessTextActivity"
+            android:label="@string/Add_to_tag">
+            <intent-filter>
+                <action android:name="android.intent.action.PROCESS_TEXT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>
