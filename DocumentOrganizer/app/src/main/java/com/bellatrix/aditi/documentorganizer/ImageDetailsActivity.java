@@ -65,7 +65,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
         String res = mCursor.getString(mCursor.getColumnIndex(Contract.Documents.COLUMN_TITLE));
         if(res!=null)
             title = res;
-        setTitle(title);
+        setTitle(CommonFunctions.toReadableString(title));
          ImageView imgView = (ImageView) findViewById(R.id.iv);
 
         byte[] image = mCursor.getBlob(mCursor.getColumnIndex(Contract.Documents.COLUMN_IMAGE));
