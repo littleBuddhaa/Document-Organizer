@@ -170,7 +170,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
                         {
                             String str1 = cursor.getString(i);
                             if(str1!=null) {
-                                String out = "<font color=#ffffff>"+ CommonFunctions.splitCamelCase(cursor.getColumnName(i)) +": "+"</font> <font color=#ffffff>"+str1+"</font>";
+                                String out = "<b>" + CommonFunctions.splitCamelCase(cursor.getColumnName(i)) +"  :  "+"</b>"+str1 + "   ";
                                 TextView textView = getImageDetailsTextView(out);
                                 linearLayout.addView(textView);
                             }
@@ -182,8 +182,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
                         {
                             String str1 = cursor.getString(i);
                             if(str1!=null) {
-                                String out = "<font color=#ffffff>"+ CommonFunctions.splitCamelCase(cursor.getColumnName(i)) +": "+"</font> <font color=#ffffff>"+str1+"</font>";
-                                TextView textView = getImageDetailsTextView(out);
+                                String out = "<b>" + CommonFunctions.splitCamelCase(cursor.getColumnName(i)) +"  :  "+"</b>"+str1 + "   ";                                TextView textView = getImageDetailsTextView(out);
                                 linearLayout.addView(textView);
                             }
                         }
@@ -193,8 +192,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
                         {
                             String str1 = cursor.getString(i);
                             if(str1!=null) {
-                                String out = "<font color=#ffffff>"+ CommonFunctions.splitCamelCase(cursor.getColumnName(i)) +": "+"</font> <font color=#ffffff>"+str1+"</font>";
-                                TextView textView = getImageDetailsTextView(out);
+                                String out = "<b>" + CommonFunctions.splitCamelCase(cursor.getColumnName(i)) +"  :  "+"</b>"+str1 + "   ";                                TextView textView = getImageDetailsTextView(out);
                                 linearLayout.addView(textView);
                             }
                         }
@@ -204,8 +202,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
                         {
                             String str1 = cursor.getString(i);
                             if(str1!=null) {
-                                String out = "<font color=#ffffff>"+ CommonFunctions.splitCamelCase(cursor.getColumnName(i)) +": "+"</font> <font color=#ffffff>"+str1+"</font>";
-                                TextView textView = getImageDetailsTextView(out);
+                                String out = "<b>" + CommonFunctions.splitCamelCase(cursor.getColumnName(i)) +"  :  "+"</b>"+str1 + "   ";                                TextView textView = getImageDetailsTextView(out);
                                 linearLayout.addView(textView);
                             }
 
@@ -214,7 +211,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
                     default:
                         String str1 = cursor.getString(cursor.getColumnIndex("CustomTags"));
                         if(str1!=null) {
-                            String out = "<font color=#ffffff>" + CommonFunctions.splitCamelCase(cursor.getColumnName(cursor.getColumnIndex("CustomTags"))) + ": " + "</font> <font color=#ffffff>" + str1 + "</font>";
+                            String out =  "<b>" + CommonFunctions.splitCamelCase(cursor.getColumnName(cursor.getColumnIndex("CustomTags"))) + "  :  " + "</b>"+ str1 + "   ";
                             TextView textView = getImageDetailsTextView(out);
                             linearLayout.addView(textView);
                         }
