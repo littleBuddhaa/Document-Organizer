@@ -3,17 +3,15 @@ package com.bellatrix.aditi.documentorganizer;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bellatrix.aditi.documentorganizer.Database.Contract;
-import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
-
-import java.util.ArrayList;
 
 /**
  * Created by Aditi on 13-03-2019.
@@ -60,11 +58,13 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
     {
         TextView title;
         LinearLayout holder;
+        ImageView imageView;
         FolderViewHolder(View view)
         {
             super(view);
             title = (TextView)view.findViewById(R.id.folder_name);
             holder = (LinearLayout)view.findViewById(R.id.folder_holder);
+            imageView= (ImageView)view.findViewById(R.id.icon);
             view.setOnClickListener(this);
         }
         void bind(int position)
@@ -78,9 +78,29 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
                 folderName = folderName + " " + s;
             }
             String color = mCursor.getString(mCursor.getColumnIndex(Contract.Folders.COLUMN_FOLDER_COLOR));
-
+            Log.d("tag", "***********************"+ folderName + "****");
             this.holder.setBackgroundColor(Color.parseColor(color));
             this.title.setText(folderName);
+            if(folderName.equals(" Bills and Receipts")){
+                imageView.setImageResource(R.drawable.ic_receipt);
+            }
+            else if(folderName.equals(" Medical records")){
+                imageView.setImageResource(R.drawable.ic_health);
+            }
+            else if(folderName.equals(" Handwritten")){
+                imageView.setImageResource(R.drawable.ic_handwritten);
+            }
+            else if(folderName.equals(" Certificates and Marksheets")){
+                imageView.setImageResource(R.drawable.ic_certificates);
+
+            }
+            else if(folderName.equals(" Government issued documents")){
+                imageView.setImageResource(R.drawable.ic_govt_issued);
+            }
+            else{
+                imageView.setImageResource((R.drawable.ic_custom));
+            }
+
         }
 
         @Override
