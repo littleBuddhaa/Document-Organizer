@@ -17,9 +17,9 @@ public class DBQueries {
         SQLiteDatabase sdb = dbHelper.getWritableDatabase();
 
         String query0 = "SELECT "+ Contract.Documents.COLUMN_ID + " FROM " + Contract.Documents.TABLE_NAME +
-                " WHERE " + Contract.Documents.COLUMN_TITLE + " LIKE '%" + key + "%'" +
-                " OR " + Contract.Documents.COLUMN_DATE + " LIKE '%" + key + "%'" +
-                " OR " + Contract.Documents.COLUMN_CATEGORY + " LIKE '%" + key + "%'";
+                " WHERE " + Contract.Documents.COLUMN_DATE + " LIKE '%" + key + "%'";
+//                " OR " + Contract.Documents.COLUMN_TITLE + " LIKE '%" + key + "%'" +
+//                " OR " + Contract.Documents.COLUMN_CATEGORY + " LIKE '%" + key + "%'";
 
         String query1 = "SELECT "+ Contract.BNR.COLUMN_ID + " FROM " + Contract.BNR.TABLE_NAME +
                 " WHERE " + Contract.BNR.COLUMN_PURCHASE_DATE + " LIKE '%" + key + "%'" +
@@ -76,8 +76,8 @@ public class DBQueries {
         SQLiteDatabase sdb = dbHelper.getWritableDatabase();
 
         String query0 = "SELECT "+ Contract.Documents.COLUMN_ID + " FROM " + Contract.Documents.TABLE_NAME +
-                " WHERE " + Contract.Documents.COLUMN_TITLE + " LIKE '%" + key + "%'" +
-                " OR " + Contract.Documents.COLUMN_DATE + " LIKE '%" + key + "%'";
+                " WHERE " + Contract.Documents.COLUMN_DATE + " LIKE '%" + key + "%'";
+//                " OR " + Contract.Documents.COLUMN_DATE + " LIKE '%" + key + "%'";
 
         String query="";
         if(folderName.equals(Contract.BNR.TABLE_NAME))

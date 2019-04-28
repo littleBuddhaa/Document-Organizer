@@ -55,6 +55,7 @@ public class SearchableActivity extends AppCompatActivity implements ImageSearch
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
+            query = query.trim();
 
             Bundle bundle = intent.getBundleExtra(SearchManager.APP_DATA);
             if(bundle!=null) {
