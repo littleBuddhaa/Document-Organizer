@@ -3,8 +3,10 @@ package com.bellatrix.aditi.documentorganizer;
 import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -107,10 +109,34 @@ public class ViewImageActivity extends AppCompatActivity implements ImageAdapter
             case R.id.action_rename_folder:
                 return true;
             case R.id.action_delete_folder:
+                delete();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void delete() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Delete "+CommonFunctions.toReadableString(folderName)+"?");
+                alertDialogBuilder.setPositiveButton("Yes",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                DBQueries.deleteFolder(ViewImageActivity.this,folderName);
+                                finish();
+                            }
+                        });
+
+        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+//                dismiss();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     // TODO: Check if memory leak for database is stopped
