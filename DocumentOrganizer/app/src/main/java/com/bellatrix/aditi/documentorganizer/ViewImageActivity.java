@@ -95,6 +95,10 @@ public class ViewImageActivity extends AppCompatActivity implements ImageAdapter
 //                return true;
             case R.id.action_sort_by:
                 return true;
+            case R.id.action_rename_folder:
+                return true;
+            case R.id.action_delete_folder:
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
