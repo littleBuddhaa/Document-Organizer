@@ -284,7 +284,7 @@ public class DBQueries {
                 null);
     }
 
-    public static Cursor getImageByFolder(Context c, String folderName) {
+    public static Cursor getImageByFolder(Context c, String folderName, String sortOrder) {
         DBHelper dbHelper = new DBHelper(c);
         SQLiteDatabase sdb = dbHelper.getReadableDatabase();
         String[] where={folderName};
@@ -294,13 +294,13 @@ public class DBQueries {
                 where,
                 null,
                 null,
-                Contract.Documents.COLUMN_ID + " DESC",
+                Contract.Documents.COLUMN_ID + sortOrder,
                 null);
         return cursor;
     }
 
     public static int getTotalImageByFolder(Context c, String folderName) {
-        Cursor cursor = getImageByFolder(c, folderName);
+        Cursor cursor = getImageByFolder(c, folderName," ASC");
         int total = cursor.getCount();
         cursor.close();
         return total;

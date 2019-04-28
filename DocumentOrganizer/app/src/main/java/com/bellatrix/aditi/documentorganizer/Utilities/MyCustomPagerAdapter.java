@@ -27,8 +27,8 @@ public class MyCustomPagerAdapter extends PagerAdapter {
         this.context = context;
         this.p = idx;
         mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mCursor = DBQueries.getImageByFolder(context, folderName);
-        r = DBQueries.getImageByFolder(context, folderName);
+        mCursor = DBQueries.getImageByFolder(context, folderName," DESC");
+        r = DBQueries.getImageByFolder(context, folderName, " DESC");
         r.moveToPosition(idx);
         mCursor.moveToPosition(idx);
         ImageView imageView = new ImageView(context);

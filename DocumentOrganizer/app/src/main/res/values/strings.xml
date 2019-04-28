@@ -4,7 +4,8 @@
     <string name="action_search">Search</string>
     <string name="search_hint">Search</string>
     <string name="action_share">Share</string>
-    <string name="action_sort_by">Sort By</string>
+    <string name="action_sort">Reverse Order</string>
+    <string name="action_filter">Filter</string>
     <string name="action_rename_folder">Rename Folder</string>
     <string name="action_delete_folder">Delete Folder</string>
     <string name="action_details">Details</string>

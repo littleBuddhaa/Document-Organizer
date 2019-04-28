@@ -20,6 +20,7 @@ import com.bellatrix.aditi.documentorganizer.Utilities.CommonFunctions;
 public class ViewImageActivity extends AppCompatActivity implements ImageAdapter.onListItemClickLister{
 
     private static String folderName;
+    private String sortBy;
     private Cursor mCursor;
 
     private ImageAdapter imageAdapter;
@@ -36,7 +37,8 @@ public class ViewImageActivity extends AppCompatActivity implements ImageAdapter
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
   //      getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        mCursor = DBQueries.getImageByFolder(this, folderName);
+        sortBy = " DESC";
+        mCursor = DBQueries.getImageByFolder(this, folderName,sortBy);
 
         recyclerView = (RecyclerView)findViewById(R.id.rv_images);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
@@ -93,7 +95,14 @@ public class ViewImageActivity extends AppCompatActivity implements ImageAdapter
 //            case R.id.action_search_folder:
 //                super.onSearchRequested();
 //                return true;
-            case R.id.action_sort_by:
+            case R.id.action_sort:
+                if(sortBy.equals(" DESC"))
+                    sortBy = " ASC";
+                else sortBy = " DESC";
+                mCursor = DBQueries.getImageByFolder(ViewImageActivity.this,folderName,sortBy);
+                imageAdapter.swapCursor(mCursor);
+                return true;
+            case R.id.action_filter:
                 return true;
             case R.id.action_rename_folder:
                 return true;
@@ -114,7 +123,7 @@ public class ViewImageActivity extends AppCompatActivity implements ImageAdapter
     @Override
     protected void onResume() {
         super.onResume();
-        mCursor = DBQueries.getImageByFolder(ViewImageActivity.this,folderName);
+        mCursor = DBQueries.getImageByFolder(ViewImageActivity.this,folderName,sortBy);
         imageAdapter.swapCursor(mCursor);
     }
 
