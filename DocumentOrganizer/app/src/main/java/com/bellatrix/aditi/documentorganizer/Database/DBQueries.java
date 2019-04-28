@@ -343,4 +343,21 @@ public class DBQueries {
         sdb.execSQL("DROP TABLE IF EXISTS " + folderName);
         return a;
     }
+
+    public static long deleteDocument(Context c, long id, String folderName) {
+
+        DBHelper dbHelper = new DBHelper(c);
+        SQLiteDatabase sdb = dbHelper.getWritableDatabase();
+
+        // delete global entries of the folder
+        sdb.delete(Contract.Documents.TABLE_NAME,
+                Contract.Documents.COLUMN_ID + "=?",
+                new String[]{String.valueOf(id)});
+
+        // entry for the folder in the folder table
+        long a = sdb.delete(folderName,
+                "ID=?",
+                new String[]{String.valueOf(id)});
+        return a;
+    }
 }

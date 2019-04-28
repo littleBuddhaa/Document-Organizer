@@ -8,6 +8,7 @@
     <string name="action_filter">Filter</string>
     <string name="action_rename_folder">Rename Folder</string>
     <string name="action_delete_folder">Delete Folder</string>
+    <string name="action_delete">Delete</string>
     <string name="action_details">Details</string>
     <string name="Add_to_tag">Add tag</string>
     <string name="dialog_title">Image Tags</string>

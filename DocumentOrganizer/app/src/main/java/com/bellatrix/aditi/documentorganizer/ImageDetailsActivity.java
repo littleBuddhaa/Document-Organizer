@@ -1,5 +1,6 @@
 package com.bellatrix.aditi.documentorganizer;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -141,6 +142,9 @@ public class ImageDetailsActivity extends AppCompatActivity {
 
         switch(item.getItemId())
         {
+            case R.id.action_delete:
+                delete();
+                return true;
             case R.id.action_details:
              //   linearLayout.setOrientation(LinearLayout.VERTICAL);
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(ImageDetailsActivity.this);
@@ -237,6 +241,29 @@ public class ImageDetailsActivity extends AppCompatActivity {
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void delete() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Delete Document?");
+        alertDialogBuilder.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        DBQueries.deleteDocument(ImageDetailsActivity.this,id,folderName);
+                        finish();
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+//                dismiss();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
