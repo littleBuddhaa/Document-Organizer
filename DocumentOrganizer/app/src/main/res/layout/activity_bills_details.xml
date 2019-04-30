@@ -48,6 +48,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_calendar" />
 
+
             <TextView
                 android:id="@+id/tv_product_type"
                 android:layout_width="wrap_content"
@@ -59,7 +60,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tl_purchase_date" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/btn_product_type"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
@@ -67,7 +68,7 @@
                 android:background="@color/blue_semi_transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add More"
+                app:srcCompat="@drawable/ic_add"
                 tools:ignore="MissingConstraints"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_product_type" />
@@ -98,7 +99,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ll_product_type" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/btn_product_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -106,7 +107,7 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="20dp"
                 android:background="@color/blue_semi_transparent"
-                android:text="Add more"
+                app:srcCompat="@drawable/ic_add"
                 tools:ignore="MissingConstraints"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_product_name"/>

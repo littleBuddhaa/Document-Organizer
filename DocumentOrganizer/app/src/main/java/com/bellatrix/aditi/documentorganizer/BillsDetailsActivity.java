@@ -37,7 +37,8 @@ public class BillsDetailsActivity extends AppCompatActivity implements DialogPro
     private EditText purchaseDate, imageTitle, total, enterprise, customTags; //newly added
     private ImageButton datePicker;
     private LinearLayout productType, productName;
-    private Button backButton, finishButton, addMoreProductType, addMoreProductName, addCustomTags; //newly added
+    private Button backButton, finishButton, addCustomTags; //newly added
+    private ImageButton addMoreProductType, addMoreProductName;
     private ArrayList<CheckBox> checkBox1, checkBox2;
     String pName, pType;
     String textRecognized;
@@ -62,8 +63,8 @@ public class BillsDetailsActivity extends AppCompatActivity implements DialogPro
         datePicker = (ImageButton)findViewById(R.id.date_picker_button);
         productName = (LinearLayout) findViewById(R.id.ll_product_name);
         productType = (LinearLayout) findViewById(R.id.ll_product_type);
-        addMoreProductType = (Button)findViewById(R.id.btn_product_type); //newly
-        addMoreProductName = (Button)findViewById(R.id.btn_product_name); //mewly
+        addMoreProductType = (ImageButton)findViewById(R.id.btn_product_type); //newly
+        addMoreProductName = (ImageButton)findViewById(R.id.btn_product_name); //mewly
         backButton = (Button)findViewById(R.id.back_button);
         addCustomTags = (Button) findViewById(R.id.btn_custom_tags);
 

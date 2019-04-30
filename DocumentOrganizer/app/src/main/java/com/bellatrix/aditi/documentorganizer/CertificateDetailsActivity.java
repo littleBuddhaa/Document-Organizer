@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -34,6 +35,7 @@ CertificateDetailsActivity extends AppCompatActivity {
     private Button backButton, finishButton;
     private RadioGroup radioGroup1, radioGroup2;
     private RadioButton radioButton2;
+    private ImageButton addType;
     private  Uri uri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +50,7 @@ CertificateDetailsActivity extends AppCompatActivity {
         holderName = (EditText)findViewById(R.id.et_holder_name);
         institution = (EditText)findViewById(R.id.et_institution);
         achievement = (EditText)findViewById(R.id.et_achievement);
-
+       // addType = (ImageButton) findViewById(R.id.btn_type);
         radioGroup1 = (RadioGroup)findViewById(R.id.radio_grp1);
         radioButton2 = (RadioButton)findViewById(R.id.radio_marksheet);
         type2 = (LinearLayout) findViewById(R.id.ll_type2);

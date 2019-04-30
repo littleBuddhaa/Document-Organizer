@@ -16,6 +16,7 @@ import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
 import com.bellatrix.aditi.documentorganizer.Utilities.CommonFunctions;
 import com.bellatrix.aditi.documentorganizer.Utilities.DateUtil;
 import com.bellatrix.aditi.documentorganizer.Utilities.DialogProductType;
+import com.bellatrix.aditi.documentorganizer.Utilities.DialogProductType.DialogListenerPType;
 
 import java.util.Collections;
 
@@ -23,7 +24,7 @@ import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.BNR_SUB_
 import static com.bellatrix.aditi.documentorganizer.Utilities.Constants.MEDICAL_SUB_CATEGORIES_1;
 import static java.sql.Types.NULL;
 
-public class MedicalDetailsActivity extends AppCompatActivity {
+public class MedicalDetailsActivity extends AppCompatActivity implements DialogListenerPType{
 
     private static final String TAG = MedicalDetailsActivity.class.getSimpleName();
     private static final int ADD_DETAILS_RESULT_CODE = 50;
@@ -33,7 +34,8 @@ public class MedicalDetailsActivity extends AppCompatActivity {
     private EditText issuedDate, imageTitle, patientName, institution, customTags;
     private ImageButton datePicker;
     private RadioGroup radioGroup;
-    private Button backButton, finishButton, addRecordType;
+    private Button backButton, finishButton;
+    private ImageButton addRecordType;
     private Uri uri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,7 @@ public class MedicalDetailsActivity extends AppCompatActivity {
         backButton = (Button)findViewById(R.id.back_button);
         finishButton = (Button)findViewById(R.id.finish_button);
         customTags = (EditText)findViewById(R.id.et_custom_tags);
-        addRecordType = (Button) findViewById(R.id.btn_record_type);
+        addRecordType = (ImageButton) findViewById(R.id.btn_record_type);
 
         setRadioGroup();
 
@@ -112,7 +114,7 @@ public class MedicalDetailsActivity extends AppCompatActivity {
     public void openDialogReportType()
     {
         DialogProductType dpt = new DialogProductType();
-        dpt.show(getSupportFragmentManager(), "Adding Record Type");
+        dpt.show(getSupportFragmentManager(), "Adding Medical Record Type");
     }
 
     private void handleData() {

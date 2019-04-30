@@ -61,7 +61,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tl_issued_date" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/btn_record_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="20dp"
                 android:background="@color/blue_semi_transparent"
-                android:text="Add more"
+                app:srcCompat="@drawable/ic_add"
                 tools:ignore="MissingConstraints"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_type"/>
