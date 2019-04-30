@@ -9,9 +9,9 @@ import android.widget.TextView;
 
 public class SelectCustomTags extends AppCompatActivity {
 
-    private Button backButton, finishButton,addCustomTags;
+    private Button backButton, finishButton;
     private TextView textWindow;
-    static String ctag="";
+    static String ctag;
     @Override
 
 
@@ -22,28 +22,42 @@ public class SelectCustomTags extends AppCompatActivity {
         final String classname = getIntent().getExtras().getString("classname");
         backButton = (Button) findViewById(R.id.back_button);
         finishButton = (Button) findViewById(R.id.finish_button);
-        addCustomTags = (Button) findViewById(R.id.add_custom_tags);
         textWindow = (TextView) findViewById(R.id.tv_tags);
         textWindow.setText(textRecognized);
-        ctag="";
+        ctag=getIntent().getExtras().getString("initialvalue");
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("mytag",ctag);
-                if(classname.equals("BillsDetailsActivity"))
+                if(classname.equals("BillsDetailsActivity")) {
                     BillsDetailsActivity.setter(ctag);
-                else if(classname.equals("CertificateDetailsActivity"))
+                }
+                else if(classname.equals("CertificateDetailsActivity")) {
                     CertificateDetailsActivity.setter(ctag);
-                else if(classname.equals(("GIDDetailsActivity")))
+                }
+                else if(classname.equals("GIDDetailsActivity")){
                     GIDDetailsActivity.setter(ctag);
-                else if(classname.equals(("OtherCategoryDetailsActivity")))
+                }
+                else if(classname.equals("OtherCategoryDetailsActivity")) {
                     OtherCategoryDetailsActivity.setter(ctag);
-                else if(classname.equals(("MedicalDetailsActivity")))
+                }
+                else if(classname.equals("MedicalDetailsActivity")) {
                     MedicalDetailsActivity.setter(ctag);
+                }
+                else
+                {
+                    OtherCategoryDetailsActivity.setter(ctag);
+                }
 
 
 
                     finish();
+            }
+        });
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

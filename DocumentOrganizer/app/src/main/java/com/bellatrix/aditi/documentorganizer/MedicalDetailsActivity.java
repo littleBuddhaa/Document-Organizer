@@ -70,6 +70,11 @@ public class MedicalDetailsActivity extends AppCompatActivity {
                 Intent intent = new Intent(MedicalDetailsActivity.this, SelectCustomTags.class);
                 intent.putExtra("textRecognized", textRecognized);
                 intent.putExtra("classname","MedicalDetailsActivity");
+                String out = customTags.getText().toString();
+                if(out==null)
+                    out="";
+
+                intent.putExtra("initialvalue",out);
                 startActivity(intent);
 
 

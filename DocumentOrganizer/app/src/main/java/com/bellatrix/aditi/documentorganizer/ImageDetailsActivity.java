@@ -190,7 +190,9 @@ public class ImageDetailsActivity extends AppCompatActivity {
                     case "Handwritten":
                         for( int i = 1; i < 2; i++ )
                         {
+
                             String str1 = cursor.getString(i);
+                            Log.d("mytag",str1);
                             if(str1!=null) {
                                 String out = "<b>" + CommonFunctions.splitCamelCase(cursor.getColumnName(i)) +"  :  "+"</b>"+str1 + "   ";                                TextView textView = getImageDetailsTextView(out);
                                 linearLayout.addView(textView);
@@ -198,11 +200,22 @@ public class ImageDetailsActivity extends AppCompatActivity {
                         }
                         break;
                     case "Certificates_and_Marksheets":
+                        String out = cursor.getString(2);
+                        String type = cursor.getString(1);
+                        TextView textView1 = getImageDetailsTextView("<b>" +type+"</b>");
+                        linearLayout.addView(textView1);
+                        if(type.equals("Marksheet"))
+                        {
+                             textView1 = getImageDetailsTextView("<b> Type of Marksheet : </b>"+out);
+                            linearLayout.addView(textView1);
+                        }
                         for( int i = 3; i < 7; i++ )
                         {
+
                             String str1 = cursor.getString(i);
                             if(str1!=null) {
-                                String out = "<b>" + CommonFunctions.splitCamelCase(cursor.getColumnName(i)) +"  :  "+"</b>"+str1 + "   ";                                TextView textView = getImageDetailsTextView(out);
+                                 out = "<b>" + CommonFunctions.splitCamelCase(cursor.getColumnName(i)) +"  :  "+"</b>"+str1 + "   ";
+                                TextView textView = getImageDetailsTextView(out);
                                 linearLayout.addView(textView);
                             }
 
@@ -210,8 +223,9 @@ public class ImageDetailsActivity extends AppCompatActivity {
                         break;
                     default:
                         String str1 = cursor.getString(cursor.getColumnIndex("CustomTags"));
+                        Log.d("hello",str1);
                         if(str1!=null) {
-                            String out =  "<b>" + CommonFunctions.splitCamelCase(cursor.getColumnName(cursor.getColumnIndex("CustomTags"))) + "  :  " + "</b>"+ str1 + "   ";
+                             out =  "<b>" + CommonFunctions.splitCamelCase(cursor.getColumnName(cursor.getColumnIndex("CustomTags"))) + "  :  " + "</b>"+ str1 + "   ";
                             TextView textView = getImageDetailsTextView(out);
                             linearLayout.addView(textView);
                         }

@@ -41,7 +41,7 @@ public class OtherCategoryDetailsActivity extends AppCompatActivity {
         backButton = (Button)findViewById(R.id.back_button);
         finishButton = (Button)findViewById(R.id.finish_button);
         addCustomTags = (Button) findViewById(R.id.btn_custom_tags);
-
+        customTags = (EditText)findViewById(R.id.et_custom_tags);
         String title = folderName+"_"
                 +String.valueOf(DBQueries.getTotalImageByFolder(this, folderName)+1);
         imageTitle.setText(title);
@@ -51,6 +51,11 @@ public class OtherCategoryDetailsActivity extends AppCompatActivity {
                 Intent intent = new Intent(OtherCategoryDetailsActivity.this, SelectCustomTags.class);
                 intent.putExtra("textRecognized", textRecognized);
                 intent.putExtra("classname","OtherCategoryDetailsActivity");
+                String out = customTags.getText().toString();
+                if(out==null)
+                    out="";
+
+                intent.putExtra("initialvalue",out);
                 startActivity(intent);
 
 
@@ -88,6 +93,6 @@ public class OtherCategoryDetailsActivity extends AppCompatActivity {
                 imageTitle.getText().toString(),folderName);
 
         DBQueries.insertIntoFolder(OtherCategoryDetailsActivity.this,
-                folderName,id,"");
+                folderName,id,customTags.getText().toString());
     }
 }

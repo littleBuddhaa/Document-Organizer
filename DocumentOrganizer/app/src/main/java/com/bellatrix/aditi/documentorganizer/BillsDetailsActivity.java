@@ -100,6 +100,11 @@ public class BillsDetailsActivity extends AppCompatActivity implements DialogPro
                 Intent intent = new Intent(BillsDetailsActivity.this, SelectCustomTags.class);
                 intent.putExtra("textRecognized", textRecognized);
                 intent.putExtra("classname","BillsDetailsActivity");
+                String out = customTags.getText().toString();
+                if(out==null)
+                    out="";
+
+                intent.putExtra("initialvalue",out);
                 startActivity(intent);
 
 

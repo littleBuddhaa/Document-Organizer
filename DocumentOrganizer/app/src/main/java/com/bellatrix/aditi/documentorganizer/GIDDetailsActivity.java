@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,12 +45,17 @@ public class GIDDetailsActivity extends AppCompatActivity {
         holderName = (EditText)findViewById(R.id.et_holder_name);
         radioGroup = (RadioGroup)findViewById(R.id.radio_grp);
         addCustomTags = (Button) findViewById(R.id.btn_custom_tags);
-
+        customTags = (EditText)findViewById(R.id.et_custom_tags);
         addCustomTags.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(GIDDetailsActivity.this, SelectCustomTags.class);
                 intent.putExtra("textRecognized", textRecognized);
+                String out = customTags.getText().toString();
+                if(out==null)
+                    out="";
+
+                intent.putExtra("initialvalue",out);
                 intent.putExtra("classname","GIDDetailsActivity");
                 startActivity(intent);
 
@@ -89,6 +95,7 @@ public class GIDDetailsActivity extends AppCompatActivity {
     public static void setter(String s)
     {
         ctag = s;
+        Log.d("mytag",s);
         customTags.setText(ctag);
     }
 

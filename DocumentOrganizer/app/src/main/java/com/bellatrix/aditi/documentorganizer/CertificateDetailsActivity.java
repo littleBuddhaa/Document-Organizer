@@ -60,7 +60,7 @@ CertificateDetailsActivity extends AppCompatActivity {
         backButton = (Button)findViewById(R.id.back_button);
         finishButton = (Button)findViewById(R.id.finish_button);
         addCustomTags = (Button) findViewById(R.id.btn_custom_tags);
-
+        customTags = (EditText)findViewById(R.id.et_custom_tags);
         radioButton2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -86,6 +86,11 @@ CertificateDetailsActivity extends AppCompatActivity {
                 Intent intent = new Intent(CertificateDetailsActivity.this, SelectCustomTags.class);
                 intent.putExtra("textRecognized", textRecognized);
                 intent.putExtra("classname","CertificateDetailsActivity");
+                String out = customTags.getText().toString();
+                if(out==null)
+                    out="";
+
+                intent.putExtra("initialvalue",out);
                 startActivity(intent);
 
 
