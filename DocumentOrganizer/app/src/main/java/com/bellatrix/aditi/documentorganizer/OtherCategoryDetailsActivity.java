@@ -19,16 +19,20 @@ public class OtherCategoryDetailsActivity extends AppCompatActivity {
     private static final int ADD_DETAILS_RESULT_CODE = 50;
     private byte[] img;
     private String folderName;
+    String textRecognized;
 
-    private EditText imageTitle;
-    private Button backButton, finishButton;
+    private static EditText imageTitle,customTags;
+    private Button backButton, finishButton,addCustomTags;
     private  Uri uri;
+    static String  ctag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other_category_details);
 
         uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
+        textRecognized = CommonFunctions.getTextFromUri(this, uri, TAG);
         int quality = getIntent().getExtras().getInt("imageQuality");
         img = CommonFunctions.uriToBytes(this,uri,TAG,quality);
         folderName = getIntent().getExtras().getString("folderName");
@@ -36,11 +40,27 @@ public class OtherCategoryDetailsActivity extends AppCompatActivity {
         imageTitle = (EditText)findViewById(R.id.et_image_title);
         backButton = (Button)findViewById(R.id.back_button);
         finishButton = (Button)findViewById(R.id.finish_button);
-
+        addCustomTags = (Button) findViewById(R.id.btn_custom_tags);
+        customTags = (EditText)findViewById(R.id.et_custom_tags);
         String title = folderName+"_"
                 +String.valueOf(DBQueries.getTotalImageByFolder(this, folderName)+1);
         imageTitle.setText(title);
+        addCustomTags.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OtherCategoryDetailsActivity.this, SelectCustomTags.class);
+                intent.putExtra("textRecognized", textRecognized);
+                intent.putExtra("classname","OtherCategoryDetailsActivity");
+                String out = customTags.getText().toString();
+                if(out==null)
+                    out="";
 
+                intent.putExtra("initialvalue",out);
+                startActivity(intent);
+
+
+            }
+        });
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,7 +81,11 @@ public class OtherCategoryDetailsActivity extends AppCompatActivity {
             }
         });
     }
-
+    public static void setter(String s)
+    {
+        ctag = s;
+        customTags.setText(ctag);
+    }
     private void handleData() {
 
         // insertion in global table
@@ -69,6 +93,6 @@ public class OtherCategoryDetailsActivity extends AppCompatActivity {
                 imageTitle.getText().toString(),folderName);
 
         DBQueries.insertIntoFolder(OtherCategoryDetailsActivity.this,
-                folderName,id,"");
+                folderName,id,customTags.getText().toString());
     }
 }

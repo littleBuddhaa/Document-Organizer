@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
+
 
 public class ProcessTextActivity extends Activity {
     @Override
@@ -14,7 +16,9 @@ public class ProcessTextActivity extends Activity {
                 .getCharSequenceExtra(Intent.EXTRA_PROCESS_TEXT);
         // process the text
         Log.d("Hello", "onCreate : " + text.toString());
-        
+        SelectCustomTags.addstring(text.toString());
+        Toast toast = Toast.makeText(ProcessTextActivity.this,"Tag added : "+text.toString(),Toast.LENGTH_SHORT);
+        toast.show();
     finish();
     }
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -29,13 +30,17 @@ CertificateDetailsActivity extends AppCompatActivity {
     private static final int ADD_DETAILS_RESULT_CODE = 50;
     private byte[] img;
     private final String folderName = "Certificates_and_Marksheets";
-
-    private EditText imageTitle, holderName, institution, achievement;
+    static String ctag="";
+    private static EditText imageTitle, holderName, institution, achievement, customTags;
     private LinearLayout type2;
-    private Button backButton, finishButton;
+    private Button backButton, finishButton,addCustomTags;
     private RadioGroup radioGroup1, radioGroup2;
     private RadioButton radioButton2;
+
     private ImageButton addType;
+
+    String textRecognized;
+
     private  Uri uri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,8 @@ CertificateDetailsActivity extends AppCompatActivity {
          uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
         int quality = getIntent().getExtras().getInt("imageQuality");
         img = CommonFunctions.uriToBytes(this,uri,TAG,quality);
+        textRecognized = CommonFunctions.getTextFromUri(this, uri, TAG);
+        Log.d(TAG, "onCreate : " + textRecognized);
 
         imageTitle = (EditText)findViewById(R.id.et_image_title);
         holderName = (EditText)findViewById(R.id.et_holder_name);
@@ -57,7 +64,8 @@ CertificateDetailsActivity extends AppCompatActivity {
         radioGroup2 = (RadioGroup)findViewById(R.id.radio_grp2);
         backButton = (Button)findViewById(R.id.back_button);
         finishButton = (Button)findViewById(R.id.finish_button);
-
+        addCustomTags = (Button) findViewById(R.id.btn_custom_tags);
+        customTags = (EditText)findViewById(R.id.et_custom_tags);
         radioButton2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -76,6 +84,23 @@ CertificateDetailsActivity extends AppCompatActivity {
         String title = folderName+"_"
                 +String.valueOf(DBQueries.getTotalImageByFolder(this, folderName)+1);
         imageTitle.setText(title);
+
+        addCustomTags.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CertificateDetailsActivity.this, SelectCustomTags.class);
+                intent.putExtra("textRecognized", textRecognized);
+                intent.putExtra("classname","CertificateDetailsActivity");
+                String out = customTags.getText().toString();
+                if(out==null)
+                    out="";
+
+                intent.putExtra("initialvalue",out);
+                startActivity(intent);
+
+
+            }
+        });
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +121,12 @@ CertificateDetailsActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+    }
+    public static void setter(String s)
+    {
+        ctag = s;
+        customTags.setText(ctag);
     }
 
     private void handleData() {
@@ -118,7 +149,7 @@ CertificateDetailsActivity extends AppCompatActivity {
         DBQueries.insertCertificate(CertificateDetailsActivity.this,
                 id,val1,val2,
                 holderName.getText().toString(),institution.getText().toString(),
-                achievement.getText().toString());
+                achievement.getText().toString(),customTags.getText().toString());
     }
 
     private void setRadioGroup() {

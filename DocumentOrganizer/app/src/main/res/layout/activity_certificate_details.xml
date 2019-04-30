@@ -169,7 +169,37 @@
                     android:hint="Awarded Position/Percentage/CGPA" />
 
             </android.support.design.widget.TextInputLayout>
+            <Button
+                android:id="@+id/btn_custom_tags"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/blue_semi_transparent"
+                android:text="  Extract Tags from Image  "
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tl_achievement"
+                tools:ignore="MissingConstraints" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tl_custom_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_custom_tags">
 
+
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/et_custom_tags"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Custom tags" />
+
+            </android.support.design.widget.TextInputLayout>
             <Button
                 android:id="@+id/finish_button"
                 android:layout_width="wrap_content"
@@ -179,7 +209,7 @@
                 android:layout_marginEnd="36dp"
                 android:text="Finish"
                 android:background="@color/blue_semi_transparent"
-                app:layout_constraintTop_toBottomOf="@+id/tl_achievement"
+                app:layout_constraintTop_toBottomOf="@+id/tl_custom_tags"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -192,7 +222,7 @@
                 android:layout_marginStart="36dp"
                 android:text="Back"
                 android:background="@color/blue_semi_transparent"
-                app:layout_constraintTop_toBottomOf="@+id/tl_achievement"
+                app:layout_constraintTop_toBottomOf="@+id/tl_custom_tags"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
         </android.support.constraint.ConstraintLayout>

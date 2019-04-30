@@ -34,16 +34,18 @@ public class BillsDetailsActivity extends AppCompatActivity implements DialogPro
     private byte[] img;
     private final String folderName = "Bills_and_Receipts";
 
-    private EditText purchaseDate, imageTitle, total, enterprise, customTags; //newly added
+    private static EditText purchaseDate, imageTitle, total, enterprise, customTags; //newly added
     private ImageButton datePicker;
     private LinearLayout productType, productName;
+
     private Button backButton, finishButton, addCustomTags; //newly added
     private ImageButton addMoreProductType, addMoreProductName;
+
     private ArrayList<CheckBox> checkBox1, checkBox2;
     String pName, pType;
     String textRecognized;
     private Uri uri;
-
+    static String  ctag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,8 +102,15 @@ public class BillsDetailsActivity extends AppCompatActivity implements DialogPro
             public void onClick(View v) {
                 Intent intent = new Intent(BillsDetailsActivity.this, SelectCustomTags.class);
                 intent.putExtra("textRecognized", textRecognized);
+                intent.putExtra("classname","BillsDetailsActivity");
+                String out = customTags.getText().toString();
+                if(out==null)
+                    out="";
+
+                intent.putExtra("initialvalue",out);
                 startActivity(intent);
-                finish();
+
+
             }
         });
 
@@ -145,7 +154,11 @@ public class BillsDetailsActivity extends AppCompatActivity implements DialogPro
             }
         });
     }
-
+    public static void setter(String s)
+    {
+        ctag = s;
+        customTags.setText(ctag);
+    }
     public void openDialogProductType()
     {
         DialogProductType dpt = new DialogProductType();

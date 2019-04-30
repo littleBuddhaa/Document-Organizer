@@ -31,18 +31,23 @@ public class MedicalDetailsActivity extends AppCompatActivity implements DialogL
     private byte[] img;
     private final String folderName = "Medical_records";
 
-    private EditText issuedDate, imageTitle, patientName, institution, customTags;
+    private static EditText issuedDate, imageTitle, patientName, institution, customTags;
     private ImageButton datePicker;
     private RadioGroup radioGroup;
-    private Button backButton, finishButton;
+
+    private Button backButton, finishButton,addCustomTags;
     private ImageButton addRecordType;
+
     private Uri uri;
+    static String  ctag;
+    String textRecognized;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medical_details);
 
         uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
+        textRecognized = CommonFunctions.getTextFromUri(this, uri, TAG);
         int quality = getIntent().getExtras().getInt("imageQuality");
         img = CommonFunctions.uriToBytes(this,uri,TAG,quality);
 
@@ -55,13 +60,34 @@ public class MedicalDetailsActivity extends AppCompatActivity implements DialogL
         backButton = (Button)findViewById(R.id.back_button);
         finishButton = (Button)findViewById(R.id.finish_button);
         customTags = (EditText)findViewById(R.id.et_custom_tags);
+
         addRecordType = (ImageButton) findViewById(R.id.btn_record_type);
+
+
+        addCustomTags = (Button) findViewById(R.id.btn_custom_tags);
 
         setRadioGroup();
 
         String title = folderName+"_"
                 +String.valueOf(DBQueries.getTotalImageByFolder(this, folderName)+1);
         imageTitle.setText(title);
+
+        addCustomTags.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MedicalDetailsActivity.this, SelectCustomTags.class);
+                intent.putExtra("textRecognized", textRecognized);
+                intent.putExtra("classname","MedicalDetailsActivity");
+                String out = customTags.getText().toString();
+                if(out==null)
+                    out="";
+
+                intent.putExtra("initialvalue",out);
+                startActivity(intent);
+
+
+            }
+        });
 
         datePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +136,11 @@ public class MedicalDetailsActivity extends AppCompatActivity implements DialogL
             }
         });
     }
-
+    public static void setter(String s)
+    {
+        ctag = s;
+        customTags.setText(ctag);
+    }
     public void openDialogReportType()
     {
         DialogProductType dpt = new DialogProductType();
