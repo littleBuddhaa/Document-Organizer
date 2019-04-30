@@ -187,14 +187,14 @@ public class DBQueries {
             cv.put(Contract.Medical.COLUMN_INSTITUTION, institution);
 
         if(!cTags.equals(""))
-            cv.put(Contract.BNR.COLUMN_CUSTOM_TAGS, cTags);
+            cv.put(Contract.Medical.COLUMN_CUSTOM_TAGS, cTags);
         long retVal= sdb.insert(Contract.Medical.TABLE_NAME,null,cv);
 
         sdb.close();
         return retVal;
     }
 
-    public static long insertGID(Context c, long id, String type, String holderName) {
+    public static long insertGID(Context c, long id, String type, String holderName,String cTags) {
         DBHelper dbHelper = new DBHelper(c);
         SQLiteDatabase sdb = dbHelper.getWritableDatabase();
 
@@ -205,14 +205,15 @@ public class DBQueries {
             cv.put(Contract.GID.COLUMN_TYPE, type);
         if(!holderName.equals(""))
             cv.put(Contract.GID.COLUMN_HOLDER_NAME, holderName);
-
+        if(!cTags.equals(""))
+            cv.put(Contract.GID.COLUMN_CUSTOM_TAGS, cTags);
         long retVal= sdb.insert(Contract.GID.TABLE_NAME,null,cv);
         sdb.close();
         return retVal;
     }
 
     public static long insertCertificate(Context c, long id, String type1, String type2,
-                                         String holderName, String institution, String achievement) {
+                                         String holderName, String institution, String achievement,String cTags) {
         DBHelper dbHelper = new DBHelper(c);
         SQLiteDatabase sdb = dbHelper.getWritableDatabase();
 
@@ -229,7 +230,8 @@ public class DBQueries {
             cv.put(Contract.Certificates.COLUMN_INSTITUTION, institution);
         if(!achievement.equals(""))
             cv.put(Contract.Certificates.COLUMN_ACHIEVEMENT, achievement);
-
+        if(!cTags.equals(""))
+            cv.put(Contract.Certificates.COLUMN_CUSTOM_TAGS, cTags);
         long retVal= sdb.insert(Contract.Certificates.TABLE_NAME,null,cv);
         sdb.close();
         return retVal;

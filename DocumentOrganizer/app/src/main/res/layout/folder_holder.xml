@@ -5,7 +5,8 @@
     android:id="@+id/folder_holder"
     android:layout_width="210dp"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
 
     <ImageView

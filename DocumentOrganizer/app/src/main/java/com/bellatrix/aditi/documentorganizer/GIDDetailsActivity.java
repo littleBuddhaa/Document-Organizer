@@ -25,10 +25,12 @@ public class GIDDetailsActivity extends AppCompatActivity {
     private byte[] img;
     private final String folderName = "Government_issued_documents";
 
-    private EditText imageTitle, holderName;
+    private static EditText imageTitle, holderName,customTags;
     private RadioGroup radioGroup;
-    private Button backButton, finishButton;
+    private Button backButton, finishButton,addCustomTags;
     private  Uri uri;
+    static String  ctag;
+    String textRecognized;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,10 +39,24 @@ public class GIDDetailsActivity extends AppCompatActivity {
          uri = Uri.parse(getIntent().getExtras().getString("imageUri"));
         int quality = getIntent().getExtras().getInt("imageQuality");
         img = CommonFunctions.uriToBytes(this,uri,TAG,quality);
-
+        textRecognized = CommonFunctions.getTextFromUri(this, uri, TAG);
         imageTitle = (EditText)findViewById(R.id.et_image_title);
         holderName = (EditText)findViewById(R.id.et_holder_name);
         radioGroup = (RadioGroup)findViewById(R.id.radio_grp);
+        addCustomTags = (Button) findViewById(R.id.btn_custom_tags);
+
+        addCustomTags.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GIDDetailsActivity.this, SelectCustomTags.class);
+                intent.putExtra("textRecognized", textRecognized);
+                intent.putExtra("classname","GIDDetailsActivity");
+                startActivity(intent);
+
+
+            }
+        });
+
         backButton = (Button)findViewById(R.id.back_button);
         finishButton = (Button)findViewById(R.id.finish_button);
 
@@ -70,6 +86,11 @@ public class GIDDetailsActivity extends AppCompatActivity {
             }
         });
     }
+    public static void setter(String s)
+    {
+        ctag = s;
+        customTags.setText(ctag);
+    }
 
     private void handleData() {
 
@@ -84,7 +105,7 @@ public class GIDDetailsActivity extends AppCompatActivity {
             val = button.getText().toString();
 
         DBQueries.insertGID(GIDDetailsActivity.this,
-                id,val,holderName.getText().toString());
+                id,val,holderName.getText().toString(),customTags.getText().toString());
     }
 
     private void setRadioGroup() {
