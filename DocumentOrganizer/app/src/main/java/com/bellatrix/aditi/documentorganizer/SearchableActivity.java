@@ -5,11 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.provider.SearchRecentSuggestions;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import com.bellatrix.aditi.documentorganizer.Database.Contract;
 import com.bellatrix.aditi.documentorganizer.Database.DBQueries;
@@ -22,13 +24,15 @@ public class SearchableActivity extends AppCompatActivity implements ImageSearch
     private Cursor mCursor;
 
     private RecyclerView recyclerView;
-    ImageSearchAdapter imageSearchAdapter;
+    private ImageSearchAdapter imageSearchAdapter;
+    private ConstraintLayout constraintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searchable);
 
+        constraintLayout = (ConstraintLayout)findViewById(R.id.cl_no_result);
         recyclerView = (RecyclerView)findViewById(R.id.rv_search_images);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
@@ -40,8 +44,13 @@ public class SearchableActivity extends AppCompatActivity implements ImageSearch
         else
             mCursor = DBQueries.searchImageByFolder(this,query1,folderName);
 
+        if(mCursor.getCount()==0) { //no result found
+            constraintLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }
         imageSearchAdapter = new ImageSearchAdapter(this, mCursor);
         recyclerView.setAdapter(imageSearchAdapter);
+
 
     }
 
