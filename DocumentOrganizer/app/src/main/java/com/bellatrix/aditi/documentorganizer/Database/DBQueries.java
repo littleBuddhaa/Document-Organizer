@@ -16,6 +16,8 @@ public class DBQueries {
         DBHelper dbHelper = new DBHelper(c);
         SQLiteDatabase sdb = dbHelper.getWritableDatabase();
 
+        key = key.replace("'","''");
+
         String query0 = "SELECT "+ Contract.Documents.COLUMN_ID + " FROM " + Contract.Documents.TABLE_NAME +
                 " WHERE " + Contract.Documents.COLUMN_DATE + " LIKE '%" + key + "%'";
 //                " OR " + Contract.Documents.COLUMN_TITLE + " LIKE '%" + key + "%'" +
@@ -74,6 +76,8 @@ public class DBQueries {
 
         DBHelper dbHelper = new DBHelper(c);
         SQLiteDatabase sdb = dbHelper.getWritableDatabase();
+
+        key = key.replace("'","''");
 
         String query0 = "SELECT "+ Contract.Documents.COLUMN_ID + " FROM " + Contract.Documents.TABLE_NAME +
                 " WHERE " + Contract.Documents.COLUMN_DATE + " LIKE '%" + key + "%'";
