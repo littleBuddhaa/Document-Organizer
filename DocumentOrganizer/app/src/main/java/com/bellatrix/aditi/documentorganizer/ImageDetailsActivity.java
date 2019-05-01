@@ -241,15 +241,9 @@ public class ImageDetailsActivity extends AppCompatActivity {
            case R.id.action_share:
                 StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                 StrictMode.setVmPolicy(builder.build());
-                View.OnClickListener handler = new View.OnClickListener() {
-                    public void onClick(View v) {
-                            //Context context = getContext();
+
                         shareMyImage();
-                        }
 
-                };
-
-                findViewById(R.id.action_share).setOnClickListener(handler);
                return true;
 
 
