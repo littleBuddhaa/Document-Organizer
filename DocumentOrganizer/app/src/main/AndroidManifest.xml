@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bellatrix.aditi.documentorganizer">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="com.example.android.shareactionprovider.ASSET_ACCESS"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,6 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ImageDetailsActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -18,7 +26,70 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchableActivity" />
         </activity>
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
+        <activity
+            android:name=".SearchableActivity"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+
+        <provider
+            android:name=".Utilities.SearchSuggestionProvider"
+            android:authorities="com.bellatrix.aditi.SearchSuggestionProvider" />
+
+        <provider
+
+            android:name="android.support.v4.content.FileProvider"
+
+            android:authorities="com.bellatrix.aditi.fileprovider"
+
+            android:exported="false"
+
+            android:grantUriPermissions="true">
+
+            <meta-data
+
+                android:name="android.support.FILE_PROVIDER_PATHS"
+
+                android:resource="@xml/fileprovider" />
+
+        </provider>
+
+        <activity android:name=".ViewImageActivity" >
+        <meta-data
+            android:name="android.app.default_searchable"
+            android:value=".SearchableActivity" />
+        </activity>
+
+        <activity android:name=".AddImageActivity" />
+        <activity android:name=".BillsDetailsActivity" />
+        <activity android:name=".MedicalDetailsActivity" />
+        <activity android:name=".GIDDetailsActivity" />
+        <activity android:name=".CertificateDetailsActivity" />
+        <activity android:name=".OtherCategoryDetailsActivity" />
+        <activity android:name=".SelectCustomTags"/>
+
+        <activity
+            android:name=".ProcessTextActivity"
+            android:label="@string/Add_to_tag">
+            <intent-filter>
+                <action android:name="android.intent.action.PROCESS_TEXT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>
